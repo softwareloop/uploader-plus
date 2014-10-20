@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.softwareloop</groupId>
+    <artifactId>upload-meta-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>upload-meta-parent</name>
+    <packaging>pom</packaging>
+    <description>An Alfresco uploader that prompts for metadata</description>
+    <url>http://softwareloop.com/</url>
+
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE, Version 3</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
+            <distribution>repo</distribution>
+            <comments>OSI-approved license</comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Paolo Predonzani</name>
+            <email>paolo.predonzani@gmail.com</email>
+        </developer>
+    </developers>
+
+    <parent>
+        <groupId>org.alfresco.maven</groupId>
+        <artifactId>alfresco-sdk-parent</artifactId>
+        <version>1.1.1</version>
+    </parent>
+
+    <modules>
+        <module>repo</module>
+        <module>surf</module>
+        <!-- coming soon
+        <module>aikau</module>
+        -->
+    </modules>
+
+    <properties>
+        <alfresco.groupId>org.alfresco</alfresco.groupId>
+        <alfresco.version>4.2.f</alfresco.version>
+        <app.log.root.level>WARN</app.log.root.level>
+        <alfresco.client.war>share</alfresco.client.war>
+        <alfresco.client.war.groupId>org.alfresco</alfresco.client.war.groupId>
+        <alfresco.client.war.version>4.2.f</alfresco.client.war.version>
+        <env>local</env>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>${alfresco.groupId}</groupId>
+                <artifactId>alfresco-platform-distribution</artifactId>
+                <version>${alfresco.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Test dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <nonFilteredFileExtensions>
+                        <nonFilteredFileExtension>ftl</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>acp</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>jpg</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>png</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>gif</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>doc</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>xls</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>ppt</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>bin</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>lic</nonFilteredFileExtension>
+                        <nonFilteredFileExtension>swf</nonFilteredFileExtension>
+                    </nonFilteredFileExtensions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>alfresco-public</id>
+            <url>https://artifacts.alfresco.com/nexus/content/groups/public
+            </url>
+        </repository>
+        <repository>
+            <id>alfresco-public-snapshots</id>
+            <url>
+                https://artifacts.alfresco.com/nexus/content/groups/public-snapshots
+            </url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.softwareloop</groupId>
+    <artifactId>upload-meta-surf</artifactId>
+    <name>upload-meta-surf</name>
+    <packaging>amp</packaging>
+    <description>Upload-meta AMP using the Surf framework for Share 4.2.x</description>
+    <url>http://softwareloop.com/</url>
+
+    <parent>
+        <groupId>com.softwareloop.uploadmeta</groupId>
+        <artifactId>parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <alfresco.client.war>share</alfresco.client.war>
+    </properties>
+
+</project>

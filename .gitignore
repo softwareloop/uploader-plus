@@ -1,0 +1,10 @@
+/*/target
+/repo/alf_data_dev
+/.idea
+*.DS_Store
+*.iml
+*.ipr
+*.iws
+*~
+*.bak
+*.orig
