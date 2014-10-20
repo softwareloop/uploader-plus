@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="um:UploadMeta" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <description>Content model for the upload-meta plugin (https://github.com/softwareloop/upload-meta)</description>
+    <author>Paolo Predonzani http://softwareloop.com/</author>
+    <published>2014-10-20</published>
+    <version>1.0</version>
+
+    <imports>
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+    </imports>
+
+    <namespaces>
+        <namespace uri="https://github.com/softwareloop/upload-meta/model/1.0" prefix="um"/>
+    </namespaces>
+
+    <aspects>
+        <aspect name="um:UploadFolder">
+            <title>Upload folder</title>
+            <properties>
+                <property name="um:allowedTypes">
+                    <title>Allowed types</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <multiple>true</multiple>
+                    <index enabled="false"/>
+                </property>
+                <property name="um:recursive">
+                    <title>Recursive</title>
+                    <type>d:boolean</type>
+                    <mandatory>true</mandatory>
+                    <multiple>false</multiple>
+                    <index enabled="false"/>
+                </property>
+            </properties>
+        </aspect>
+    </aspects>
+
+</model>

@@ -1,0 +1,16 @@
+<alfresco-config>
+
+    <config evaluator="string-compare" condition="Action Wizards">
+        <aspects>
+            <aspect name="um:UploadFolder"/>
+        </aspects>
+    </config>
+
+    <config evaluator="aspect-name" condition="um:UploadFolder">
+        <property-sheet>
+            <show-property name="um:allowedTypes" read-only="false"/>
+            <show-property name="um:recursive" read-only="false"/>
+        </property-sheet>
+    </config>
+
+</alfresco-config>

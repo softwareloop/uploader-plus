@@ -11,8 +11,8 @@
     <url>http://softwareloop.com/</url>
 
     <parent>
-        <groupId>com.softwareloop.uploadmeta</groupId>
-        <artifactId>parent</artifactId>
+        <groupId>com.softwareloop</groupId>
+        <artifactId>upload-meta</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
