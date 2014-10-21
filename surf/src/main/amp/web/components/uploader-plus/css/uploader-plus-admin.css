@@ -1,0 +1,39 @@
+.title {
+    font-size: 123.1%;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+
+/* Data Table */
+
+.folders-list .yui-dt table {
+    border: medium none;
+    width: 100%;
+}
+
+.folders-list .yui-dt thead {
+    display: table-header-group;
+}
+
+.folders-list .yui-dt tbody {
+    outline: none;
+}
+
+.folders-list .yui-dt tr.yui-dt-even,
+.folders-list .yui-dt tr.yui-dt-odd {
+    background-color: #ffffff;
+}
+
+.folders-list .yui-dt td {
+    border-bottom: 1px dashed #d9d9d9;
+    border-right: medium none;
+    vertical-align: top;
+}
+
+.folders-list .yui-dt td .yui-dt-liner {
+    padding: 4px 6px;
+}
+
+.folders-list .yui-dt .yui-dt-message td {
+    border: medium none;
+}
