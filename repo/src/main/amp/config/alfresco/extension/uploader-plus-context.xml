@@ -2,17 +2,17 @@
 <!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
 
 <beans>
-    <bean id="upload-meta-model"
+    <bean id="uploader-plus-model"
           parent="dictionaryModelBootstrap"
           depends-on="dictionaryBootstrap">
         <property name="models">
             <list>
-                <value>alfresco/extension/upload-meta-model.xml</value>
+                <value>alfresco/extension/model/uploader-plus-model.xml</value>
             </list>
         </property>
         <property name="labels">
             <list>
-                <value>alfresco/extension/upload-meta-labels</value>
+                <value>alfresco/extension/messages/uploader-plus</value>
             </list>
         </property>
     </bean>

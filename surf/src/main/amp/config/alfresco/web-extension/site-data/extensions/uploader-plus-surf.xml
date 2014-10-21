@@ -1,0 +1,9 @@
+<extension>
+    <modules>
+        <module>
+            <id>uploader-plus-surf</id>
+            <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
+        </module>
+    </modules>
+</extension>

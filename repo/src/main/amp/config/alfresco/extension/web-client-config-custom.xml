@@ -2,14 +2,14 @@
 
     <config evaluator="string-compare" condition="Action Wizards">
         <aspects>
-            <aspect name="um:UploadFolder"/>
+            <aspect name="up:UploadFolder"/>
         </aspects>
     </config>
 
-    <config evaluator="aspect-name" condition="um:UploadFolder">
+    <config evaluator="aspect-name" condition="up:UploadFolder">
         <property-sheet>
-            <show-property name="um:allowedTypes" read-only="false"/>
-            <show-property name="um:recursive" read-only="false"/>
+            <show-property name="up:allowedTypes" read-only="false"/>
+            <show-property name="up:recursive" read-only="false"/>
         </property-sheet>
     </config>
 

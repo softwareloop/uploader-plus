@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<model name="um:UploadMeta" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+<model name="up:UploaderPlus" xmlns="http://www.alfresco.org/model/dictionary/1.0">
 
-    <description>Content model for the upload-meta plugin (https://github.com/softwareloop/upload-meta)</description>
+    <description>Content model for the uploader-plus plugin (https://github.com/softwareloop/uploader-plus)</description>
     <author>Paolo Predonzani http://softwareloop.com/</author>
     <published>2014-10-20</published>
     <version>1.0</version>
@@ -11,21 +11,21 @@
     </imports>
 
     <namespaces>
-        <namespace uri="https://github.com/softwareloop/upload-meta/model/1.0" prefix="um"/>
+        <namespace uri="https://github.com/softwareloop/uploader-plus/model/1.0" prefix="up"/>
     </namespaces>
 
     <aspects>
-        <aspect name="um:UploadFolder">
+        <aspect name="up:UploadFolder">
             <title>Upload folder</title>
             <properties>
-                <property name="um:allowedTypes">
+                <property name="up:allowedTypes">
                     <title>Allowed types</title>
                     <type>d:text</type>
                     <mandatory>false</mandatory>
                     <multiple>true</multiple>
                     <index enabled="false"/>
                 </property>
-                <property name="um:recursive">
+                <property name="up:recursive">
                     <title>Recursive</title>
                     <type>d:boolean</type>
                     <mandatory>true</mandatory>

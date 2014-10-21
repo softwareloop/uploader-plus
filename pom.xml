@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.softwareloop</groupId>
-    <artifactId>upload-meta</artifactId>
+    <artifactId>uploader-plus</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>upload-meta</name>
+    <name>uploader-plus</name>
     <packaging>pom</packaging>
     <description>An Alfresco uploader that prompts for metadata</description>
     <url>http://softwareloop.com/</url>
