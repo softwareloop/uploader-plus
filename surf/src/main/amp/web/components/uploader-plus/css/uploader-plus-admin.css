@@ -37,3 +37,11 @@
 .folders-list .yui-dt .yui-dt-message td {
     border: medium none;
 }
+
+.folders-list .action {
+    visibility: hidden;
+}
+
+.folders-list .yui-dt-highlighted .action {
+    visibility: visible;
+}

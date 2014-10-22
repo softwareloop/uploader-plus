@@ -1,0 +1,1 @@
+model.nodes = search.luceneSearch("TYPE:\"cm:folder\" AND ASPECT:\"up:UploadFolder\"");

@@ -20,62 +20,99 @@
         },
 
         setupDataTable: function () {
+            var _this = this;
+
+            var pathFormatter = function (elCell, oRecord, oColumn, oData) {
+                var path = oData.substring(13);
+                var repoUrl = YAHOO.lang.substitute(
+                    "{pageContext}repository#filter={path}&page=1",
+                    {
+                        pageContext: Alfresco.constants.URL_PAGECONTEXT,
+                        path: encodeURIComponent("path|" + path + "|")
+                    }
+                );
+
+                elCell.innerHTML = YAHOO.lang.substitute(
+                    "<a href='{href}' title='{title}'>{text}</a>",
+                    {
+                        href: Alfresco.util.encodeHTML(repoUrl),
+                        title: _this.msg("open.in.repository"),
+                        text: Alfresco.util.encodeHTML(path)
+                    }
+                );
+            };
+
+            var allowedTypesFormatter = function (elCell, oRecord, oColumn, oData) {
+                var text = "";
+                for (var i = 0; i < oData.length; i++) {
+                    if (i > 0) {
+                        text += ", ";
+                    }
+                    text += Alfresco.util.encodeHTML(oData[i]);
+                }
+                elCell.innerHTML = text;
+            };
+
+            var actionFormatter = function (elCell, oRecord, oColumn, oData) {
+                elCell.innerHTML = "<div class='action'><a>edit</a> | <a>delete</a></div>";
+            };
+
             var columnDefinitions = [
                 {
                     key: "path",
                     label: this.msg("title.path"),
                     sortable: false,
-                    formatter: null,
-                    width: 120
+                    formatter: pathFormatter
                 },
                 {
                     key: "allowedTypes",
                     label: this.msg("title.allowed.types"),
                     sortable: false,
-                    formatter: null,
-                    width: 150
+                    formatter: allowedTypesFormatter
                 },
                 {
                     key: "recursive",
                     label: this.msg("title.recursive"),
-                    sortable: false,
-                    formatter: null,
-                    width: 150
+                    sortable: false
                 },
                 {
                     key: "actions",
                     label: this.msg("title.actions"),
                     sortable: false,
-                    formatter: null,
-                    width: 45
+                    formatter: actionFormatter
                 }
             ];
 
             // DataSource definition
-            var tagSearchResultsURI = YAHOO.lang.substitute(
-                    Alfresco.constants.PROXY_URI + "api/tags/{store_type}/{store_id}?details=true",
-                {
-                    store_type: "workspace",
-                    store_id: "SpacesStore"
-                }
-            );
+            var tagSearchResultsURI =
+                Alfresco.constants.PROXY_URI + "uploader-plus/upload-folders-list";
+            console.log(tagSearchResultsURI);
 
-            this.widgets.dataSource = new YAHOO.util.DataSource(tagSearchResultsURI);
-            this.widgets.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
-            this.widgets.dataSource.connXhrMode = "queueRequests";
-            this.widgets.dataSource.responseSchema = {
-                resultsList: "data.items",
-                fields: ["name", "modifier", "modified"]
+            var dataSource = this.widgets.dataSource =
+                new YAHOO.util.DataSource(tagSearchResultsURI);
+            dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+            dataSource.connXhrMode = "queueRequests";
+            dataSource.responseSchema = {
+                resultsList: "results",
+                fields: ["path", "nodeRef", "allowedTypes", "recursive"]
             };
 
             // DataTable definition
-            this.widgets.dataTable = new YAHOO.widget.DataTable(this.id + "-folders", columnDefinitions, this.widgets.dataSource, {
-                renderLoopSize: Alfresco.util.RENDERLOOPSIZE,
-                initialLoad: false,
-//                paginator: this.widgets.paginator,
-                MSG_LOADING: this.msg("loading.folders"),
-                MSG_EMPTY: this.msg("no.folders.found")
-            });
+            var dataTable = this.widgets.dataTable =
+                new YAHOO.widget.DataTable(
+                        this.id + "-folders",
+                    columnDefinitions,
+                    dataSource,
+                    {
+                        initialLoad: {},
+                        MSG_LOADING: this.msg("loading.folders"),
+                        MSG_EMPTY: this.msg("no.folders.found")
+                    }
+                );
+
+            // Enables row highlighting
+            dataTable.subscribe("rowMouseoverEvent", dataTable.onEventHighlightRow);
+            dataTable.subscribe("rowMouseoutEvent", dataTable.onEventUnhighlightRow);
 
         }
     });
