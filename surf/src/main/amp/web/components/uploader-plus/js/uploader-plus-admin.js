@@ -119,10 +119,6 @@
                     }
                 );
 
-            console.log("dataTable", dataTable);
-
-
-
             // Enables row highlighting
             dataTable.subscribe("rowMouseoverEvent", dataTable.onEventHighlightRow);
             dataTable.subscribe("rowMouseoutEvent", dataTable.onEventUnhighlightRow);
@@ -134,6 +130,10 @@
                 _hitch(this, this.deleteUploadFolderHandler),
                 "a.delete-upload-folder"
             );
+
+            // New Upload folder button
+            this.widgets.newUploadFolderButton =
+                new YAHOO.widget.Button(this.id + "-new-upload-folder");
         },
 
         reloadDataTable: function () {

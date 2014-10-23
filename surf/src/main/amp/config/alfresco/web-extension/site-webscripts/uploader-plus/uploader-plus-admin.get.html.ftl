@@ -28,5 +28,6 @@
         </div>
         <div id="${el}-folders" class="body scrollableList" style="height: 100%; overflow: hidden"></div>
     </div>
+    <input type="button" id="${el}-new-upload-folder" name="new-upload-folder" value="New Upload Folder">
     </@>
 </@>
