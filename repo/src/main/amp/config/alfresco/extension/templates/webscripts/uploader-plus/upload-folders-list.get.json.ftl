@@ -7,7 +7,7 @@
     "path": "${node.displayPath}\/${node.properties.name}",
     "allowedTypes": [
         <#if node.properties["up:allowedTypes"]??>
-            <#list node.properties["up:allowedTypes"]?? as allowedType>
+            <#list node.properties["up:allowedTypes"] as allowedType>
             "${allowedType}"<#if allowedType_has_next>,</#if>
             </#list>
         </#if>

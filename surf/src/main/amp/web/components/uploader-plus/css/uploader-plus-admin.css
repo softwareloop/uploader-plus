@@ -45,3 +45,7 @@
 .folders-list .yui-dt-highlighted .action {
     visibility: visible;
 }
+
+div.yui-u.edit-metadata.flat-button {
+    display: none;
+}

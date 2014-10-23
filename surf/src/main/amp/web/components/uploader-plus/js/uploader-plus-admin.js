@@ -62,8 +62,8 @@
         actionFormatter: function (elCell, oRecord, oColumn, oData) {
             var nodeRef = oRecord.getData().nodeRef;
             elCell.innerHTML = "<div class='action'>" +
-                "<a data-noderef='" + nodeRef + "' class='edit-upload-folder'>edit</a>" +
-                " | <a data-noderef='" + nodeRef + "' class='delete-upload-folder'>delete</a>" +
+                "<a class='edit-upload-folder'>edit</a>" +
+                " | <a class='delete-upload-folder'>delete</a>" +
                 "</div>";
         },
 
@@ -123,6 +123,14 @@
             dataTable.subscribe("rowMouseoverEvent", dataTable.onEventHighlightRow);
             dataTable.subscribe("rowMouseoutEvent", dataTable.onEventUnhighlightRow);
 
+            // Attach event to update links
+            YAHOO.util.Event.delegate(
+                this.id,
+                "click",
+                _hitch(this, this.editUploadFolderHandler),
+                "a.edit-upload-folder"
+            );
+
             // Attach event to delete links
             YAHOO.util.Event.delegate(
                 this.id,
@@ -136,37 +144,69 @@
                 new YAHOO.widget.Button(this.id + "-new-upload-folder");
         },
 
-        reloadDataTable: function () {
-            var dataSource = this.widgets.dataSource;
-            var dataTable = this.widgets.dataTable;
+        editUploadFolderHandler: function (e, el, container) {
+            var tr = el.parentNode.parentNode.parentNode;
+            var record = this.widgets.dataTable.getRecord(tr);
+            var data = record.getData();
 
-            dataTable.deleteRows(0, dataTable.getRecordSet().getLength());
-
-            // update the ui to show that a search is on-going
-            dataTable.set("MSG_EMPTY", "");
-            dataTable.render();
-
-            dataSource.sendRequest("", {
-                success: dataTable.onDataReturnInitializeTable,
-                failure: dataTable.onDataReturnInitializeTable,
-                scope: dataTable
-            });
-
-        },
-
-
-        deleteUploadFolderSuccess: function (response) {
-            var message = response.json.overallSuccess ?
-                "operation.completed.successfully" : "operation.failed";
-            Alfresco.util.PopupManager.displayMessage({
-                text: this.msg(message)
-            });
-            this.reloadDataTable();
+            var formHtmlId = this.id + "-edit-form";
+            var templateUrl = YAHOO.lang.substitute(
+                "{serviceContext}components/form?itemKind=node&itemId={itemId}&mode=edit&submitType=json&formId={formId}&showCancelButton=true&htmlid={htmlid}",
+                {
+                    serviceContext: Alfresco.constants.URL_SERVICECONTEXT,
+                    itemId: data.nodeRef,
+                    formId: "upload-folder",
+                    htmlid: formHtmlId
+                }
+            );
+            var parsedNodeRef = Alfresco.util.NodeRef(data.nodeRef);
+            var actionUrl = YAHOO.lang.substitute(
+                    Alfresco.constants.PROXY_URI +
+                    "api/node/{storeType}/{storeId}/{id}/formprocessor",
+                parsedNodeRef
+            );
+            var editUploadFolder = new Alfresco.module.SimpleDialog(formHtmlId);
+            editUploadFolder.setOptions({
+                width: "40em",
+                templateUrl: templateUrl,
+                actionUrl: actionUrl,
+                destroyOnHide: true,
+                doBeforeDialogShow: {
+                    fn: function () {
+                        var titleNode = Dom.get(formHtmlId + "-dialogTitle");
+                        titleNode.innerHTML =
+                            Alfresco.util.encodeHTML(data.path.substring(13));
+                    },
+                    scope: this
+                },
+                doSetupFormsValidation: {
+                    fn: function () {
+                    },
+                    scope: this
+                },
+                onSuccess: {
+                    fn: function (response) {
+                        console.log("Success");
+                        editUploadFolder.destroy();
+                    },
+                    scope: this
+                },
+                onFailure: {
+                    fn: function (response) {
+                        console.log("Failure");
+                        editUploadFolder.destroy();
+                    },
+                    scope: this
+                }
+            }).show();
         },
 
         deleteUploadFolderHandler: function (e, el, container) {
-            var parsedNodeRef = Alfresco.util.NodeRef(el.dataset.noderef);
+            var tr = el.parentNode.parentNode.parentNode;
+            var record = this.widgets.dataTable.getRecord(tr);
+            var data = record.getData();
 
+            var parsedNodeRef = Alfresco.util.NodeRef(data.nodeRef);
             var urlTemplate = Alfresco.constants.PROXY_URI +
                 "slingshot/doclib/action/aspects/node/{storeType}/{storeId}/{id}";
 
@@ -186,9 +226,7 @@
                         Alfresco.util.PopupManager.displayMessage({
                             text: this.msg(message)
                         });
-                        var tr = el.parentNode.parentNode.parentNode;
-                        var dataTable = this.widgets.dataTable;
-                        dataTable.deleteRow(tr);
+                        this.widgets.dataTable.deleteRow(record);
                     },
                     scope: this
                 },
