@@ -3,4 +3,5 @@
     <description>Uploader-plus admin panel</description>
     <family>admin-console</family>
     <url>/components/console/uploader-plus/admin</url>
+    <authentication>admin</authentication>
 </webscript>
