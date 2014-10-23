@@ -97,13 +97,14 @@
             // DataSource definition
 
             var dataSource = this.widgets.dataSource =
-                new YAHOO.util.DataSource(this.uploadFoldersListUrl);
-            dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
-            dataSource.connXhrMode = "queueRequests";
-            dataSource.responseSchema = {
-                resultsList: "results",
-                fields: ["path", "nodeRef", "allowedTypes", "recursive"]
-            };
+                new YAHOO.util.DataSource(this.uploadFoldersListUrl, {
+                    responseType: YAHOO.util.DataSource.TYPE_JSON,
+                    connXhrMode: "queueRequests",
+                    responseSchema: {
+                        resultsList: "results",
+                        fields: ["path", "nodeRef", "allowedTypes", "recursive"]
+                    }
+                });
 
             // DataTable definition
             var dataTable = this.widgets.dataTable =
@@ -117,6 +118,10 @@
                         MSG_EMPTY: this.msg("no.folders.found")
                     }
                 );
+
+            console.log("dataTable", dataTable);
+
+
 
             // Enables row highlighting
             dataTable.subscribe("rowMouseoverEvent", dataTable.onEventHighlightRow);
@@ -175,7 +180,16 @@
                 requestContentType: Alfresco.util.Ajax.JSON,
                 responseContentType: Alfresco.util.Ajax.JSON,
                 successCallback: {
-                    fn: this.deleteUploadFolderSuccess,
+                    fn: function (response) {
+                        var message = response.json.overallSuccess ?
+                            "operation.completed.successfully" : "operation.failed";
+                        Alfresco.util.PopupManager.displayMessage({
+                            text: this.msg(message)
+                        });
+                        var tr = el.parentNode.parentNode.parentNode;
+                        var dataTable = this.widgets.dataTable;
+                        dataTable.deleteRow(tr);
+                    },
                     scope: this
                 },
                 failureMessage: this.msg("operation.failed")

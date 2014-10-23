@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model name="up:UploaderPlus" xmlns="http://www.alfresco.org/model/dictionary/1.0">
 
-    <description>Content model for the uploader-plus plugin (https://github.com/softwareloop/uploader-plus)</description>
+    <description>Content model for the uploader-plus plugin (https://github.com/softwareloop/uploader-plus)
+    </description>
     <author>Paolo Predonzani http://softwareloop.com/</author>
     <published>2014-10-20</published>
     <version>1.0</version>
@@ -23,14 +24,22 @@
                     <type>d:text</type>
                     <mandatory>false</mandatory>
                     <multiple>true</multiple>
-                    <index enabled="false"/>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
                 </property>
                 <property name="up:recursive">
                     <title>Recursive</title>
                     <type>d:boolean</type>
                     <mandatory>true</mandatory>
                     <multiple>false</multiple>
-                    <index enabled="false"/>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
                 </property>
             </properties>
         </aspect>
