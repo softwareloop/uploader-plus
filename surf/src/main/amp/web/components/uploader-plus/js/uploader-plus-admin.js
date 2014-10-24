@@ -173,9 +173,11 @@
                 destroyOnHide: true,
                 doBeforeDialogShow: {
                     fn: function () {
-                        var titleNode = Dom.get(formHtmlId + "-dialogTitle");
+                        var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                         titleNode.innerHTML =
                             Alfresco.util.encodeHTML(data.path.substring(13));
+                        var formNode = YAHOO.util.Dom.get(formHtmlId + "-form");
+                        YAHOO.util.Dom.addClass(formNode, "edit-upload-folder-dialog");
                     },
                     scope: this
                 },

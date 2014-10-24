@@ -49,3 +49,7 @@
 div.yui-u.edit-metadata.flat-button {
     display: none;
 }
+
+.edit-upload-folder-dialog select {
+    width: 100%;
+}
