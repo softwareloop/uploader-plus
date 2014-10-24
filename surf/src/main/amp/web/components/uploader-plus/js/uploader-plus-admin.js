@@ -188,20 +188,18 @@
                         data.recursive = ("true" === dataObj.prop_up_recursive);
                         data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
                         this.widgets.dataTable.updateRow(record, data);
-                        editUploadFolder.destroy();
-                    },
-                    scope: this
-                },
-                doBeforeAjaxRequest: {
-                    fn: function (config) {
-                        dataObj = config.dataObj;
-                        return true;
+                        Alfresco.util.PopupManager.displayMessage({
+                            text: this.msg("operation.completed.successfully")
+                        });
                     },
                     scope: this
                 },
                 onFailure: {
                     fn: function (response) {
-                        editUploadFolder.destroy();
+                        Alfresco.util.PopupManager.displayMessage({
+                            text: this.msg("operation.failed")
+                        });
+
                     },
                     scope: this
                 }
