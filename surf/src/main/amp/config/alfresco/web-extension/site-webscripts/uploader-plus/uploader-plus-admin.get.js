@@ -2,10 +2,7 @@ function main() {
     // Widget instantiation metadata...
     var widget = {
         id: "UploaderPlusAdmin",
-        name: "Alfresco.UploaderPlusAdmin",
-        options: {
-            pageSize: parseInt((args.pageSize != null) ? args.pageSize : "15")
-        }
+        name: "SoftwareLoop.UploaderPlusAdmin",
     };
     model.widgets = [widget];
 }

@@ -1,0 +1,8 @@
+<webscript>
+    <shortname>Uploader-plus: list content types</shortname>
+    <description>List all content typesr</description>
+    <family>uploader-plus</family>
+    <url>/uploader-plus/list-content-types</url>
+    <format default="json">extension</format>
+    <authentication>admin</authentication>
+</webscript>

@@ -17,21 +17,15 @@
             </form>
             <form id="upload-folder">
                 <field-visibility>
-                    <!--
-                                        <show id="cm:name" />
-                                        <show id="cm:title" force="true" />
-                                        <show id="cm:description" force="true" />
-                                        &lt;!&ndash; tags and categories &ndash;&gt;
-                                        <show id="cm:taggable" for-mode="edit" force="true" />
-                    -->
                     <show id="up:allowedTypes"/>
                     <show id="up:recursive"/>
                 </field-visibility>
                 <edit-form template="../documentlibrary/forms/doclib-simple-metadata.ftl"/>
                 <appearance>
                     <field id="up:allowedTypes">
-                        <control template="/org/alfresco/components/form/controls/selectmany.ftl">
+                        <control template="/uploader-plus/controls/selecttypes.ftl">
                             <control-param name="options">First,Second,Third</control-param>
+                            <control-param name="styleClass">supported-types-select</control-param>
                         </control>
                     </field>
                     <field id="up:recursive">

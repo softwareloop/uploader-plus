@@ -50,6 +50,6 @@ div.yui-u.edit-metadata.flat-button {
     display: none;
 }
 
-.edit-upload-folder-dialog select {
+.form-container select.supported-types-select {
     width: 100%;
 }
