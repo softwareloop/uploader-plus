@@ -165,6 +165,7 @@
                     "api/node/{storeType}/{storeId}/{id}/formprocessor",
                 parsedNodeRef
             );
+
             var editUploadFolder = new Alfresco.module.SimpleDialog(formHtmlId);
             editUploadFolder.setOptions({
                 width: "40em",
@@ -181,21 +182,25 @@
                     },
                     scope: this
                 },
-                doSetupFormsValidation: {
-                    fn: function () {
+                onSuccess: {
+                    fn: function (response) {
+                        var dataObj = response.config.dataObj;
+                        data.recursive = ("true" === dataObj.prop_up_recursive);
+                        data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
+                        this.widgets.dataTable.updateRow(record, data);
+                        editUploadFolder.destroy();
                     },
                     scope: this
                 },
-                onSuccess: {
-                    fn: function (response) {
-                        console.log("Success");
-                        editUploadFolder.destroy();
+                doBeforeAjaxRequest: {
+                    fn: function (config) {
+                        dataObj = config.dataObj;
+                        return true;
                     },
                     scope: this
                 },
                 onFailure: {
                     fn: function (response) {
-                        console.log("Failure");
                         editUploadFolder.destroy();
                     },
                     scope: this

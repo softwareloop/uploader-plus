@@ -12,7 +12,7 @@
             </#list>
         </#if>
     ],
-    "recursive": <#if node.properties["up:recursive"]??>true<#else>false</#if>
+    "recursive": <#if node.properties["up:recursive"]??><#if node.properties["up:recursive"]>true<#else>false</#if><#else>false</#if>
     }<#if node_has_next>,</#if>
     </#list>
 ]
