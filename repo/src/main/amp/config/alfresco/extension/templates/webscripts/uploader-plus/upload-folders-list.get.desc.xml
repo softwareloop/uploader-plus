@@ -1,8 +1,8 @@
 <webscript>
-    <shortname>Uploader-plus: list of upload folder</shortname>
+    <shortname>Uploader-plus: list upload folders</shortname>
     <description>List of folders marked with aspect up:UploadFolder</description>
     <family>uploader-plus</family>
     <url>/uploader-plus/upload-folders-list</url>
     <format default="json">extension</format>
-    <authentication>user</authentication>
+    <authentication>admin</authentication>
 </webscript>
