@@ -192,7 +192,21 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     createUploadFolder: function (nodeRef) {
-        console.log(nodeRef);
+        var parsedNodeRef = Alfresco.util.NodeRef(nodeRef);
+        var urlTemplate = Alfresco.constants.PROXY_URI +
+            "uploader-plus/upload-folders-new/{storeType}/{storeId}/{id}";
+        var url = YAHOO.lang.substitute(urlTemplate, parsedNodeRef);
+        Alfresco.util.Ajax.jsonPost({
+            url: url,
+            responseContentType: Alfresco.util.Ajax.JSON,
+            successCallback: {
+                fn: function (response) {
+                    this.widgets.dataTable.addRow(response.json, 0);
+                },
+                scope: this
+            },
+            failureMessage: this.msg("operation.failed")
+        });
     },
 
     editUploadFolderHandler: function (e, el, container) {
@@ -226,11 +240,15 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             doBeforeDialogShow: {
                 fn: function () {
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
-                    titleNode.innerHTML =
-                        Alfresco.util.encodeHTML(data.path.substring(13));
+                    if (titleNode) {
+                        titleNode.innerHTML =
+                            Alfresco.util.encodeHTML(data.path.substring(13));
+                    }
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
+
                     this.populateAllowedTypesSelect(selectNode);
+
                     return true;
                 },
                 scope: this
