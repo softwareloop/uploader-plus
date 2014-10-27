@@ -16,6 +16,15 @@ SoftwareLoop.printStackTrace = function (e) {
     console.log(stack);
 };
 
+SoftwareLoop.prettyPath = function (path) {
+    var result = path.substring(13);
+    if ("" === result) {
+        result = "/";
+    }
+    return result;
+};
+
+
 SoftwareLoop.UploaderPlusAdmin = function (htmlId) {
     SoftwareLoop.UploaderPlusAdmin.superclass.constructor.call(this,
         "SoftwareLoop.UploaderPlusAdmin",
@@ -37,7 +46,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     pathFormatter: function (elCell, oRecord, oColumn, oData) {
-        var path = oData.substring(13);
+        var path = SoftwareLoop.prettyPath(oData);
         var repoUrl = YAHOO.lang.substitute(
             "{pageContext}repository#filter={path}&page=1",
             {
@@ -201,12 +210,25 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    this.widgets.dataTable.addRow(response.json, 0);
+                    var newObj = response.json;
+                    var pos = this.findUploadFOlderPosition(newObj);
+                    this.widgets.dataTable.addRow(newObj, pos);
                 },
                 scope: this
             },
             failureMessage: this.msg("operation.failed")
         });
+    },
+
+    findUploadFOlderPosition: function (newObj) {
+        var records = this.widgets.dataTable.getRecordSet().getRecords();
+        for (var i = 0; i < records.length; i++) {
+            var data = records[i].getData();
+            if (data.path > newObj.path) {
+                return i;
+            }
+        }
+        return i;
     },
 
     editUploadFolderHandler: function (e, el, container) {
@@ -242,7 +264,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                     if (titleNode) {
                         titleNode.innerHTML =
-                            Alfresco.util.encodeHTML(data.path.substring(13));
+                            Alfresco.util.encodeHTML(SoftwareLoop.prettyPath(data.path));
                     }
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
