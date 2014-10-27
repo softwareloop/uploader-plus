@@ -210,9 +210,19 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    var newObj = response.json;
-                    var pos = this.findUploadFOlderPosition(newObj);
-                    this.widgets.dataTable.addRow(newObj, pos);
+                    var status = response.json.status;
+                    var newObj = response.json.node;
+                    if (status == 0) {
+                        var pos = this.findUploadFOlderPosition(newObj);
+                        this.widgets.dataTable.addRow(newObj, pos);
+                    } else if (status == 1) {
+                        Alfresco.util.PopupManager.displayMessage({
+                            text: YAHOO.lang.substitute(
+                                this.msg("_.is.already.an.upload.folder"),
+                                newObj
+                            )
+                        });
+                    }
                 },
                 scope: this
             },
