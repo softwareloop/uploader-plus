@@ -342,7 +342,8 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     populateAllowedTypesSelect: function (selectNode) {
-        var selectedValues = selectNode.dataset.selectedValues;
+        var selectedValues = selectNode.dataset.selectedvalues;
+        console.log("selected values", selectedValues);
         var selectedValuesArray = [];
         if (selectedValues) {
             selectedValuesArray = selectedValues.split(",");
