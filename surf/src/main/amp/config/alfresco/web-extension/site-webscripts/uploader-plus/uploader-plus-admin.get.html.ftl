@@ -1,6 +1,7 @@
 <@markup id="css" >
 <#-- CSS Dependencies -->
     <#include "/org/alfresco/components/form/form.css.ftl"/>
+    <@link href="${url.context}/res/modules/documentlibrary/global-folder.css" group="console"/>
     <@link href="${url.context}/res/components/uploader-plus/css/uploader-plus-admin.css" group="console"/>
 </@>
 
@@ -9,6 +10,7 @@
     <#include "/org/alfresco/components/form/form.js.ftl"/>
     <@script src="${url.context}/res/components/console/consoletool.js" group="console"/>
     <@script src="${url.context}/res/modules/simple-dialog.js" group="console"/>
+    <@script src="${url.context}/res/modules/documentlibrary/global-folder.js" group="console"/>
     <@script src="${url.context}/res/modules/documentlibrary/doclib-actions.js" group="console"/>
     <@script src="${url.context}/res/components/uploader-plus/js/uploader-plus-admin.js" group="console"/>
 </@>
@@ -31,6 +33,5 @@
         <div id="${el}-folders" class="body scrollableList" style="height: 100%; overflow: hidden"></div>
     </div>
     <input type="button" id="${el}-new-upload-folder" name="new-upload-folder" value="New Upload Folder">
-    <div id="${el}-form"></div>
     </@>
 </@>

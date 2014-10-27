@@ -8,6 +8,14 @@ SoftwareLoop.hitch = function (scope, f) {
     }
 };
 
+SoftwareLoop.printStackTrace = function (e) {
+    var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
+        .replace(/^\s+at\s+/gm, '')
+        .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
+        .split('\n');
+    console.log(stack);
+};
+
 SoftwareLoop.UploaderPlusAdmin = function (htmlId) {
     SoftwareLoop.UploaderPlusAdmin.superclass.constructor.call(this,
         "SoftwareLoop.UploaderPlusAdmin",
@@ -20,15 +28,12 @@ SoftwareLoop.UploaderPlusAdmin = function (htmlId) {
 
 YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
 
-    options: {
-        pageSize: 15
-    },
-
     uploadFoldersListUrl: Alfresco.constants.PROXY_URI + "uploader-plus/upload-folders-list",
     listContentTypesUrl: Alfresco.constants.PROXY_URI + "uploader-plus/list-content-types",
 
     onReady: function () {
         this.setupDataTable();
+        this.setupNewUploadFolderButton();
     },
 
     pathFormatter: function (elCell, oRecord, oColumn, oData) {
@@ -141,10 +146,53 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             SoftwareLoop.hitch(this, this.deleteUploadFolderHandler),
             "a.delete-upload-folder"
         );
+    },
 
-        // New Upload folder button
+    setupNewUploadFolderButton: function () {
         this.widgets.newUploadFolderButton =
             new YAHOO.widget.Button(this.id + "-new-upload-folder");
+        this.widgets.newUploadFolderButton.on(
+            "click",
+            function () {
+                this.promptForFolder();
+            },
+            null,
+            this
+        );
+    },
+
+    promptForFolder: function () {
+        var formHtmlId = this.id + "-new-form";
+        var newUploadFolder = new Alfresco.module.DoclibGlobalFolder(formHtmlId);
+
+        var DLGF = Alfresco.module.DoclibGlobalFolder;
+
+        var allowedViewModes = [
+            DLGF.VIEW_MODE_SITE,
+            DLGF.VIEW_MODE_REPOSITORY,
+            DLGF.VIEW_MODE_SHARED,
+            DLGF.VIEW_MODE_USERHOME
+        ];
+
+        newUploadFolder.setOptions({
+            viewMode: DLGF.VIEW_MODE_SITE,
+            defaultViewMode: DLGF.VIEW_MODE_SITE,
+            allowedViewModes: allowedViewModes,
+            title: this.msg("select.the.upload.folder")
+        });
+
+        var _this = this;
+        newUploadFolder.onOK = function () {
+            Alfresco.module.DoclibGlobalFolder.prototype.onOK.apply(this, arguments);
+            if (this.selectedNode) {
+                _this.createUploadFolder(this.selectedNode.data.nodeRef);
+            }
+        };
+        newUploadFolder.showDialog();
+    },
+
+    createUploadFolder: function (nodeRef) {
+        console.log(nodeRef);
     },
 
     editUploadFolderHandler: function (e, el, container) {
@@ -183,7 +231,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
                     this.populateAllowedTypesSelect(selectNode);
-
+                    return true;
                 },
                 scope: this
             },
@@ -244,20 +292,22 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     populateAllowedTypesSelect: function (selectNode) {
-        var selectedValues = selectNode.dataset.selectedValues.split(",");
-        console.log(selectedValues);
+        var selectedValues = selectNode.dataset.selectedValues;
+        var selectedValuesArray = [];
+        if (selectedValues) {
+            selectedValuesArray = selectedValues.split(",");
+        }
         Alfresco.util.Ajax.jsonGet({
             url: this.listContentTypesUrl,
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    console.log(response);
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
                         var type = types[i];
                         var option = new Option('option');
                         option.text = type;
-                        option.selected = selectedValues.indexOf(type) > -1;
+                        option.selected = selectedValuesArray.indexOf(type) > -1;
                         selectNode.add(option);
                     }
                 },
