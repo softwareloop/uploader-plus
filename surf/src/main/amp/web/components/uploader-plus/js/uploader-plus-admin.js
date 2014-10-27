@@ -215,6 +215,8 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     if (status == 0) {
                         var pos = this.findUploadFOlderPosition(newObj);
                         this.widgets.dataTable.addRow(newObj, pos);
+                        var newRecord = this.widgets.dataTable.getRecord(pos);
+                        this.editUploadFolderRecord(newRecord);
                     } else if (status == 1) {
                         Alfresco.util.PopupManager.displayMessage({
                             text: YAHOO.lang.substitute(
@@ -244,6 +246,10 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     editUploadFolderHandler: function (e, el, container) {
         var tr = el.parentNode.parentNode.parentNode;
         var record = this.widgets.dataTable.getRecord(tr);
+        this.editUploadFolderRecord(record);
+    },
+
+    editUploadFolderRecord: function (record) {
         var data = record.getData();
 
         var formHtmlId = this.id + "-edit-form";
