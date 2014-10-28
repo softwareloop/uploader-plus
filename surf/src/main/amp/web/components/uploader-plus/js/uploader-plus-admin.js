@@ -213,7 +213,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var status = response.json.status;
                     var newObj = response.json.node;
                     if (status == 0) {
-                        var pos = this.findUploadFOlderPosition(newObj);
+                        var pos = this.findUploadFolderPosition(newObj);
                         this.widgets.dataTable.addRow(newObj, pos);
                         var newRecord = this.widgets.dataTable.getRecord(pos);
                         this.editUploadFolderRecord(newRecord);
@@ -232,7 +232,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         });
     },
 
-    findUploadFOlderPosition: function (newObj) {
+    findUploadFolderPosition: function (newObj) {
         var records = this.widgets.dataTable.getRecordSet().getRecords();
         for (var i = 0; i < records.length; i++) {
             var data = records[i].getData();
