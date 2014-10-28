@@ -12,6 +12,7 @@
     <@script src="${url.context}/res/modules/simple-dialog.js" group="console"/>
     <@script src="${url.context}/res/modules/documentlibrary/global-folder.js" group="console"/>
     <@script src="${url.context}/res/modules/documentlibrary/doclib-actions.js" group="console"/>
+    <@script src="${url.context}/res/components/uploader-plus/js/common.js" group="console"/>
     <@script src="${url.context}/res/components/uploader-plus/js/uploader-plus-admin.js" group="console"/>
 </@>
 

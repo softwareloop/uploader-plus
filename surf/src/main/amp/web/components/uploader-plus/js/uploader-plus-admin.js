@@ -1,30 +1,3 @@
-if (typeof SoftwareLoop == "undefined" || !SoftwareLoop) {
-    var SoftwareLoop = {};
-}
-
-SoftwareLoop.hitch = function (scope, f) {
-    return function () {
-        f.apply(scope, arguments);
-    }
-};
-
-SoftwareLoop.printStackTrace = function (e) {
-    var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
-        .replace(/^\s+at\s+/gm, '')
-        .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
-        .split('\n');
-    console.log(stack);
-};
-
-SoftwareLoop.prettyPath = function (path) {
-    var result = path.substring(13);
-    if ("" === result) {
-        result = "/";
-    }
-    return result;
-};
-
-
 SoftwareLoop.UploaderPlusAdmin = function (htmlId) {
     SoftwareLoop.UploaderPlusAdmin.superclass.constructor.call(this,
         "SoftwareLoop.UploaderPlusAdmin",
@@ -45,8 +18,16 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         this.setupNewUploadFolderButton();
     },
 
+    prettyPath: function (path) {
+        var result = path.substring(13);
+        if ("" === result) {
+            result = "/";
+        }
+        return result;
+    },
+
     pathFormatter: function (elCell, oRecord, oColumn, oData) {
-        var path = SoftwareLoop.prettyPath(oData);
+        var path = this.prettyPath(oData);
         var repoUrl = YAHOO.lang.substitute(
             "{pageContext}repository#filter={path}&page=1",
             {
@@ -280,7 +261,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                     if (titleNode) {
                         titleNode.innerHTML =
-                            Alfresco.util.encodeHTML(SoftwareLoop.prettyPath(data.path));
+                            Alfresco.util.encodeHTML(this.prettyPath(data.path));
                     }
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
@@ -362,9 +343,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
                         var type = types[i];
-                        var option = new Option('option');
-                        option.text = type;
-                        option.selected = selectedValuesArray.indexOf(type) > -1;
+                        var option = new Option(type, type, selectedValuesArray.indexOf(type) > -1);
                         selectNode.add(option);
                     }
                 },

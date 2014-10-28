@@ -6,6 +6,7 @@
 <@markup id="js">
 <#-- JavaScript Dependencies -->
     <@script type="text/javascript" src="${url.context}/res/components/upload/flash-upload.js" group="upload"/>
+    <@script type="text/javascript" src="${url.context}/res/components/uploader-plus/js/common.js" group="upload"/>
     <@script type="text/javascript" src="${url.context}/res/components/uploader-plus/js/flash-upload-plus.js" group="upload"/>
 </@>
 
@@ -73,17 +74,7 @@
             <div style="display:none">
                 <div id="${el}-left-div" class="fileupload-left-div">
                     <span class="fileupload-percentage-span hidden">&nbsp;</span>
-                    <#if (contentTypes?size == 1)>
-                        <input class="fileupload-contentType-input" type="hidden" value="${contentTypes[0].id}"/>
-                    <#elseif (contentTypes?size > 1)>
-                        <select class="fileupload-contentType-select" tabindex="0">
-                            <#if (contentTypes?size > 0)>
-                                <#list contentTypes as contentType>
-                                    <option value="${contentType.id}">${msg(contentType.value)}</option>
-                                </#list>
-                            </#if>
-                        </select>
-                    </#if>
+                    <span id="${el}-content-type"></span>
                 </div>
                 <div id="${el}-center-div" class="fileupload-center-div">
                     <span class="fileupload-progressSuccess-span">&nbsp;</span>
