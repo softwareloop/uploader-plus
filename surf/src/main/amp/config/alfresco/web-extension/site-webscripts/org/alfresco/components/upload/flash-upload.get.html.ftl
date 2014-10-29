@@ -99,10 +99,9 @@
         <!-- Metadata dialog -->
         <div class="bd hidden" id="${el}-metadata-dialog">
             <div style="padding: 1em; border-bottom: 1px solid #ccc">
-                <label for="content-type">Content type:</label>
-                <select name="content-type">
-                    <option>cm:content</option>
-                </select>
+                <label>Content type:
+                    <select id="${el}-content-type-select"></select>
+                </label>
             </div>
             <div id="${el}-metadata-form"></div>
         </div>

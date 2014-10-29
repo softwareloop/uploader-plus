@@ -47,7 +47,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    this.types = response.json.types;
+                    this.populateSelect(response.json.types);
                 },
                 scope: this
             },
@@ -61,16 +61,16 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     },
 
-    populateSelect: function () {
-        var contentTypeNode = YAHOO.util.Dom.get(this.id + "-content-type");
+    populateSelect: function (types) {
         var contentTypeSelectId = this.id + "-content-type-select";
-        contentTypeNode.innerHTML = "<select id='" + contentTypeSelectId + "'></select>";
         var contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
-        for (var i = 0; i < this.types.length; i++) {
-            var current = this.types[i];
+        contentTypeSelectNode.innerHTML = "";
+        for (var i = 0; i < types.length; i++) {
+            var current = types[i];
             var option = new Option(current, current, i === 0);
             contentTypeSelectNode.add(option);
         }
+        console.log("done");
     },
 
     onRowsAddEvent: function (arg) {
