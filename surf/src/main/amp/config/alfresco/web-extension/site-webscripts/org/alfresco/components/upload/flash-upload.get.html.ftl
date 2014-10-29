@@ -1,6 +1,7 @@
 <@markup id="css" >
 <#-- CSS Dependencies -->
     <@link href="${url.context}/res/components/upload/flash-upload.css" group="upload"/>
+    <@link href="${url.context}/res/components/uploader-plus/css/uploader-plus.css" group="upload"/>
 </@>
 
 <@markup id="js">
@@ -21,7 +22,7 @@
         <div class="hd">
             <span id="${el}-title-span"></span>
         </div>
-        <div class="bd">
+        <div class="bd" id="${el}-main-dialog">
             <div class="browse-wrapper">
                 <div class="center">
                     <div id="${el}-flashuploader-div"></div>
@@ -80,7 +81,8 @@
                     <span class="fileupload-progressSuccess-span">&nbsp;</span>
                     <img src="${url.context}/res/components/images/generic-file-32.png" class="fileupload-docImage-img"
                          alt="file"/>
-                    <span class="fileupload-progressInfo-span"></span>
+                    <span class="fileupload-progressInfo-span uploader-plus"></span>
+                    <span class="fileupload-typeInfo-span uploader-plus">Content type: cm:content</span>
                 </div>
                 <div id="${el}-right-div" class="fileupload-right-div">
                   <span class="fileupload-fileButton-span">
@@ -93,6 +95,16 @@
                 <input id="${el}-upload-button" type="button" value="${msg("button.upload")}" tabindex="0"/>
                 <input id="${el}-cancelOk-button" type="button" value="${msg("button.cancel")}" tabindex="0"/>
             </div>
+        </div>
+        <!-- Metadata dialog -->
+        <div class="bd hidden" id="${el}-metadata-dialog">
+            <div style="padding: 1em; border-bottom: 1px solid #ccc">
+                <label for="content-type">Content type:</label>
+                <select name="content-type">
+                    <option>cm:content</option>
+                </select>
+            </div>
+            <div id="${el}-metadata-form"></div>
         </div>
     </div>
     </@>

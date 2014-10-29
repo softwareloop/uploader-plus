@@ -1,0 +1,13 @@
+span.fileupload-progressInfo-span.uploader-plus {
+    top: 3px;
+}
+
+span.fileupload-typeInfo-span.uploader-plus {
+    top: 23px;
+    position: absolute;
+    left: 40px;
+    font-weight: bold;
+    font-size: 80%;
+    font-family: Open Sans Bold, Arial, sans-serif;
+    font-weight: normal !important;
+}

@@ -14,6 +14,8 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     allowedContentTypesBlankUrl: Alfresco.constants.PROXY_URI +
         "/uploader-plus/allowed-content-types",
 
+    types: [],
+
     show: function (config) {
         SoftwareLoop.FlashUploadPlus.superclass.show.call(this, config);
 
@@ -45,27 +47,83 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    var types = response.json.types;
-                    var contentTypeNode = YAHOO.util.Dom.get(this.id + "-content-type");
-                    var contentTypeSelectId = this.id + "-content-type-select";
-                    contentTypeNode.innerHTML = "<select id='" + contentTypeSelectId + "'></select>";
-                    var contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
-                    for (var i = 0; i < types.length; i++) {
-                        var current = types[i];
-                        var option = new Option(current, current, i === 0);
-                        contentTypeSelectNode.add(option);
-                    }
+                    this.types = response.json.types;
                 },
                 scope: this
             },
             failureCallback: {
                 fn: function (response) {
-                    console.log("fail");
+                    console.log(response);
                 },
                 scope: this
             }
         });
 
+    },
+
+    populateSelect: function () {
+        var contentTypeNode = YAHOO.util.Dom.get(this.id + "-content-type");
+        var contentTypeSelectId = this.id + "-content-type-select";
+        contentTypeNode.innerHTML = "<select id='" + contentTypeSelectId + "'></select>";
+        var contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
+        for (var i = 0; i < this.types.length; i++) {
+            var current = this.types[i];
+            var option = new Option(current, current, i === 0);
+            contentTypeSelectNode.add(option);
+        }
+    },
+
+    onRowsAddEvent: function (arg) {
+        var records = arg.records;
+        console.log(records);
+        for (var i = 0; i < records.length; i++) {
+            var record = records[i];
+            var data = record.getData();
+            console.log(data);
+        }
+        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "hidden");
+        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
+
+        console.log("#1");
+        var formHtmlId = this.id + "-metadata-form";
+        var formNode = YAHOO.util.Dom.get(formHtmlId);
+        var url = YAHOO.lang.substitute(
+            "{serviceContext}components/form?itemKind=type&itemId={itemId}&mode=create&submitType=json&formId={formId}&showCancelButton=true&htmlid={htmlid}",
+            {
+                serviceContext: Alfresco.constants.URL_SERVICECONTEXT,
+                itemId: "cm:content",
+                formId: "upload-folder",
+                htmlid: formHtmlId
+            }
+        );
+
+        console.log("#2");
+        Alfresco.util.Ajax.request({
+            url: url,
+            responseContentType: "html",
+            execScripts: true,
+            successCallback: {
+                fn: function (response) {
+                    console.log(response);
+                    var text = response.serverResponse.responseText;
+                    formNode.innerHTML = text;
+                },
+                scope: this
+            },
+            failureCallback: {
+                fn: function (response) {
+                    console.log(response);
+                },
+                scope: this
+            }
+        });
+
+        console.log("#3");
+    },
+
+    _createEmptyDataTable: function () {
+        SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(this, arguments);
+        this.widgets.dataTable.subscribe("rowsAddEvent", this.onRowsAddEvent, this, true);
     }
 });
 
