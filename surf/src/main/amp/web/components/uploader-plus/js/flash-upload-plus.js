@@ -63,41 +63,36 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     populateSelect: function (types) {
         var contentTypeSelectId = this.id + "-content-type-select";
-        var contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
-        contentTypeSelectNode.innerHTML = "";
+        this.contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
+        this.contentTypeSelectNode.innerHTML = "";
         for (var i = 0; i < types.length; i++) {
             var current = types[i];
             var option = new Option(current, current, i === 0);
-            contentTypeSelectNode.add(option);
+            this.contentTypeSelectNode.add(option);
         }
-        console.log("done");
+        YAHOO.util.Event.addListener(
+            this.contentTypeSelectNode,
+            "change",
+            this.onContentTypeChange,
+            this,
+            true
+        );
     },
 
-    onRowsAddEvent: function (arg) {
-        var records = arg.records;
-        console.log(records);
-        for (var i = 0; i < records.length; i++) {
-            var record = records[i];
-            var data = record.getData();
-            console.log(data);
-        }
-        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "hidden");
-        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
-
-        console.log("#1");
+    onContentTypeChange: function () {
+        var contentType = this.contentTypeSelectNode.value;
         var formHtmlId = this.id + "-metadata-form";
         var formNode = YAHOO.util.Dom.get(formHtmlId);
         var url = YAHOO.lang.substitute(
             "{serviceContext}components/form?itemKind=type&itemId={itemId}&mode=create&submitType=json&formId={formId}&showCancelButton=true&htmlid={htmlid}",
             {
                 serviceContext: Alfresco.constants.URL_SERVICECONTEXT,
-                itemId: "cm:content",
+                itemId: contentType,
                 formId: "upload-folder",
                 htmlid: formHtmlId
             }
         );
 
-        console.log("#2");
         Alfresco.util.Ajax.request({
             url: url,
             responseContentType: "html",
@@ -117,8 +112,23 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
                 scope: this
             }
         });
+    },
 
-        console.log("#3");
+    onRowsAddEvent: function (arg) {
+        var records = arg.records;
+        console.log(records);
+        for (var i = 0; i < records.length; i++) {
+            var record = records[i];
+            var data = record.getData();
+            console.log(data);
+        }
+        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "hidden");
+        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
+
+        this.contentTypeSelectNode.selectedIndex = 0;
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("change", true, true);
+        this.contentTypeSelectNode.dispatchEvent(evt);
     },
 
     _createEmptyDataTable: function () {
