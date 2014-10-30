@@ -99,6 +99,13 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
                 fn: function (response) {
                     formNode.innerHTML =
                         response.serverResponse.responseText;
+                    var data = this.currentRecord.getData();
+                    var cmNameId = this.id + "-metadata-form_prop_cm_name";
+                    var cmNameNode = YAHOO.util.Dom.get(cmNameId);
+                    if (cmNameNode) {
+                        cmNameNode.value = data.name;
+                        cmNameNode.readOnly = true;
+                    }
                 },
                 scope: this
             },
@@ -113,17 +120,21 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     onRowsAddEvent: function (arg) {
         this.savedDialogTitle = YAHOO.util.Dom.get(this.id + "-title-span").innerText;
-        this.showMetadataDialog(arg.records);
+        this.records = arg.records;
+        this.showMetadataDialog();
     },
 
-    showMetadataDialog: function (records) {
-        if (records.length == 0) {
+    showMetadataDialog: function () {
+        console.log("showMetadataDialog", this.records);
+        if (!this.records || this.records.length == 0) {
+            console.log("done");
             return this.showMainDialog();
         }
-        var record = records[0];
-        var otherRecords = records.slice(1, records.length);
+        console.log("#1");
+        this.currentRecord = this.records[0];
+        this.records = this.records.slice(1, this.records.length);
 
-        var data = record.getData();
+        var data = this.currentRecord.getData();
         console.log(data);
         YAHOO.util.Dom.get(this.id + "-title-span").innerText =
             Alfresco.util.encodeHTML(data.name);
@@ -133,6 +144,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
         this.contentTypeSelectNode.selectedIndex = 0;
         SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
+        console.log("#10");
     },
 
     showMainDialog: function () {
