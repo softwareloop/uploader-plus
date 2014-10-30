@@ -80,7 +80,6 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     onContentTypeChange: function () {
         var contentType = this.contentTypeSelectNode.value;
         var formHtmlId = this.id + "-metadata-form";
-        var formNode = YAHOO.util.Dom.get(formHtmlId);
         var url = YAHOO.lang.substitute(
             "{serviceContext}components/form?itemKind=type&itemId={itemId}&mode=create&submitType=json&formId={formId}&showCancelButton=true&htmlid={htmlid}",
             {
@@ -96,17 +95,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             responseContentType: "html",
             execScripts: true,
             successCallback: {
-                fn: function (response) {
-                    formNode.innerHTML =
-                        response.serverResponse.responseText;
-                    var data = this.currentRecord.getData();
-                    var cmNameId = this.id + "-metadata-form_prop_cm_name";
-                    var cmNameNode = YAHOO.util.Dom.get(cmNameId);
-                    if (cmNameNode) {
-                        cmNameNode.value = data.name;
-                        cmNameNode.readOnly = true;
-                    }
-                },
+                fn: this.onMetadataFormReceived,
                 scope: this
             },
             failureCallback: {
@@ -116,6 +105,26 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
                 scope: this
             }
         });
+    },
+
+    onMetadataFormReceived: function (response) {
+        var formHtmlId = this.id + "-metadata-form";
+        var formNode = YAHOO.util.Dom.get(formHtmlId);
+        formNode.innerHTML =
+            response.serverResponse.responseText;
+        var data = this.currentRecord.getData();
+        var cmNameId = this.id + "-metadata-form_prop_cm_name";
+        var cmNameNode = YAHOO.util.Dom.get(cmNameId);
+        if (cmNameNode) {
+            cmNameNode.value = data.name;
+            cmNameNode.readOnly = true;
+        }
+
+        console.log("pippo");
+        // adjust Cancel button event handling
+        var cancelButtonNode =
+            YAHOO.util.Dom.get(this.id + "-metadata-form-form-cancel-button");
+        console.log(cancelButtonNode);
     },
 
     onRowsAddEvent: function (arg) {
@@ -130,7 +139,6 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             console.log("done");
             return this.showMainDialog();
         }
-        console.log("#1");
         this.currentRecord = this.records[0];
         this.records = this.records.slice(1, this.records.length);
 
@@ -144,11 +152,13 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
         this.contentTypeSelectNode.selectedIndex = 0;
         SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
-        console.log("#10");
     },
 
     showMainDialog: function () {
-        YAHOO.util.Dom.get(this.id + "-title-span").innerText = this.savedDialogTitle;
+        if (this.savedDialogTitle) {
+            YAHOO.util.Dom.get(this.id + "-title-span").innerText = this.savedDialogTitle;
+            delete this.savedDialogTitle;
+        }
 
         YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "hidden");
         YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
@@ -157,6 +167,11 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     _createEmptyDataTable: function () {
         SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(this, arguments);
         this.widgets.dataTable.subscribe("rowsAddEvent", this.onRowsAddEvent, this, true);
+    },
+
+    _resetGUI: function () {
+        this.showMainDialog();
+        SoftwareLoop.FlashUploadPlus.superclass._resetGUI.apply(this, arguments);
     }
 });
 
