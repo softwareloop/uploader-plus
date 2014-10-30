@@ -120,11 +120,40 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             cmNameNode.readOnly = true;
         }
 
-        console.log("pippo");
+        var formUi = Alfresco.util.ComponentManager.find({
+            id: this.id + "-metadata-form-form",
+            name: "Alfresco.FormUI"
+        })[0];
+        var oldOnReady = formUi.onReady;
+        var _this = this;
+        formUi.onReady = function () {
+            oldOnReady.apply(formUi, arguments);
+            console.log(formUi.buttons);
+            var cancelButton = formUi.buttons.cancel;
+            cancelButton.removeListener("click");
+            cancelButton.addListener(
+                "click",
+                function () {
+                    this.showMainDialog();
+                    try {
+                        this._onFileButtonClickHandler(this.currentRecord.getData().id, this.currentRecord.getId());
+                        for (var i = 0; i < this.records; i++) {
+                            var record = this.records[i];
+                            var flashId = record.getData().id;
+                            var recordId = record.getId();
+                            console.log(flashId, recordId);
+                            this._onFileButtonClickHandler(flashId, recordId);
+                        }
+                    } catch (e) {
+                        SoftwareLoop.printStackTrace(e);
+                    }
+                },
+                _this,
+                _this
+            );
+        };
+
         // adjust Cancel button event handling
-        var cancelButtonNode =
-            YAHOO.util.Dom.get(this.id + "-metadata-form-form-cancel-button");
-        console.log(cancelButtonNode);
     },
 
     onRowsAddEvent: function (arg) {
@@ -147,7 +176,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         YAHOO.util.Dom.get(this.id + "-title-span").innerText =
             Alfresco.util.encodeHTML(data.name);
 
-        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "hidden");
+        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
         YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
 
         this.contentTypeSelectNode.selectedIndex = 0;
@@ -160,7 +189,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             delete this.savedDialogTitle;
         }
 
-        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "hidden");
+        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
         YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
     },
 

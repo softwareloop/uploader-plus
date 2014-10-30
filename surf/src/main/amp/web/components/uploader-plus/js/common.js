@@ -10,7 +10,7 @@ var SoftwareLoop = SoftwareLoop || {
             .replace(/^\s+at\s+/gm, '')
             .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
             .split('\n');
-        console.log(stack);
+        console.log(e.message, stack);
     },
 
     fireEvent: function (node, eventType, canBubble, cancelable) {
