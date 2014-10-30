@@ -40,8 +40,6 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             url = this.allowedContentTypesBlankUrl;
         }
 
-        console.log(url);
-
         Alfresco.util.Ajax.jsonGet({
             url: url,
             responseContentType: Alfresco.util.Ajax.JSON,
@@ -99,9 +97,8 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             execScripts: true,
             successCallback: {
                 fn: function (response) {
-                    console.log(response);
-                    var text = response.serverResponse.responseText;
-                    formNode.innerHTML = text;
+                    formNode.innerHTML =
+                        response.serverResponse.responseText;
                 },
                 scope: this
             },
@@ -115,20 +112,34 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     },
 
     onRowsAddEvent: function (arg) {
-        var records = arg.records;
-        console.log(records);
-        for (var i = 0; i < records.length; i++) {
-            var record = records[i];
-            var data = record.getData();
-            console.log(data);
+        this.savedDialogTitle = YAHOO.util.Dom.get(this.id + "-title-span").innerText;
+        this.showMetadataDialog(arg.records);
+    },
+
+    showMetadataDialog: function (records) {
+        if (records.length == 0) {
+            return this.showMainDialog();
         }
+        var record = records[0];
+        var otherRecords = records.slice(1, records.length);
+
+        var data = record.getData();
+        console.log(data);
+        YAHOO.util.Dom.get(this.id + "-title-span").innerText =
+            Alfresco.util.encodeHTML(data.name);
+
         YAHOO.util.Dom.addClass(this.id + "-main-dialog", "hidden");
         YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
 
         this.contentTypeSelectNode.selectedIndex = 0;
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("change", true, true);
-        this.contentTypeSelectNode.dispatchEvent(evt);
+        SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
+    },
+
+    showMainDialog: function () {
+        YAHOO.util.Dom.get(this.id + "-title-span").innerText = this.savedDialogTitle;
+
+        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "hidden");
+        YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
     },
 
     _createEmptyDataTable: function () {

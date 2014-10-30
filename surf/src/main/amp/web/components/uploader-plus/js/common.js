@@ -1,4 +1,4 @@
-var SoftwareLoop = {
+var SoftwareLoop = SoftwareLoop || {
     hitch: function (scope, f) {
         return function () {
             f.apply(scope, arguments);
@@ -11,5 +11,17 @@ var SoftwareLoop = {
             .replace(/^Object.<anonymous>\s*\(/gm, '{anonymous}()@')
             .split('\n');
         console.log(stack);
+    },
+
+    fireEvent: function (node, eventType, canBubble, cancelable) {
+        if (typeof(canBubble) === 'undefined') {
+            canBubble = true;
+        }
+        if (typeof(cancelable) === 'undefined') {
+            cancelable = true;
+        }
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(eventType, canBubble, cancelable);
+        node.dispatchEvent(evt);
     }
 };
