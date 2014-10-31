@@ -276,7 +276,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         SoftwareLoop.FlashUploadPlus.superclass._resetGUI.apply(this, arguments);
     },
 
-    _uploadFromQueue: function FlashUpload__uploadFromQueue(noOfUploadsToStart) {
+    _uploadFromQueue: function FlashUploadPlus__uploadFromQueue(noOfUploadsToStart) {
         // generate upload POST url
         var url;
         if (this.showConfig.uploadURL === null) {
