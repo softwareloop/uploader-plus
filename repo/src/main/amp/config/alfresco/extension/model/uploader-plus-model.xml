@@ -30,17 +30,6 @@
                         <tokenised>false</tokenised>
                     </index>
                 </property>
-                <property name="up:recursive">
-                    <title>Recursive</title>
-                    <type>d:boolean</type>
-                    <mandatory>true</mandatory>
-                    <multiple>false</multiple>
-                    <index enabled="true">
-                        <atomic>true</atomic>
-                        <stored>false</stored>
-                        <tokenised>false</tokenised>
-                    </index>
-                </property>
             </properties>
         </aspect>
     </aspects>

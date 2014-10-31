@@ -13,7 +13,6 @@ if (node.hasAspect("up:UploadFolder")) {
     } else {
     var props = new Array(2);
     props["up:allowedTypes"] = null;
-    props["up:recursive"] = false;
     node.addAspect("up:UploadFolder", props);
     node.save();
 

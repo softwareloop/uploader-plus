@@ -4,7 +4,7 @@ var ctx = Packages.org.springframework.web.context.ContextLoader.getCurrentWebAp
 var dictionaryService = ctx.getBean("DictionaryService");
 var subtypes = dictionaryService.getSubTypes(Packages.org.alfresco.model.ContentModel.TYPE_CONTENT, true).toArray();
 
-model.types = ["cm:content"];
+model.types = [];
 
 for (var i = 0; i < subtypes.length; i++) {
     var type = subtypes[i];

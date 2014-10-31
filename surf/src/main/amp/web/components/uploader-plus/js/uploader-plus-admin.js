@@ -80,11 +80,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 formatter: SoftwareLoop.hitch(this, this.allowedTypesFormatter)
             },
             {
-                key: "recursive",
-                label: this.msg("title.recursive"),
-                sortable: false
-            },
-            {
                 key: "actions",
                 label: this.msg("title.actions"),
                 sortable: false,
@@ -100,7 +95,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 connXhrMode: "queueRequests",
                 responseSchema: {
                     resultsList: "results",
-                    fields: ["path", "nodeRef", "allowedTypes", "recursive"]
+                    fields: ["path", "nodeRef", "allowedTypes"]
                 }
             });
 
@@ -275,7 +270,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             onSuccess: {
                 fn: function (response) {
                     var dataObj = response.config.dataObj;
-                    data.recursive = ("true" === dataObj.prop_up_recursive);
                     data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
                     this.widgets.dataTable.updateRow(record, data);
                     Alfresco.util.PopupManager.displayMessage({
@@ -330,7 +324,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
 
     populateAllowedTypesSelect: function (selectNode) {
         var selectedValues = selectNode.dataset.selectedvalues;
-        console.log("selected values", selectedValues);
         var selectedValuesArray = [];
         if (selectedValues) {
             selectedValuesArray = selectedValues.split(",");
@@ -343,15 +336,17 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
                         var type = types[i];
-                        var option = new Option(type, type, selectedValuesArray.indexOf(type) > -1);
+                        var selected = selectedValuesArray.indexOf(type) > -1;
+                        var option = new Option(type, type);
                         selectNode.add(option);
+                        option.selected = selected;
                     }
                 },
                 scope: this
             },
             failureCallback: {
                 fn: function (response) {
-                    console.log("fail");
+                    console.log(response);
                 },
                 scope: this
             }

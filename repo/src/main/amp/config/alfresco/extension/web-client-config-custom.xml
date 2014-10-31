@@ -9,7 +9,6 @@
     <config evaluator="aspect-name" condition="up:UploadFolder">
         <property-sheet>
             <show-property name="up:allowedTypes" read-only="false"/>
-            <show-property name="up:recursive" read-only="false"/>
         </property-sheet>
     </config>
 
