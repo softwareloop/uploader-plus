@@ -1,11 +1,15 @@
 <alfresco-config>
-    <config evaluator="string-compare" condition="DocumentLibrary">
-        <aspects>
-            <visible>
-                <aspect name="up:UploadFolder"/>
-            </visible>
-        </aspects>
-    </config>
+
+    <!-- Commented because normal users should not see this aspect
+         It should only be used through the admin interface
+        <config evaluator="string-compare" condition="DocumentLibrary">
+            <aspects>
+                <visible>
+                    <aspect name="up:UploadFolder"/>
+                </visible>
+            </aspects>
+        </config>
+    -->
 
     <config evaluator="aspect" condition="up:UploadFolder">
         <forms>
