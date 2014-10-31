@@ -24,7 +24,6 @@ if (destination !== null) {
     var site = siteService.getSite(siteId);
     destNode = site.getContainer(containerId);
 
-    logger.log(path);
     destNode = destNode.childByNamePath(path);
 }
 
@@ -34,7 +33,7 @@ while (destNode !== null && !destNode.hasAspect("up:UploadFolder")) {
 }
 
 if (destNode === null) {
-    model.types = ["cm:content"];
+    model.types = null;
 } else {
     model.types = destNode.properties["up:allowedTypes"];
 }

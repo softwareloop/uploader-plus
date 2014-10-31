@@ -75,7 +75,8 @@
             <div style="display:none">
                 <div id="${el}-left-div" class="fileupload-left-div">
                     <span class="fileupload-percentage-span hidden">&nbsp;</span>
-                    <input class="fileupload-contentType-input" type="hidden"/>
+                    <input class="fileupload-contentType-input" type="hidden"
+                           value="cm:content"/>
                 </div>
                 <div id="${el}-center-div" class="fileupload-center-div">
                     <span class="fileupload-progressSuccess-span">&nbsp;</span>

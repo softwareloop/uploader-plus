@@ -18,7 +18,9 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         console.debug("show");
         SoftwareLoop.FlashUploadPlus.superclass.show.call(this, config);
 
-        if (!this.types && (this.showConfig.mode !== this.MODE_SINGLE_UPDATE)) {
+        // test if types is undefined
+        // types == null means any content can be uploaded without prompting for metadata
+        if (typeof(this.types) === "undefined") {
             this.loadTypes();
         }
     },
@@ -67,6 +69,9 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     populateSelect: function () {
         console.debug("populateSelect");
+        if (!this.types) {
+            return;
+        }
         var contentTypeSelectId = this.id + "-content-type-select";
         this.contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
         this.contentTypeSelectNode.innerHTML = "";
@@ -223,7 +228,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     onRowsAddEvent: function (arg) {
         console.debug("onRowsAddEvent", arg);
-        if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
+        if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
             return;
         }
         this.savedDialogTitle =
