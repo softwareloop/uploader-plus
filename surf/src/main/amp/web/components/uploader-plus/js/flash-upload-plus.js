@@ -130,21 +130,20 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
             cmNameNode.readOnly = true;
         }
 
-        var formUi = Alfresco.util.ComponentManager.find({
+        this.formUi = Alfresco.util.ComponentManager.find({
             id: this.id + "-metadata-form-form",
             name: "Alfresco.FormUI"
         })[0];
-        var oldOnReady = formUi.onReady;
-        formUi.onReady = SoftwareLoop.hitch(this, function () {
-            oldOnReady.apply(formUi, arguments);
-            this.formUiFixButtons(formUi);
+        var oldOnReady = this.formUi.onReady;
+        this.formUi.onReady = SoftwareLoop.hitch(this, function () {
+            oldOnReady.apply(this.formUi, arguments);
+            this.formUiFixButtons();
         });
     },
 
-    formUiFixButtons: function (formUi) {
+    formUiFixButtons: function () {
         console.debug("formUiFixButtons");
-        var submitButton = formUi.buttons.submit;
-        console.log(submitButton);
+        var submitButton = this.formUi.buttons.submit;
         submitButton.removeListener("click");
         submitButton.addListener(
             "click",
@@ -157,7 +156,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         } else {
             submitButton.set("label", "Next")
         }
-        var cancelButton = formUi.buttons.cancel;
+        var cancelButton = this.formUi.buttons.cancel;
         cancelButton.removeListener("click");
         cancelButton.addListener(
             "click",
@@ -168,8 +167,16 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     },
 
     onMetadataSubmit: function () {
-        this.currentRecordIndex++;
-        this.showMetadataDialog();
+        console.debug("onMetadataSubmit");
+        this.formUi.formsRuntime._setAllFieldsAsVisited();
+        if (this.formUi.formsRuntime.validate()) {
+            this.currentRecordIndex++;
+            this.showMetadataDialog();
+        } else {
+            Alfresco.util.PopupManager.displayMessage({
+                text: this.msg("validation.errors.correct.before.proceeding")
+            });
+        }
     },
 
     onMetadataCancel: function () {
