@@ -170,6 +170,25 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         console.debug("onMetadataSubmit");
         this.formUi.formsRuntime._setAllFieldsAsVisited();
         if (this.formUi.formsRuntime.validate()) {
+            var contentType = this.contentTypeSelectNode.value;
+            var record = this.records[this.currentRecordIndex];
+            var firstTdEl = this.widgets.dataTable.getFirstTdEl(record);
+            var contentTypeEl = Dom.getElementsByClassName(
+                "fileupload-contentType-input", "input", firstTdEl);
+            if (contentTypeEl && contentTypeEl.length === 1) {
+                contentTypeEl[0].value = contentType;
+            } else {
+                console.log("contentTypeEl", contentTypeEl);
+            }
+            var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
+            var typeInfoEl = Dom.getElementsByClassName(
+                "fileupload-typeInfo-span", "span", secondTdEl);
+            if (typeInfoEl && typeInfoEl.length === 1) {
+                typeInfoEl[0].innerHTML =
+                    Alfresco.util.encodeHTML("Content type: " + contentType);
+            } else {
+                console.log("typeInfoEl", typeInfoEl);
+            }
             this.currentRecordIndex++;
             this.showMetadataDialog();
         } else {
@@ -193,14 +212,15 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     onRowsAddEvent: function (arg) {
         console.debug("onRowsAddEvent", arg);
-        this.savedDialogTitle = YAHOO.util.Dom.get(this.id + "-title-span").innerText;
+        this.savedDialogTitle =
+            YAHOO.util.Dom.get(this.id + "-title-span").innerText;
         this.records = arg.records;
         this.currentRecordIndex = 0;
         this.showMetadataDialog();
     },
 
     showMetadataDialog: function () {
-        console.debug("showMetadataDialog", this.records);
+        console.debug("showMetadataDialog");
         if (this.currentRecordIndex == this.records.length) {
             return this.showMainDialog();
         }
@@ -219,7 +239,8 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     showMainDialog: function () {
         console.debug("showMainDialog");
         if (this.savedDialogTitle) {
-            YAHOO.util.Dom.get(this.id + "-title-span").innerText = this.savedDialogTitle;
+            YAHOO.util.Dom.get(this.id + "-title-span").innerText =
+                this.savedDialogTitle;
             delete this.savedDialogTitle;
         }
 
@@ -231,8 +252,12 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     },
 
     _createEmptyDataTable: function () {
-        SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(this, arguments);
-        this.widgets.dataTable.subscribe("rowsAddEvent", this.onRowsAddEvent, this, true);
+        SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(
+            this, arguments
+        );
+        this.widgets.dataTable.subscribe(
+            "rowsAddEvent", this.onRowsAddEvent, this, true
+        );
     },
 
     _resetGUI: function () {
