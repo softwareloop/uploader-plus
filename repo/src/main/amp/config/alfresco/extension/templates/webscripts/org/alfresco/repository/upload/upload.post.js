@@ -1,6 +1,16 @@
 // BEGIN: uploader-plus customisations
 function applyProperties(file, properties) {
-    logger.log("applyProperties");
+    var repoFormData = new Packages.org.alfresco.repo.forms.FormData();
+    for (var property in properties) {
+        if (properties.hasOwnProperty(property)) {
+            var value = properties[property];
+            if (logger.isLoggingEnabled()) {
+                logger.log("Applying property: " + property + " - value: " + value);
+            }
+            repoFormData.addFieldData(property, value);
+        }
+    }
+    formService.saveForm("node", file.nodeRef, repoFormData);
 }
 // END: uploader-plus customisations
 
@@ -345,12 +355,12 @@ function main() {
                 }
             }
 
+            // Extract the metadata
+            extractMetadata(newFile);
+
             // BEGIN: uploader-plus customisations
             applyProperties(newFile, properties);
             // END: uploader-plus customisations
-
-            // Extract the metadata
-            extractMetadata(newFile);
 
             // Record the file details ready for generating the response
             model.document = newFile;
@@ -372,6 +382,11 @@ function main() {
         else if (e.message && e.message.indexOf("org.alfresco.repo.content.ContentLimitViolationException") == 0) {
             e.code = 409;
         }
+        // BEGIN: uploader-plus customisations
+        else if (e.message && e.message.indexOf("FormNotFoundException") != -1) {
+            e.code = 404;
+        }
+        // END: uploader-plus customisations
         else {
             e.code = 500;
             e.message = "Unexpected error occurred during upload of new content.";
