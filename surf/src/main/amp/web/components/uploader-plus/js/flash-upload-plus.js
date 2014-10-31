@@ -18,7 +18,7 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         console.debug("show");
         SoftwareLoop.FlashUploadPlus.superclass.show.call(this, config);
 
-        if (!this.types) {
+        if (!this.types && (this.showConfig.mode !== this.MODE_SINGLE_UPDATE)) {
             this.loadTypes();
         }
     },
@@ -223,6 +223,9 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
 
     onRowsAddEvent: function (arg) {
         console.debug("onRowsAddEvent", arg);
+        if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
+            return;
+        }
         this.savedDialogTitle =
             YAHOO.util.Dom.get(this.id + "-title-span").innerText;
         this.records = arg.records;
@@ -344,27 +347,26 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
                     if (this.showConfig.thumbnails) {
                         attributes.thumbnails = this.showConfig.thumbnails;
                     }
-                }
-
-                // BEGIN: uploader-plus customisations
-                console.log("fileInfo", fileInfo);
-                if (fileInfo.formData) {
-                    for (var current in fileInfo.formData) {
-                        if (fileInfo.formData.hasOwnProperty(current) &&
-                            current.indexOf("prop_") === 0) {
-                            attributes[current] = fileInfo.formData[current];
+                    // BEGIN: uploader-plus customisations
+                    console.log("fileInfo", fileInfo);
+                    if (fileInfo.formData) {
+                        for (var current in fileInfo.formData) {
+                            if (fileInfo.formData.hasOwnProperty(current) &&
+                                current.indexOf("prop_") === 0) {
+                                attributes[current] = fileInfo.formData[current];
+                            }
                         }
                     }
-                }
-                console.log("Attributes:", attributes);
+                    console.log("Attributes:", attributes);
+                    // END: uploader-plus customisations
 
-                // END: uploader-plus customisations
+                }
 
                 this.uploader.upload(flashId, url, "POST", attributes, "filedata");
                 startedUploads++;
             }
         }
-    },
+    }
 
 });
 
