@@ -16,8 +16,7 @@
         </#if>
     new Alfresco.getFileUploadInstance().setOptions(
     {
-    adobeFlashEnabled: ${((adobeFlashEnabled!"true") == "true")?string},
-    //    flashUploader: "SoftwareLoop.FlashUploadPlus"
+    adobeFlashEnabled: ${((adobeFlashEnabled!"true") == "true")?string}
     });
     </@>
 </@>

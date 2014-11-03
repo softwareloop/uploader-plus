@@ -8,6 +8,7 @@
 <#-- JavaScript Dependencies -->
     <@script type="text/javascript" src="${url.context}/res/components/upload/flash-upload.js" group="upload"/>
     <@script type="text/javascript" src="${url.context}/res/components/uploader-plus/js/common.js" group="upload"/>
+    <@script type="text/javascript" src="${url.context}/res/components/uploader-plus/js/uploader-plus-mixin.js" group="upload"/>
     <@script type="text/javascript" src="${url.context}/res/components/uploader-plus/js/flash-upload-plus.js" group="upload"/>
 </@>
 
