@@ -78,47 +78,6 @@ SoftwareLoop.UploaderPlusMixin = {
     },
 
     //**************************************************************************
-    // Metadata dialog management
-    //**************************************************************************
-
-    showMetadataDialog: function () {
-        console.debug("showMetadataDialog");
-        if (this.currentRecordIndex == this.records.length) {
-            return this.showMainDialog();
-        }
-        var currentRecord = this.records[this.currentRecordIndex];
-        var data = currentRecord.getData();
-        YAHOO.util.Dom.get(this.id + "-title-span").innerText =
-            Alfresco.util.encodeHTML(data.name);
-
-        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
-        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
-
-        this.contentTypeSelectNode.selectedIndex = 0;
-        SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
-    },
-
-    showMainDialog: function () {
-        console.debug("showMainDialog");
-        if (this.savedDialogTitle) {
-            YAHOO.util.Dom.get(this.id + "-title-span").innerText =
-                this.savedDialogTitle;
-            delete this.savedDialogTitle;
-        }
-
-        delete this.records;
-        delete this.currentRecordIndex;
-
-        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
-        YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
-    },
-
-    _resetGUI: function () {
-        this.showMainDialog();
-        this.constructor.superclass._resetGUI.apply(this, arguments);
-    },
-
-    //**************************************************************************
     // onContentTypeChange handling
     //**************************************************************************
 
@@ -204,74 +163,7 @@ SoftwareLoop.UploaderPlusMixin = {
             this,
             this
         );
-    },
-
-    //**************************************************************************
-    // Form button handling
-    //**************************************************************************
-
-    onMetadataSubmit: function () {
-        console.debug("onMetadataSubmit", this.formUi);
-        this.formUi.formsRuntime._setAllFieldsAsVisited();
-        if (this.formUi.formsRuntime.validate()) {
-            this.processMetadata();
-            this.currentRecordIndex++;
-            this.showMetadataDialog();
-        } else {
-            Alfresco.util.PopupManager.displayMessage({
-                text: this.msg("validation.errors.correct.before.proceeding")
-            });
-        }
-    },
-
-    processMetadata: function () {
-        var contentType = this.contentTypeSelectNode.value;
-        var record = this.records[this.currentRecordIndex];
-        var data = record.getData();
-
-        var firstTdEl = this.widgets.dataTable.getFirstTdEl(record);
-        var contentTypeEl = Dom.getElementsByClassName(
-            "fileupload-contentType-input", "input", firstTdEl);
-        if (contentTypeEl && contentTypeEl.length === 1) {
-            contentTypeEl[0].value = contentType;
-        } else {
-            console.log("contentTypeEl", contentTypeEl);
-        }
-
-        var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
-        var progressInfoEl = Dom.getElementsByClassName(
-            "fileupload-progressInfo-span", "span", secondTdEl);
-        if (progressInfoEl && progressInfoEl.length === 1) {
-            YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
-        } else {
-            console.log("progressInfoEl", progressInfoEl);
-        }
-        var typeInfoEl = Dom.getElementsByClassName(
-            "fileupload-typeInfo-span", "span", secondTdEl);
-        if (typeInfoEl && typeInfoEl.length === 1) {
-            YAHOO.util.Dom.removeClass(typeInfoEl[0], "hidden");
-            typeInfoEl[0].innerHTML =
-                Alfresco.util.encodeHTML("Content type: " + contentType);
-        } else {
-            console.log("typeInfoEl", typeInfoEl);
-        }
-
-        var formRuntime = this.formUi.formsRuntime;
-        var form = Dom.get(formRuntime.formId);
-        var formData = formRuntime._buildAjaxForSubmit(form);
-        this.fileStore[data.id].formData = formData;
-        console.log("formData", formData, this);
-    },
-
-    onMetadataCancel: function () {
-        console.debug("onMetadataCancel");
-        this.records.reverse();
-        for (var i = 0; i < this.records.length; i++) {
-            var record = this.records[i];
-            var flashId = record.getData().id;
-            var recordId = record.getId();
-            this._onFileButtonClickHandler(flashId, recordId);
-        }
-        this.showMainDialog();
     }
+
+
 };
