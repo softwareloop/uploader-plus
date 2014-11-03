@@ -2,7 +2,7 @@
 function applyProperties(file, properties) {
     var repoFormData = new Packages.org.alfresco.repo.forms.FormData();
     for (var property in properties) {
-        if (properties.hasOwnProperty(property)) {
+        if (properties.hasOwnProperty(property) && property !== "prop_cm_name") {
             var value = properties[property];
             if (logger.isLoggingEnabled()) {
                 logger.log("Applying property: " + property + " - value: " + value);
