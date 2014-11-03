@@ -14,6 +14,10 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
     allowedContentTypesBlankUrl: Alfresco.constants.PROXY_URI +
         "/uploader-plus/allowed-content-types",
 
+    //**************************************************************************
+    // Initialisation at show
+    //**************************************************************************
+
     show: function (config) {
         console.debug("show");
         SoftwareLoop.FlashUploadPlus.superclass.show.call(this, config);
@@ -89,12 +93,84 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         );
     },
 
+    //**************************************************************************
+    // onRowsAddEvent listener setup
+    //**************************************************************************
+
+    _createEmptyDataTable: function () {
+        SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(
+            this, arguments
+        );
+        this.widgets.dataTable.subscribe(
+            "rowsAddEvent", this.onRowsAddEvent, this, true
+        );
+    },
+
+    //**************************************************************************
+    // onRowsAddEvent management
+    //**************************************************************************
+
+    onRowsAddEvent: function (arg) {
+        console.debug("onRowsAddEvent", arg);
+        if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
+            return;
+        }
+        this.savedDialogTitle =
+            YAHOO.util.Dom.get(this.id + "-title-span").innerText;
+        this.records = arg.records;
+        this.currentRecordIndex = 0;
+        this.showMetadataDialog();
+    },
+
+    showMetadataDialog: function () {
+        console.debug("showMetadataDialog");
+        if (this.currentRecordIndex == this.records.length) {
+            return this.showMainDialog();
+        }
+        var currentRecord = this.records[this.currentRecordIndex];
+        var data = currentRecord.getData();
+        YAHOO.util.Dom.get(this.id + "-title-span").innerText =
+            Alfresco.util.encodeHTML(data.name);
+
+        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
+        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
+
+        this.contentTypeSelectNode.selectedIndex = 0;
+        SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
+    },
+
+    showMainDialog: function () {
+        console.debug("showMainDialog");
+        if (this.savedDialogTitle) {
+            YAHOO.util.Dom.get(this.id + "-title-span").innerText =
+                this.savedDialogTitle;
+            delete this.savedDialogTitle;
+        }
+
+        delete this.records;
+        delete this.currentRecordIndex;
+
+        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
+        YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
+    },
+
+    _resetGUI: function () {
+        this.showMainDialog();
+        SoftwareLoop.FlashUploadPlus.superclass._resetGUI.apply(this, arguments);
+    },
+
+    //**************************************************************************
+    // onContentTypeChange handling
+    //**************************************************************************
+
     onContentTypeChange: function () {
         console.debug("onContentTypeChange");
         var contentType = this.contentTypeSelectNode.value;
         var formHtmlId = this.id + "-metadata-form";
         var url = YAHOO.lang.substitute(
-            "{serviceContext}components/form?itemKind=type&itemId={itemId}&mode=create&submitType=json&formId={formId}&showCancelButton=true&htmlid={htmlid}",
+                "{serviceContext}components/form" +
+                "?itemKind=type&itemId={itemId}&mode=create&submitType=json" +
+                "&formId={formId}&showCancelButton=true&htmlid={htmlid}",
             {
                 serviceContext: Alfresco.constants.URL_SERVICECONTEXT,
                 itemId: contentType,
@@ -171,34 +247,9 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         );
     },
 
-    processMetadata: function () {
-        var contentType = this.contentTypeSelectNode.value;
-        var record = this.records[this.currentRecordIndex];
-        var data = record.getData();
-        var firstTdEl = this.widgets.dataTable.getFirstTdEl(record);
-        var contentTypeEl = Dom.getElementsByClassName(
-            "fileupload-contentType-input", "input", firstTdEl);
-        if (contentTypeEl && contentTypeEl.length === 1) {
-            contentTypeEl[0].value = contentType;
-        } else {
-            console.log("contentTypeEl", contentTypeEl);
-        }
-        var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
-        var typeInfoEl = Dom.getElementsByClassName(
-            "fileupload-typeInfo-span", "span", secondTdEl);
-        if (typeInfoEl && typeInfoEl.length === 1) {
-            typeInfoEl[0].innerHTML =
-                Alfresco.util.encodeHTML("Content type: " + contentType);
-        } else {
-            console.log("typeInfoEl", typeInfoEl);
-        }
-
-        var formRuntime = this.formUi.formsRuntime;
-        var form = Dom.get(formRuntime.formId);
-        var formData = formRuntime._buildAjaxForSubmit(form);
-        this.fileStore[data.id].formData = formData;
-        console.log("formData", formData, this);
-    },
+    //**************************************************************************
+    // Form button handling
+    //**************************************************************************
 
     onMetadataSubmit: function () {
         console.debug("onMetadataSubmit", this.formUi);
@@ -214,6 +265,45 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         }
     },
 
+    processMetadata: function () {
+        var contentType = this.contentTypeSelectNode.value;
+        var record = this.records[this.currentRecordIndex];
+        var data = record.getData();
+
+        var firstTdEl = this.widgets.dataTable.getFirstTdEl(record);
+        var contentTypeEl = Dom.getElementsByClassName(
+            "fileupload-contentType-input", "input", firstTdEl);
+        if (contentTypeEl && contentTypeEl.length === 1) {
+            contentTypeEl[0].value = contentType;
+        } else {
+            console.log("contentTypeEl", contentTypeEl);
+        }
+
+        var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
+        var progressInfoEl = Dom.getElementsByClassName(
+            "fileupload-progressInfo-span", "span", secondTdEl);
+        if (progressInfoEl && progressInfoEl.length === 1) {
+            YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
+        } else {
+            console.log("progressInfoEl", progressInfoEl);
+        }
+        var typeInfoEl = Dom.getElementsByClassName(
+            "fileupload-typeInfo-span", "span", secondTdEl);
+        if (typeInfoEl && typeInfoEl.length === 1) {
+            YAHOO.util.Dom.removeClass(typeInfoEl[0], "hidden");
+            typeInfoEl[0].innerHTML =
+                Alfresco.util.encodeHTML("Content type: " + contentType);
+        } else {
+            console.log("typeInfoEl", typeInfoEl);
+        }
+
+        var formRuntime = this.formUi.formsRuntime;
+        var form = Dom.get(formRuntime.formId);
+        var formData = formRuntime._buildAjaxForSubmit(form);
+        this.fileStore[data.id].formData = formData;
+        console.log("formData", formData, this);
+    },
+
     onMetadataCancel: function () {
         console.debug("onMetadataCancel");
         this.records.reverse();
@@ -226,63 +316,9 @@ YAHOO.extend(SoftwareLoop.FlashUploadPlus, Alfresco.FlashUpload, {
         this.showMainDialog();
     },
 
-    onRowsAddEvent: function (arg) {
-        console.debug("onRowsAddEvent", arg);
-        if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
-            return;
-        }
-        this.savedDialogTitle =
-            YAHOO.util.Dom.get(this.id + "-title-span").innerText;
-        this.records = arg.records;
-        this.currentRecordIndex = 0;
-        this.showMetadataDialog();
-    },
-
-    showMetadataDialog: function () {
-        console.debug("showMetadataDialog");
-        if (this.currentRecordIndex == this.records.length) {
-            return this.showMainDialog();
-        }
-        var currentRecord = this.records[this.currentRecordIndex];
-        var data = currentRecord.getData();
-        YAHOO.util.Dom.get(this.id + "-title-span").innerText =
-            Alfresco.util.encodeHTML(data.name);
-
-        YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
-        YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
-
-        this.contentTypeSelectNode.selectedIndex = 0;
-        SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
-    },
-
-    showMainDialog: function () {
-        console.debug("showMainDialog");
-        if (this.savedDialogTitle) {
-            YAHOO.util.Dom.get(this.id + "-title-span").innerText =
-                this.savedDialogTitle;
-            delete this.savedDialogTitle;
-        }
-
-        delete this.records;
-        delete this.currentRecordIndex;
-
-        YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
-        YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
-    },
-
-    _createEmptyDataTable: function () {
-        SoftwareLoop.FlashUploadPlus.superclass._createEmptyDataTable.apply(
-            this, arguments
-        );
-        this.widgets.dataTable.subscribe(
-            "rowsAddEvent", this.onRowsAddEvent, this, true
-        );
-    },
-
-    _resetGUI: function () {
-        this.showMainDialog();
-        SoftwareLoop.FlashUploadPlus.superclass._resetGUI.apply(this, arguments);
-    },
+    //**************************************************************************
+    // Upload override
+    //**************************************************************************
 
     _uploadFromQueue: function FlashUploadPlus__uploadFromQueue(noOfUploadsToStart) {
         // generate upload POST url
