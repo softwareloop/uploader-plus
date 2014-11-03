@@ -143,9 +143,9 @@
 
                 var formRuntime = this.formUi.formsRuntime;
                 var form = Dom.get(formRuntime.formId);
-                var formData = formRuntime._buildAjaxForSubmit(form);
-                this.fileStore[data.id].formData = formData;
-                console.log("formData", formData, this);
+                var propertyData = formRuntime._buildAjaxForSubmit(form);
+                this.fileStore[data.id].propertyData = propertyData;
+                console.log("propertyData", propertyData, this);
             },
 
             onMetadataCancel: function () {
@@ -234,11 +234,11 @@
                             }
                             // BEGIN: uploader-plus customisations
                             console.log("fileInfo", fileInfo);
-                            if (fileInfo.formData) {
-                                for (var current in fileInfo.formData) {
-                                    if (fileInfo.formData.hasOwnProperty(current) &&
+                            if (fileInfo.propertyData) {
+                                for (var current in fileInfo.propertyData) {
+                                    if (fileInfo.propertyData.hasOwnProperty(current) &&
                                         current.indexOf("prop_") === 0) {
-                                        attributes[current] = fileInfo.formData[current];
+                                        attributes[current] = fileInfo.propertyData[current];
                                     }
                                 }
                             }

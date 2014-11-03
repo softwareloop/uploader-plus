@@ -1,15 +1,24 @@
 span.fileupload-progressInfo-span.uploader-plus {
-    top: 3px;
+    top: 4px;
+}
+
+span.fileupload-typeInfo-span.uploader-plus,
+.dnd-upload span.fileupload-filesize-span.uploader-plus {
+    position: absolute;
+    font-weight: bold !important;
+    font-size: 80%;
+    font-family: Open Sans Bold, Arial, sans-serif;
 }
 
 span.fileupload-typeInfo-span.uploader-plus {
-    top: 23px;
-    position: absolute;
+    top: 22px;
     left: 40px;
-    font-weight: bold;
-    font-size: 80%;
-    font-family: Open Sans Bold, Arial, sans-serif;
-    font-weight: normal !important;
+}
+
+.dnd-upload span.fileupload-filesize-span.uploader-plus {
+    right: 8px;
+    top: 22px;
+    left: auto;
 }
 
 .fake-hidden {
