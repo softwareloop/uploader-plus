@@ -16,12 +16,23 @@
                 // test if types is undefined
                 // types == null means any content can be uploaded without prompting for metadata
                 if (typeof(this.types) === "undefined") {
-                    this.loadTypes();
+                    this.loadTypes(SoftwareLoop.hitch(this, function () {
+                        this.populateSelect();
+                        if (this.spawnUploadsBooked) {
+                            delete this.spawnUploadsBooked;
+                            this._spawnUploads();
+                        }
+                    }));
                 }
             },
 
             _spawnUploads: function () {
-                console.debug("_spawnUploads", this);
+                console.debug("_spawnUploads");
+                if (typeof(this.types) === "undefined") {
+                    console.debug("Types not loaded yet. Postponing");
+                    this.spawnUploadsBooked = true;
+                    return;
+                }
                 if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
                     return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
                 }

@@ -13,7 +13,7 @@ SoftwareLoop.UploaderPlusMixin = {
     // Types list management
     //**************************************************************************
 
-    loadTypes: function () {
+    loadTypes: function (callback) {
         console.debug("loadTypes");
         var url;
         if (this.showConfig.destination) {
@@ -42,7 +42,9 @@ SoftwareLoop.UploaderPlusMixin = {
             successCallback: {
                 fn: function (response) {
                     this.types = response.json.types;
-                    this.populateSelect();
+                    if (callback) {
+                        callback();
+                    }
                 },
                 scope: this
             },

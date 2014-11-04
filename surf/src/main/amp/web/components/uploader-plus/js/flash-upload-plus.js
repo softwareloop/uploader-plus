@@ -16,7 +16,7 @@
                 // test if types is undefined
                 // types == null means any content can be uploaded without prompting for metadata
                 if (typeof(this.types) === "undefined") {
-                    this.loadTypes();
+                    this.loadTypes(SoftwareLoop.hitch(this, this.populateSelect));
                 }
             },
 
