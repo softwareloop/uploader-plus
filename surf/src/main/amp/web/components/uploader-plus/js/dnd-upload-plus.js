@@ -11,19 +11,16 @@
 
             show: function (config) {
                 console.debug("show");
+                delete this.types;
                 Alfresco.DNDUpload.prototype.show.call(this, config);
 
-                // test if types is undefined
-                // types == null means any content can be uploaded without prompting for metadata
-                if (typeof(this.types) === "undefined") {
-                    this.loadTypes(SoftwareLoop.hitch(this, function () {
-                        this.populateSelect();
-                        if (this.spawnUploadsBooked) {
-                            delete this.spawnUploadsBooked;
-                            this._spawnUploads();
-                        }
-                    }));
-                }
+                this.loadTypes(SoftwareLoop.hitch(this, function () {
+                    this.populateSelect();
+                    if (this.spawnUploadsBooked) {
+                        delete this.spawnUploadsBooked;
+                        this._spawnUploads();
+                    }
+                }));
             },
 
             _spawnUploads: function () {
@@ -205,6 +202,9 @@
 
                     // BEGIN: uploader-plus customisations
                     console.log("fileInfo", fileInfo);
+                    if (this.contentTypeSelectNode && this.contentTypeSelectNode.value) {
+                        formData.append("contentType", this.contentTypeSelectNode.value);
+                    }
                     if (fileInfo.propertyData) {
                         for (var current in fileInfo.propertyData) {
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
@@ -272,6 +272,10 @@
                     }
 
                     // BEGIN: uploader-plus customisations
+                    if (this.contentTypeSelectNode && this.contentTypeSelectNode.value) {
+                        customFormData += rn + "Content-Disposition: form-data; name=\"contentType\"";
+                        customFormData += rn + rn + unescape(encodeURIComponent(this.contentTypeSelectNode.value)) + rn + "--" + multipartBoundary + "--";
+                    }
                     if (fileInfo.propertyData) {
                         for (var current in fileInfo.propertyData) {
                             if (fileInfo.propertyData.hasOwnProperty(current) &&

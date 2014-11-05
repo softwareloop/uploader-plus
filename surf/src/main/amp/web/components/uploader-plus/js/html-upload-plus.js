@@ -12,18 +12,15 @@
             show: function (config) {
                 console.debug("show", this);
                 this.showMainDialog();
+                delete this.types;
                 Alfresco.HtmlUpload.prototype.show.call(this, config);
 
-                // test if types is undefined
-                // types == null means any content can be uploaded without prompting for metadata
-                if (typeof(this.types) === "undefined") {
-                    this.loadTypes(SoftwareLoop.hitch(this, function () {
-                        this.populateSelect();
-                        if (this.types) {
-                            this.fixButtons();
-                        }
-                    }));
-                }
+                this.loadTypes(SoftwareLoop.hitch(this, function () {
+                    this.populateSelect();
+                    if (this.types) {
+                        this.fixButtons();
+                    }
+                }));
             },
 
             fixButtons: function () {
