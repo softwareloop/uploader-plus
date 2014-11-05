@@ -22,7 +22,6 @@ span.fileupload-typeInfo-span.uploader-plus {
 }
 
 .fake-hidden {
-    visibility: hidden;
     overflow: hidden;
     height: 0;
 }

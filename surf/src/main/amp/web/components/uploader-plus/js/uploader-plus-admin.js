@@ -253,6 +253,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             destroyOnHide: true,
             doBeforeDialogShow: {
                 fn: function () {
+                    console.log("#4");
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                     if (titleNode) {
                         titleNode.innerHTML =
@@ -261,7 +262,9 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
 
+                    console.log("#4.1");
                     this.populateAllowedTypesSelect(selectNode);
+                    console.log("#4.2");
 
                     return true;
                 },
@@ -269,6 +272,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             onSuccess: {
                 fn: function (response) {
+                    console.log("#5");
                     var dataObj = response.config.dataObj;
                     data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
                     this.widgets.dataTable.updateRow(record, data);
@@ -287,6 +291,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 scope: this
             }
         }).show();
+        console.log("#3");
     },
 
     deleteUploadFolderHandler: function (e, el, container) {
@@ -323,7 +328,9 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     populateAllowedTypesSelect: function (selectNode) {
-        var selectedValues = selectNode.dataset.selectedvalues;
+        console.log("$1", selectNode);
+        var selectedValues = selectNode.getAttribute("data-selectedValues");
+        console.log("$2");
         var selectedValuesArray = [];
         if (selectedValues) {
             selectedValuesArray = selectedValues.split(",");
@@ -333,6 +340,8 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
+                    console.log("$3");
+
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
                         var type = types[i];
