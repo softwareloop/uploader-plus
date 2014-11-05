@@ -25,7 +25,7 @@
 
             fixButtons: function () {
                 console.debug("fixButtons", this.widgets.form);
-                this.widgets.uploadButton.set("label", "Next");
+                this.widgets.uploadButton.set("label", this.msg("uploader.plus.next"));
                 this.widgets.uploadButton.removeListener("click");
                 this.widgets.uploadButton.on(
                     "click", function (event) {

@@ -154,9 +154,9 @@ SoftwareLoop.UploaderPlusMixin = {
             this
         );
         if (this.currentRecordIndex === this.records.length - 1) {
-            submitButton.set("label", "Ok")
+            submitButton.set("label", this.msg("label.ok"))
         } else {
-            submitButton.set("label", "Next")
+            submitButton.set("label", this.msg("uploader.plus.next"))
         }
         var cancelButton = this.formUi.buttons.cancel;
         cancelButton.removeListener("click");

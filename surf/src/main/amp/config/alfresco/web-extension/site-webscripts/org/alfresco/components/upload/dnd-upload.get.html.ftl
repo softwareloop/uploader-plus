@@ -126,7 +126,7 @@
         <!-- Metadata dialog -->
         <div class="bd hidden" id="${el}-metadata-dialog">
             <div style="padding: 1em; border-bottom: 1px solid #ccc">
-                <label>Content type:
+                <label>${msg("content.type")}:
                     <select id="${el}-content-type-select"></select>
                 </label>
             </div>

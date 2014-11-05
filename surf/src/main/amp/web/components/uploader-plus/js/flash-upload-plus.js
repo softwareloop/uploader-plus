@@ -132,7 +132,7 @@
                 if (typeInfoEl && typeInfoEl.length === 1) {
                     YAHOO.util.Dom.removeClass(typeInfoEl[0], "hidden");
                     typeInfoEl[0].innerHTML =
-                        Alfresco.util.encodeHTML("Content type: " + contentType);
+                        Alfresco.util.encodeHTML(this.msg("content.type") + ": " + contentType);
                 } else {
                     console.log("typeInfoEl", typeInfoEl);
                 }

@@ -34,7 +34,8 @@
                 <span id="${el}-multiUploadTip-span">${msg("label.multiUploadTip")}</span>
                 <span id="${el}-singleUpdateTip-span">${msg("label.singleUpdateTip")}</span>
             </div>
-            <div id="${el}-filelist-table" class="fileUpload-filelist-table"></div>
+            <div id="${el}-filelist-table"
+                 class="fileUpload-filelist-table"></div>
             <div class="status-wrapper">
                 <span id="${el}-status-span" class="status"></span>
             </div>
@@ -47,7 +48,8 @@
                         <span>${msg("label.version")}</span>
                     </div>
                     <div class="yui-u">
-                        <input id="${el}-minorVersion-radioButton" type="radio" name="majorVersion" checked="checked"
+                        <input id="${el}-minorVersion-radioButton" type="radio"
+                               name="majorVersion" checked="checked"
                                tabindex="0"/>
                         <label for="${el}-minorVersion-radioButton"
                                id="${el}-minorVersion">${msg("label.minorVersion")}</label>
@@ -57,7 +59,8 @@
                     <div class="yui-u first">&nbsp;
                     </div>
                     <div class="yui-u">
-                        <input id="${el}-majorVersion-radioButton" type="radio" name="majorVersion" tabindex="0"/>
+                        <input id="${el}-majorVersion-radioButton" type="radio"
+                               name="majorVersion" tabindex="0"/>
                         <label for="${el}-majorVersion-radioButton"
                                id="${el}-majorVersion">${msg("label.majorVersion")}</label>
                     </div>
@@ -67,7 +70,8 @@
                         <label for="${el}-description-textarea">${msg("label.comments")}</label>
                     </div>
                     <div class="yui-u">
-                        <textarea id="${el}-description-textarea" name="description" cols="80" rows="4"
+                        <textarea id="${el}-description-textarea"
+                                  name="description" cols="80" rows="4"
                                   tabindex="0"></textarea>
                     </div>
                 </div>
@@ -81,27 +85,31 @@
                 </div>
                 <div id="${el}-center-div" class="fileupload-center-div">
                     <span class="fileupload-progressSuccess-span">&nbsp;</span>
-                    <img src="${url.context}/res/components/images/generic-file-32.png" class="fileupload-docImage-img"
+                    <img src="${url.context}/res/components/images/generic-file-32.png"
+                         class="fileupload-docImage-img"
                          alt="file"/>
                     <span class="fileupload-progressInfo-span"></span>
                     <span class="fileupload-typeInfo-span uploader-plus hidden"></span>
                 </div>
                 <div id="${el}-right-div" class="fileupload-right-div">
                   <span class="fileupload-fileButton-span">
-                     <button class="fileupload-file-button" value="Remove" disabled="true"
+                     <button class="fileupload-file-button" value="Remove"
+                             disabled="true"
                              tabindex="0">${msg("button.remove")}</button>
                   </span>
                 </div>
             </div>
             <div class="bdft">
-                <input id="${el}-upload-button" type="button" value="${msg("button.upload")}" tabindex="0"/>
-                <input id="${el}-cancelOk-button" type="button" value="${msg("button.cancel")}" tabindex="0"/>
+                <input id="${el}-upload-button" type="button"
+                       value="${msg("button.upload")}" tabindex="0"/>
+                <input id="${el}-cancelOk-button" type="button"
+                       value="${msg("button.cancel")}" tabindex="0"/>
             </div>
         </div>
         <!-- Metadata dialog -->
         <div class="bd hidden" id="${el}-metadata-dialog">
             <div style="padding: 1em; border-bottom: 1px solid #ccc">
-                <label>Content type:
+                <label>${msg("content.type")}:
                     <select id="${el}-content-type-select"></select>
                 </label>
             </div>

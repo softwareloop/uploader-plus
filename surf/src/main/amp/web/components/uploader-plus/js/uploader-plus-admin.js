@@ -60,8 +60,8 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     actionFormatter: function (elCell, oRecord, oColumn, oData) {
         var nodeRef = oRecord.getData().nodeRef;
         elCell.innerHTML = "<div class='action'>" +
-            "<a class='edit-upload-folder'>edit</a>" +
-            " | <a class='delete-upload-folder'>delete</a>" +
+            "<a class='edit-upload-folder'>" + this.msg("button.edit") + "</a>" +
+            " | <a class='delete-upload-folder'>" + this.msg("button.delete") + "</a>" +
             "</div>";
     },
 
