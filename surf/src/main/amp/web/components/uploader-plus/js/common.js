@@ -23,9 +23,15 @@ var SoftwareLoop = SoftwareLoop || {
         if (typeof(cancelable) === 'undefined') {
             cancelable = true;
         }
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent(eventType, canBubble, cancelable);
-        node.dispatchEvent(evt);
+        var evt;
+        if (document.createEvent) {
+            evt = document.createEvent("HTMLEvents");
+            evt.initEvent(eventType, canBubble, cancelable);
+            return node.dispatchEvent(evt);
+        } else {
+            evt = document.createEventObject();
+            return node.fireEvent('on' + eventType, evt);
+        }
     }
 };
 

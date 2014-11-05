@@ -43,11 +43,16 @@
             //**************************************************************************
 
             showMetadataDialog: function () {
-                console.debug("showMetadataDialog");
                 YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
 
-                var filename = this.widgets.filedata.files[0].name;
+                var filename;
+                if (this.widgets.filedata.files) {
+                    filename = this.widgets.filedata.files[0].name;
+                } else {
+                    var path = this.widgets.filedata.value;
+                    filename = path.substring(path.lastIndexOf('\\') + 1);
+                }
 
                 this.currentRecordIndex = 0;
                 this.records = [];
