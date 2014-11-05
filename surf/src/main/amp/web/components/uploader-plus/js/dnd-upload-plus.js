@@ -24,7 +24,7 @@
             },
 
             _spawnUploads: function () {
-                console.debug("_spawnUploads");
+                console.debug("_spawnUploads", arguments);
                 if (typeof(this.types) === "undefined") {
                     console.debug("Types not loaded yet. Postponing");
                     this.spawnUploadsBooked = true;
@@ -53,6 +53,12 @@
                 }
                 var currentRecord = this.records[this.currentRecordIndex];
                 var data = currentRecord.getData();
+                var fileId = data.id;
+                var fileInfo = this.fileStore[fileId];
+                if (fileInfo.state !== this.STATE_ADDED) {
+                    return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
+                }
+
                 YAHOO.util.Dom.get(this.id + "-title-span").innerText =
                     Alfresco.util.encodeHTML(data.name);
 
