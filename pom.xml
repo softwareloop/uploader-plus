@@ -45,7 +45,6 @@
         <alfresco.groupId>org.alfresco</alfresco.groupId>
         <alfresco.version>4.2.f</alfresco.version>
         <app.log.root.level>WARN</app.log.root.level>
-        <alfresco.client.war>share</alfresco.client.war>
         <alfresco.client.war.groupId>org.alfresco</alfresco.client.war.groupId>
         <alfresco.client.war.version>4.2.f</alfresco.client.war.version>
         <env>local</env>
