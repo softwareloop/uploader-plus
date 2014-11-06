@@ -6,13 +6,14 @@
     <artifactId>uploader-plus-surf</artifactId>
     <name>uploader-plus-surf</name>
     <packaging>amp</packaging>
-    <description>uploader-plus AMP using the Surf framework for Share 4.2.x</description>
+    <description>uploader-plus AMP using the Surf framework for Share 4.2.x
+    </description>
     <url>http://softwareloop.com/</url>
 
     <parent>
         <groupId>com.softwareloop</groupId>
         <artifactId>uploader-plus</artifactId>
-        <version>1.0</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <properties>
