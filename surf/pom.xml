@@ -18,6 +18,9 @@
 
     <properties>
         <alfresco.client.war>share</alfresco.client.war>
+        <alfresco.client.contextPath>/share</alfresco.client.contextPath>
+        <maven.tomcat.port>8081</maven.tomcat.port>
+        <alfresco.repo.url>http://localhost:8080/alfresco</alfresco.repo.url>
     </properties>
 
 </project>

@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.alfresco.maven</groupId>
         <artifactId>alfresco-sdk-parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <modules>
@@ -101,18 +101,13 @@
 
     <repositories>
         <repository>
-            <id>alfresco-public</id>
-            <url>https://artifacts.alfresco.com/nexus/content/groups/public
-            </url>
-        </repository>
-        <repository>
-            <id>alfresco-public-snapshots</id>
-            <url>
-                https://artifacts.alfresco.com/nexus/content/groups/public-snapshots
-            </url>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
             <snapshots>
                 <enabled>true</enabled>
-                <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
     </repositories>

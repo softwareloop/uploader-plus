@@ -18,6 +18,7 @@
     <properties>
         <alfresco.data.location>alf_data_dev</alfresco.data.location>
         <alfresco.client.war>alfresco</alfresco.client.war>
+        <alfresco.client.contextPath>/alfresco</alfresco.client.contextPath>
     </properties>
 
 </project>
