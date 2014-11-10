@@ -6,3 +6,5 @@ the user for content type and metadata during the upload process.
 Documentation:
 
 * [Introduction](http://softwareloop.com/uploader-plus-an-alfresco-uploader-that-prompts-for-metadata/)
+* [Installation](http://softwareloop.com/uploader-plus-installation/)
+* [Configuration](http://softwareloop.com/uploader-plus-configuration/)
