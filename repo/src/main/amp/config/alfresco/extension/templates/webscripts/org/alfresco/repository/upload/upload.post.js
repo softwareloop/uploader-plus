@@ -141,7 +141,7 @@ function main() {
                     break;
                 // BEGIN: uploader-plus customisations
                 default:
-                    if (fieldName.indexOf("prop_") == 0) {
+                    if (fieldName.indexOf("prop_") === 0 || fieldName.indexOf("assoc_") === 0) {
                         properties[fieldName] = field.value;
                     }
                 // END: uploader-plus customisations

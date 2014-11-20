@@ -233,7 +233,7 @@
                             if (fileInfo.propertyData) {
                                 for (var current in fileInfo.propertyData) {
                                     if (fileInfo.propertyData.hasOwnProperty(current) &&
-                                        current.indexOf("prop_") === 0) {
+                                        (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
                                         attributes[current] = fileInfo.propertyData[current];
                                     }
                                 }

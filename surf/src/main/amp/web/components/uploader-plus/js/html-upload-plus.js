@@ -110,7 +110,7 @@
                     YAHOO.util.Dom.get(this.widgets.form.formId);
                 for (var current in propertyData) {
                     if (propertyData.hasOwnProperty(current) &&
-                        current.indexOf("prop_") === 0) {
+                        (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
                         var input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", current);
