@@ -6,6 +6,7 @@ var SoftwareLoop = SoftwareLoop || {
     },
 
     printStackTrace: function (e) {
+        Alfresco.logger.debug("printStackTrace", arguments);
         var stack;
         if (e.stack) {
             stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
@@ -17,6 +18,7 @@ var SoftwareLoop = SoftwareLoop || {
     },
 
     fireEvent: function (node, eventType, canBubble, cancelable) {
+        Alfresco.logger.debug("fireEvent", arguments);
         if (typeof(canBubble) === 'undefined') {
             canBubble = true;
         }

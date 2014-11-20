@@ -1,4 +1,7 @@
+Alfresco.logger.debug("uploader-plus-admin.js");
+
 SoftwareLoop.UploaderPlusAdmin = function (htmlId) {
+    Alfresco.logger.debug("UploaderPlusAdmin constructor");
     SoftwareLoop.UploaderPlusAdmin.superclass.constructor.call(this,
         "SoftwareLoop.UploaderPlusAdmin",
         htmlId,
@@ -14,11 +17,13 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     listContentTypesUrl: Alfresco.constants.PROXY_URI + "uploader-plus/list-content-types",
 
     onReady: function () {
+        Alfresco.logger.debug("onReady", arguments);
         this.setupDataTable();
         this.setupNewUploadFolderButton();
     },
 
     prettyPath: function (path) {
+        Alfresco.logger.debug("prettyPath", arguments);
         var result = path.substring(13);
         if ("" === result) {
             result = "/";
@@ -27,6 +32,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     pathFormatter: function (elCell, oRecord, oColumn, oData) {
+        Alfresco.logger.debug("pathFormatter", arguments);
         var path = this.prettyPath(oData);
         var repoUrl = YAHOO.lang.substitute(
             "{pageContext}repository#filter={path}&page=1",
@@ -47,6 +53,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     allowedTypesFormatter: function (elCell, oRecord, oColumn, oData) {
+        Alfresco.logger.debug("allowedTypesFormatter", arguments);
         var text = "";
         for (var i = 0; i < oData.length; i++) {
             if (i > 0) {
@@ -58,6 +65,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     actionFormatter: function (elCell, oRecord, oColumn, oData) {
+        Alfresco.logger.debug("actionFormatter", arguments);
         var nodeRef = oRecord.getData().nodeRef;
         elCell.innerHTML = "<div class='action'>" +
             "<a class='edit-upload-folder'>" + this.msg("button.edit") + "</a>" +
@@ -66,6 +74,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     setupDataTable: function () {
+        Alfresco.logger.debug("setupDataTable", arguments);
         var columnDefinitions = [
             {
                 key: "path",
@@ -134,6 +143,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     setupNewUploadFolderButton: function () {
+        Alfresco.logger.debug("setupNewUploadFolderButton", arguments);
         this.widgets.newUploadFolderButton =
             new YAHOO.widget.Button(this.id + "-new-upload-folder");
         this.widgets.newUploadFolderButton.on(
@@ -147,6 +157,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     promptForFolder: function () {
+        Alfresco.logger.debug("promptForFolder", arguments);
         var formHtmlId = this.id + "-new-form";
         var newUploadFolder = new Alfresco.module.DoclibGlobalFolder(formHtmlId);
 
@@ -177,6 +188,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     createUploadFolder: function (nodeRef) {
+        Alfresco.logger.debug("createUploadFolder", arguments);
         var parsedNodeRef = Alfresco.util.NodeRef(nodeRef);
         var urlTemplate = Alfresco.constants.PROXY_URI +
             "uploader-plus/upload-folders-new/{storeType}/{storeId}/{id}";
@@ -209,6 +221,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     findUploadFolderPosition: function (newObj) {
+        Alfresco.logger.debug("findUploadFolderPosition", arguments);
         var records = this.widgets.dataTable.getRecordSet().getRecords();
         for (var i = 0; i < records.length; i++) {
             var data = records[i].getData();
@@ -220,12 +233,14 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     editUploadFolderHandler: function (e, el, container) {
+        Alfresco.logger.debug("editUploadFolderHandler", arguments);
         var tr = el.parentNode.parentNode.parentNode;
         var record = this.widgets.dataTable.getRecord(tr);
         this.editUploadFolderRecord(record);
     },
 
     editUploadFolderRecord: function (record) {
+        Alfresco.logger.debug("editUploadFolderRecord", arguments);
         var data = record.getData();
 
         var formHtmlId = this.id + "-edit-form";
@@ -253,7 +268,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             destroyOnHide: true,
             doBeforeDialogShow: {
                 fn: function () {
-                    console.log("#4");
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                     if (titleNode) {
                         titleNode.innerHTML =
@@ -262,9 +276,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     var selectNode = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
 
-                    console.log("#4.1");
                     this.populateAllowedTypesSelect(selectNode);
-                    console.log("#4.2");
 
                     return true;
                 },
@@ -272,7 +284,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             onSuccess: {
                 fn: function (response) {
-                    console.log("#5");
                     var dataObj = response.config.dataObj;
                     data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
                     this.widgets.dataTable.updateRow(record, data);
@@ -291,10 +302,10 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 scope: this
             }
         }).show();
-        console.log("#3");
     },
 
     deleteUploadFolderHandler: function (e, el, container) {
+        Alfresco.logger.debug("deleteUploadFolderHandler", arguments);
         var tr = el.parentNode.parentNode.parentNode;
         var record = this.widgets.dataTable.getRecord(tr);
         var data = record.getData();
@@ -328,9 +339,8 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
     },
 
     populateAllowedTypesSelect: function (selectNode) {
-        console.log("$1", selectNode);
+        Alfresco.logger.debug("populateAllowedTypesSelect", arguments);
         var selectedValues = selectNode.getAttribute("data-selectedValues");
-        console.log("$2");
         var selectedValuesArray = [];
         if (selectedValues) {
             selectedValuesArray = selectedValues.split(",");
@@ -340,8 +350,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
-                    console.log("$3");
-
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
                         var type = types[i];
@@ -355,7 +363,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             failureCallback: {
                 fn: function (response) {
-                    console.log(response);
+                    Alfresco.logger.debug(response);
                 },
                 scope: this
             }

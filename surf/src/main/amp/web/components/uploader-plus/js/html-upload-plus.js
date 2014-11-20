@@ -1,4 +1,5 @@
 (function () {
+    Alfresco.logger.debug("html-upload-plus.js");
     var oldConstructor = Alfresco.HtmlUpload;
 
     Alfresco.HtmlUpload = function (htmlId) {
@@ -10,7 +11,7 @@
             //**************************************************************************
 
             show: function (config) {
-                console.debug("show", this);
+                Alfresco.logger.debug("show", arguments);
                 this.showMainDialog();
                 delete this.types;
                 Alfresco.HtmlUpload.prototype.show.call(this, config);
@@ -24,12 +25,12 @@
             },
 
             fixButtons: function () {
-                console.debug("fixButtons", this.widgets.form);
+                Alfresco.logger.debug("fixButtons", arguments);
                 this.widgets.uploadButton.set("label", this.msg("uploader.plus.next"));
                 this.widgets.uploadButton.removeListener("click");
                 this.widgets.uploadButton.on(
                     "click", function (event) {
-                        console.debug(event);
+                        Alfresco.logger.debug(event);
                         this.widgets.form._setAllFieldsAsVisited();
                         if (this.widgets.form.validate()) {
                             this.showMetadataDialog();
@@ -43,6 +44,7 @@
             //**************************************************************************
 
             showMetadataDialog: function () {
+                Alfresco.logger.debug("showMetadataDialog", arguments);
                 YAHOO.util.Dom.addClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.removeClass(this.id + "-metadata-dialog", "hidden");
 
@@ -68,7 +70,7 @@
             },
 
             showMainDialog: function () {
-                console.debug("showMainDialog");
+                Alfresco.logger.debug("showMainDialog", arguments);
                 delete this.records;
                 delete this.currentRecordIndex;
 
@@ -81,7 +83,7 @@
             //**************************************************************************
 
             onMetadataSubmit: function (event) {
-                console.debug("onMetadataSubmit", this.formUi);
+                Alfresco.logger.debug("onMetadataSubmit", arguments);
                 this.formUi.formsRuntime._setAllFieldsAsVisited();
                 if (this.formUi.formsRuntime.validate()) {
                     this.processMetadata();
@@ -94,6 +96,7 @@
             },
 
             processMetadata: function () {
+                Alfresco.logger.debug("processMetadata", arguments);
                 var contentTypeInputNode =
                     YAHOO.util.Dom.get(
                             this.id + "-contentTypeInput");
@@ -119,17 +122,13 @@
                     }
                 }
 
-                console.log("propertyData", propertyData, submitForm);
+                Alfresco.logger.debug("propertyData", propertyData, submitForm);
             },
 
             onMetadataCancel: function () {
-                console.debug("onMetadataCancel");
+                Alfresco.logger.debug("onMetadataCancel", arguments);
                 this.showMainDialog();
             }
-
-            //**************************************************************************
-            // Upload override
-            //**************************************************************************
 
         }, true);
         return that;

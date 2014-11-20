@@ -1,7 +1,9 @@
 (function () {
+    Alfresco.logger.debug("flash-upload-plus.js");
     var oldConstructor = Alfresco.FlashUpload;
 
     Alfresco.FlashUpload = function (htmlId) {
+        Alfresco.logger.debug("FlashUpload constructor");
         var that = new oldConstructor(htmlId);
         YAHOO.lang.augmentObject(that, SoftwareLoop.UploaderPlusMixin);
         YAHOO.lang.augmentObject(that, {
@@ -10,7 +12,7 @@
             //**************************************************************************
 
             show: function (config) {
-                console.debug("show");
+                Alfresco.logger.debug("show", arguments);
                 delete this.types;
                 Alfresco.FlashUpload.prototype.show.call(this, config);
                 this.loadTypes(SoftwareLoop.hitch(this, this.populateSelect));
@@ -21,6 +23,7 @@
             //**************************************************************************
 
             _createEmptyDataTable: function () {
+                Alfresco.logger.debug("_createEmptyDataTable", arguments);
                 Alfresco.FlashUpload.prototype._createEmptyDataTable.apply(
                     this, arguments
                 );
@@ -34,7 +37,7 @@
             //**************************************************************************
 
             onRowsAddEvent: function (arg) {
-                console.debug("onRowsAddEvent", arg);
+                Alfresco.logger.debug("onRowsAddEvent", arguments);
                 if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
                     return;
                 }
@@ -50,7 +53,7 @@
             //**************************************************************************
 
             showMetadataDialog: function () {
-                console.debug("showMetadataDialog");
+                Alfresco.logger.debug("showMetadataDialog", arguments);
                 if (this.currentRecordIndex == this.records.length) {
                     return this.showMainDialog();
                 }
@@ -67,7 +70,7 @@
             },
 
             showMainDialog: function () {
-                console.debug("showMainDialog");
+                Alfresco.logger.debug("showMainDialog", arguments);
                 if (this.savedDialogTitle) {
                     YAHOO.util.Dom.get(this.id + "-title-span").innerText =
                         this.savedDialogTitle;
@@ -82,7 +85,7 @@
             },
 
             _resetGUI: function () {
-                console.debug("_resetGUI");
+                Alfresco.logger.debug("_resetGUI", arguments);
                 this.showMainDialog();
                 Alfresco.FlashUpload.prototype._resetGUI.apply(this, arguments);
             },
@@ -92,7 +95,7 @@
             //**************************************************************************
 
             onMetadataSubmit: function () {
-                console.debug("onMetadataSubmit", this.formUi);
+                Alfresco.logger.debug("onMetadataSubmit", arguments);
                 this.formUi.formsRuntime._setAllFieldsAsVisited();
                 if (this.formUi.formsRuntime.validate()) {
                     this.processMetadata();
@@ -106,6 +109,7 @@
             },
 
             processMetadata: function () {
+                Alfresco.logger.debug("processMetadata", arguments);
                 var contentType = this.contentTypeSelectNode.value;
                 var record = this.records[this.currentRecordIndex];
                 var data = record.getData();
@@ -116,7 +120,7 @@
                 if (contentTypeEl && contentTypeEl.length === 1) {
                     contentTypeEl[0].value = contentType;
                 } else {
-                    console.log("contentTypeEl", contentTypeEl);
+                    Alfresco.logger.debug("contentTypeEl", contentTypeEl);
                 }
 
                 var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
@@ -125,7 +129,7 @@
                 if (progressInfoEl && progressInfoEl.length === 1) {
                     YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
                 } else {
-                    console.log("progressInfoEl", progressInfoEl);
+                    Alfresco.logger.debug("progressInfoEl", progressInfoEl);
                 }
                 var typeInfoEl = Dom.getElementsByClassName(
                     "fileupload-typeInfo-span", "span", secondTdEl);
@@ -134,18 +138,18 @@
                     typeInfoEl[0].innerHTML =
                         Alfresco.util.encodeHTML(this.msg("content.type") + ": " + contentType);
                 } else {
-                    console.log("typeInfoEl", typeInfoEl);
+                    Alfresco.logger.debug("typeInfoEl", typeInfoEl);
                 }
 
                 var formRuntime = this.formUi.formsRuntime;
                 var form = Dom.get(formRuntime.formId);
                 var propertyData = formRuntime._buildAjaxForSubmit(form);
                 this.fileStore[data.id].propertyData = propertyData;
-                console.log("propertyData", propertyData, this);
+                Alfresco.logger.debug("propertyData", propertyData, this);
             },
 
             onMetadataCancel: function () {
-                console.debug("onMetadataCancel");
+                Alfresco.logger.debug("onMetadataCancel", arguments);
                 this.records.reverse();
                 for (var i = 0; i < this.records.length; i++) {
                     var record = this.records[i];
@@ -161,6 +165,7 @@
             //**************************************************************************
 
             _uploadFromQueue: function (noOfUploadsToStart) {
+                Alfresco.logger.debug("_uploadFromQueue", arguments);
                 // generate upload POST url
                 var url;
                 if (this.showConfig.uploadURL === null) {
@@ -229,7 +234,7 @@
                                 attributes.thumbnails = this.showConfig.thumbnails;
                             }
                             // BEGIN: uploader-plus customisations
-                            console.log("fileInfo", fileInfo);
+                            Alfresco.logger.debug("fileInfo", fileInfo);
                             if (fileInfo.propertyData) {
                                 for (var current in fileInfo.propertyData) {
                                     if (fileInfo.propertyData.hasOwnProperty(current) &&
@@ -238,7 +243,7 @@
                                     }
                                 }
                             }
-                            console.log("Attributes:", attributes);
+                            Alfresco.logger.debug("Attributes:", attributes);
                             // END: uploader-plus customisations
 
                         }
@@ -253,4 +258,5 @@
     };
     Alfresco.FlashUpload.superclass = oldConstructor.superclass;
     Alfresco.FlashUpload.prototype = oldConstructor.prototype;
+    Alfresco.logger.debug("DL_onHistoryManagerReady");
 })();

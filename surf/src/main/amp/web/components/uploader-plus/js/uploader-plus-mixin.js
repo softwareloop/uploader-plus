@@ -1,3 +1,5 @@
+Alfresco.logger.debug("uploader-plus-mixin.js");
+
 SoftwareLoop.UploaderPlusMixin = {
 
     allowedContentTypesDestinationTemplate: Alfresco.constants.PROXY_URI +
@@ -14,7 +16,7 @@ SoftwareLoop.UploaderPlusMixin = {
     //**************************************************************************
 
     loadTypes: function (callback) {
-        console.debug("loadTypes");
+        Alfresco.logger.debug("loadTypes", arguments);
         var url;
         if (this.showConfig.destination) {
             url = YAHOO.lang.substitute(
@@ -50,7 +52,7 @@ SoftwareLoop.UploaderPlusMixin = {
             },
             failureCallback: {
                 fn: function (response) {
-                    console.log(response);
+                    Alfresco.logger.debug(response);
                 },
                 scope: this
             }
@@ -58,7 +60,7 @@ SoftwareLoop.UploaderPlusMixin = {
     },
 
     populateSelect: function () {
-        console.debug("populateSelect");
+        Alfresco.logger.debug("populateSelect", arguments);
         if (!this.types) {
             return;
         }
@@ -85,7 +87,7 @@ SoftwareLoop.UploaderPlusMixin = {
     //**************************************************************************
 
     onContentTypeChange: function () {
-        console.debug("onContentTypeChange");
+        Alfresco.logger.debug("onContentTypeChange", arguments);
         var contentType = this.contentTypeSelectNode.value;
         var formHtmlId = this.id + "-metadata-form";
         var url = YAHOO.lang.substitute(
@@ -110,7 +112,7 @@ SoftwareLoop.UploaderPlusMixin = {
             },
             failureCallback: {
                 fn: function (response) {
-                    console.log(response);
+                    Alfresco.logger.debug(response);
                 },
                 scope: this
             }
@@ -118,7 +120,7 @@ SoftwareLoop.UploaderPlusMixin = {
     },
 
     onMetadataFormReceived: function (response) {
-        console.debug("onMetadataFormReceived");
+        Alfresco.logger.debug("onMetadataFormReceived", arguments);
         var formHtmlId = this.id + "-metadata-form";
         var formNode = YAHOO.util.Dom.get(formHtmlId);
         formNode.innerHTML =
@@ -144,7 +146,7 @@ SoftwareLoop.UploaderPlusMixin = {
     },
 
     formUiFixButtons: function () {
-        console.debug("formUiFixButtons");
+        Alfresco.logger.debug("formUiFixButtons", arguments);
         var submitButton = this.formUi.buttons.submit;
         submitButton.removeListener("click");
         submitButton.addListener(
