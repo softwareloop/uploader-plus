@@ -26,6 +26,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         Alfresco.logger.debug("prettyPath", arguments);
         var result = path.substring(13);
         if ("" === result) {
+            Alfresco.logger.debug("Adjusting root path");
             result = "/";
         }
         return result;
@@ -56,6 +57,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         Alfresco.logger.debug("allowedTypesFormatter", arguments);
         var text = "";
         for (var i = 0; i < oData.length; i++) {
+            Alfresco.logger.debug("Adding allowed type", oData[i]);
             if (i > 0) {
                 text += ", ";
             }
@@ -179,8 +181,10 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
 
         var _this = this;
         newUploadFolder.onOK = function () {
+            Alfresco.logger.debug("onOK callback");
             Alfresco.module.DoclibGlobalFolder.prototype.onOK.apply(this, arguments);
             if (this.selectedNode) {
+                Alfresco.logger.debug("A node was selected", this.selectedNode);
                 _this.createUploadFolder(this.selectedNode.data.nodeRef);
             }
         };
@@ -198,14 +202,17 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
+                    Alfresco.logger.debug("successCallback", arguments);
                     var status = response.json.status;
                     var newObj = response.json.node;
                     if (status == 0) {
+                        Alfresco.logger.debug("status == 0");
                         var pos = this.findUploadFolderPosition(newObj);
                         this.widgets.dataTable.addRow(newObj, pos);
                         var newRecord = this.widgets.dataTable.getRecord(pos);
                         this.editUploadFolderRecord(newRecord);
                     } else if (status == 1) {
+                        Alfresco.logger.debug("status == 1");
                         Alfresco.util.PopupManager.displayMessage({
                             text: YAHOO.lang.substitute(
                                 this.msg("_.is.already.an.upload.folder"),

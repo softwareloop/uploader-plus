@@ -17,8 +17,10 @@
                 Alfresco.HtmlUpload.prototype.show.call(this, config);
 
                 this.loadTypes(SoftwareLoop.hitch(this, function () {
+                    Alfresco.logger.debug("loadTypes callback");
                     this.populateSelect();
                     if (this.types) {
+                        Alfresco.logger.debug("this.types is not null");
                         this.fixButtons();
                     }
                 }));
@@ -30,9 +32,10 @@
                 this.widgets.uploadButton.removeListener("click");
                 this.widgets.uploadButton.on(
                     "click", function (event) {
-                        Alfresco.logger.debug(event);
+                        Alfresco.logger.debug("uploadButton callback", event);
                         this.widgets.form._setAllFieldsAsVisited();
                         if (this.widgets.form.validate()) {
+                            Alfresco.logger.debug("Form validation passed");
                             this.showMetadataDialog();
                         }
                     }, this, this);
@@ -50,8 +53,10 @@
 
                 var filename;
                 if (this.widgets.filedata.files) {
+                    Alfresco.logger.debug("Filedata files available");
                     filename = this.widgets.filedata.files[0].name;
                 } else {
+                    Alfresco.logger.debug("IE-style full path");
                     var path = this.widgets.filedata.value;
                     filename = path.substring(path.lastIndexOf('\\') + 1);
                 }
@@ -60,6 +65,7 @@
                 this.records = [];
                 this.records.push({
                     getData: function () {
+                        Alfresco.logger.debug("getData callback");
                         return {
                             name: filename
                         }
@@ -86,9 +92,11 @@
                 Alfresco.logger.debug("onMetadataSubmit", arguments);
                 this.formUi.formsRuntime._setAllFieldsAsVisited();
                 if (this.formUi.formsRuntime.validate()) {
+                    Alfresco.logger.debug("Form validated");
                     this.processMetadata();
                     this.widgets.form._submitInvoked.call(this.widgets.form, event);
                 } else {
+                    Alfresco.logger.debug("Form with errors");
                     Alfresco.util.PopupManager.displayMessage({
                         text: this.msg("validation.errors.correct.before.proceeding")
                     });
@@ -101,6 +109,7 @@
                     YAHOO.util.Dom.get(
                             this.id + "-contentTypeInput");
                 if (contentTypeInputNode) {
+                    Alfresco.logger.debug("contentTypeInputNode found");
                     contentTypeInputNode.value =
                         this.contentTypeSelectNode.value;
                 }
@@ -112,8 +121,10 @@
                 var submitForm =
                     YAHOO.util.Dom.get(this.widgets.form.formId);
                 for (var current in propertyData) {
+                    Alfresco.logger.debug("Current:", current);
                     if (propertyData.hasOwnProperty(current) &&
                         (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
+                        Alfresco.logger.debug("Adding property", current);
                         var input = document.createElement("input");
                         input.setAttribute("type", "hidden");
                         input.setAttribute("name", current);

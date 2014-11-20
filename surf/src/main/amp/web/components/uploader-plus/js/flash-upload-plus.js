@@ -38,7 +38,12 @@
 
             onRowsAddEvent: function (arg) {
                 Alfresco.logger.debug("onRowsAddEvent", arguments);
-                if (this.showConfig.mode === this.MODE_SINGLE_UPDATE || !this.types) {
+                if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
+                    Alfresco.logger.debug("Single update");
+                    return;
+                }
+                if (this.showConfig.mode === !this.types) {
+                    Alfresco.logger.debug("Types is null");
                     return;
                 }
                 this.savedDialogTitle =
@@ -55,6 +60,7 @@
             showMetadataDialog: function () {
                 Alfresco.logger.debug("showMetadataDialog", arguments);
                 if (this.currentRecordIndex == this.records.length) {
+                    Alfresco.logger.debug("At the end of the records array");
                     return this.showMainDialog();
                 }
                 var currentRecord = this.records[this.currentRecordIndex];
@@ -72,6 +78,7 @@
             showMainDialog: function () {
                 Alfresco.logger.debug("showMainDialog", arguments);
                 if (this.savedDialogTitle) {
+                    Alfresco.logger.debug("Restore saved dialog title");
                     YAHOO.util.Dom.get(this.id + "-title-span").innerText =
                         this.savedDialogTitle;
                     delete this.savedDialogTitle;
@@ -98,10 +105,12 @@
                 Alfresco.logger.debug("onMetadataSubmit", arguments);
                 this.formUi.formsRuntime._setAllFieldsAsVisited();
                 if (this.formUi.formsRuntime.validate()) {
+                    Alfresco.logger.debug("Form validated");
                     this.processMetadata();
                     this.currentRecordIndex++;
                     this.showMetadataDialog();
                 } else {
+                    Alfresco.logger.debug("Form with errors");
                     Alfresco.util.PopupManager.displayMessage({
                         text: this.msg("validation.errors.correct.before.proceeding")
                     });
@@ -118,27 +127,30 @@
                 var contentTypeEl = Dom.getElementsByClassName(
                     "fileupload-contentType-input", "input", firstTdEl);
                 if (contentTypeEl && contentTypeEl.length === 1) {
+                    Alfresco.logger.debug("fileupload-contentType-input found");
                     contentTypeEl[0].value = contentType;
                 } else {
-                    Alfresco.logger.debug("contentTypeEl", contentTypeEl);
+                    Alfresco.logger.debug("fileupload-contentType-input not found");
                 }
 
                 var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
                 var progressInfoEl = Dom.getElementsByClassName(
                     "fileupload-progressInfo-span", "span", secondTdEl);
                 if (progressInfoEl && progressInfoEl.length === 1) {
+                    Alfresco.logger.debug("fileupload-progressInfo-span found");
                     YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
                 } else {
-                    Alfresco.logger.debug("progressInfoEl", progressInfoEl);
+                    Alfresco.logger.debug("fileupload-progressInfo-span not found");
                 }
                 var typeInfoEl = Dom.getElementsByClassName(
                     "fileupload-typeInfo-span", "span", secondTdEl);
                 if (typeInfoEl && typeInfoEl.length === 1) {
+                    Alfresco.logger.debug("fileupload-typeInfo-span found");
                     YAHOO.util.Dom.removeClass(typeInfoEl[0], "hidden");
                     typeInfoEl[0].innerHTML =
                         Alfresco.util.encodeHTML(this.msg("content.type") + ": " + contentType);
                 } else {
-                    Alfresco.logger.debug("typeInfoEl", typeInfoEl);
+                    Alfresco.logger.debug("fileupload-typeInfo-span not found");
                 }
 
                 var formRuntime = this.formUi.formsRuntime;
@@ -153,6 +165,7 @@
                 this.records.reverse();
                 for (var i = 0; i < this.records.length; i++) {
                     var record = this.records[i];
+                    Alfresco.logger.debug("Canceling record:", record);
                     var flashId = record.getData().id;
                     var recordId = record.getId();
                     this._onFileButtonClickHandler(flashId, recordId);
@@ -236,9 +249,12 @@
                             // BEGIN: uploader-plus customisations
                             Alfresco.logger.debug("fileInfo", fileInfo);
                             if (fileInfo.propertyData) {
+                                Alfresco.logger.debug("Processing propertyData");
                                 for (var current in fileInfo.propertyData) {
+                                    Alfresco.logger.debug("Current:", current);
                                     if (fileInfo.propertyData.hasOwnProperty(current) &&
                                         (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
+                                        Alfresco.logger.debug("Adding attribute", current);
                                         attributes[current] = fileInfo.propertyData[current];
                                     }
                                 }
