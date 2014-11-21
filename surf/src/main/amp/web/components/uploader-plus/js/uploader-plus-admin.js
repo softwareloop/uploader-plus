@@ -231,8 +231,10 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         Alfresco.logger.debug("findUploadFolderPosition", arguments);
         var records = this.widgets.dataTable.getRecordSet().getRecords();
         for (var i = 0; i < records.length; i++) {
+            Alfresco.logger.debug("Scanning upload folder", i);
             var data = records[i].getData();
             if (data.path > newObj.path) {
+                Alfresco.logger.debug("Found position");
                 return i;
             }
         }
@@ -275,6 +277,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             destroyOnHide: true,
             doBeforeDialogShow: {
                 fn: function () {
+                    Alfresco.logger.debug("doBeforeDialogShow callback", arguments);
                     var titleNode = YAHOO.util.Dom.get(formHtmlId + "-dialogTitle");
                     if (titleNode) {
                         titleNode.innerHTML =
@@ -291,6 +294,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             onSuccess: {
                 fn: function (response) {
+                    Alfresco.logger.debug("onSuccess callback", arguments);
                     var dataObj = response.config.dataObj;
                     data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
                     this.widgets.dataTable.updateRow(record, data);
@@ -302,6 +306,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             onFailure: {
                 fn: function (response) {
+                    Alfresco.logger.debug("onFailure callback", arguments);
                     Alfresco.util.PopupManager.displayMessage({
                         text: this.msg("operation.failed")
                     });
@@ -332,6 +337,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
+                    Alfresco.logger.debug("deleteUploadFolderHandler successCallback", arguments);
                     var message = response.json.overallSuccess ?
                         "operation.completed.successfully" : "operation.failed";
                     Alfresco.util.PopupManager.displayMessage({
@@ -357,8 +363,10 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
+                    Alfresco.logger.debug("populateAllowedTypesSelect successCallback", arguments);
                     var types = response.json.types;
                     for (var i = 0; i < types.length; i++) {
+                        Alfresco.logger.debug("Type index", i);
                         var type = types[i];
                         var selected = selectedValuesArray.indexOf(type) > -1;
                         var option = new Option(type, type);
@@ -370,7 +378,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             failureCallback: {
                 fn: function (response) {
-                    Alfresco.logger.debug(response);
+                    Alfresco.logger.debug("populateAllowedTypesSelect failureCallback", arguments);
                 },
                 scope: this
             }

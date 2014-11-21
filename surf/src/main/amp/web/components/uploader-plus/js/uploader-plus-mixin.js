@@ -19,6 +19,7 @@ SoftwareLoop.UploaderPlusMixin = {
         Alfresco.logger.debug("loadTypes", arguments);
         var url;
         if (this.showConfig.destination) {
+            Alfresco.logger.debug("Repository folder", this.showConfig.destination);
             url = YAHOO.lang.substitute(
                 this.allowedContentTypesDestinationTemplate,
                 {
@@ -26,6 +27,7 @@ SoftwareLoop.UploaderPlusMixin = {
                 }
             );
         } else if (this.showConfig.siteId) {
+            Alfresco.logger.debug("Site", this.showConfig.siteId);
             url = YAHOO.lang.substitute(
                 this.allowedContentTypesSiteTemplate,
                 {
@@ -35,6 +37,7 @@ SoftwareLoop.UploaderPlusMixin = {
                 }
             );
         } else {
+            Alfresco.logger.debug("Outside repository or site");
             url = this.allowedContentTypesBlankUrl;
         }
 
@@ -43,6 +46,7 @@ SoftwareLoop.UploaderPlusMixin = {
             responseContentType: Alfresco.util.Ajax.JSON,
             successCallback: {
                 fn: function (response) {
+                    Alfresco.logger.debug("loadTypes successCallback", arguments);
                     this.types = response.json.types;
                     if (callback) {
                         callback();
@@ -52,7 +56,7 @@ SoftwareLoop.UploaderPlusMixin = {
             },
             failureCallback: {
                 fn: function (response) {
-                    Alfresco.logger.debug(response);
+                    Alfresco.logger.debug("loadTypes failureCallback", arguments);
                 },
                 scope: this
             }
@@ -68,6 +72,7 @@ SoftwareLoop.UploaderPlusMixin = {
         this.contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
         this.contentTypeSelectNode.innerHTML = "";
         for (var i = 0; i < this.types.length; i++) {
+            Alfresco.logger.debug("Type index", i);
             var current = this.types[i];
             var option = new Option(current, current, i === 0);
             this.contentTypeSelectNode.add(option);
@@ -112,7 +117,7 @@ SoftwareLoop.UploaderPlusMixin = {
             },
             failureCallback: {
                 fn: function (response) {
-                    Alfresco.logger.debug(response);
+                    Alfresco.logger.debug("onContentTypeChange failureCallback", arguments);
                 },
                 scope: this
             }
@@ -130,6 +135,7 @@ SoftwareLoop.UploaderPlusMixin = {
         var cmNameId = this.id + "-metadata-form_prop_cm_name";
         var cmNameNode = YAHOO.util.Dom.get(cmNameId);
         if (cmNameNode) {
+            Alfresco.logger.debug("metadata-form_prop_cm_name found");
             cmNameNode.value = data.name;
             cmNameNode.readOnly = true;
         }
@@ -140,6 +146,7 @@ SoftwareLoop.UploaderPlusMixin = {
         })[0];
         var oldOnReady = this.formUi.onReady;
         this.formUi.onReady = SoftwareLoop.hitch(this, function () {
+            Alfresco.logger.debug("onReady", arguments);
             oldOnReady.apply(this.formUi, arguments);
             this.formUiFixButtons();
         });
@@ -156,8 +163,10 @@ SoftwareLoop.UploaderPlusMixin = {
             this
         );
         if (this.currentRecordIndex === this.records.length - 1) {
+            Alfresco.logger.debug("Last document");
             submitButton.set("label", this.msg("label.ok"))
         } else {
+            Alfresco.logger.debug("More documents");
             submitButton.set("label", this.msg("uploader.plus.next"))
         }
         var cancelButton = this.formUi.buttons.cancel;
