@@ -16,6 +16,7 @@
                 delete this.types;
                 Alfresco.FlashUpload.prototype.show.call(this, config);
                 this.loadTypes(SoftwareLoop.hitch(this, this.populateSelect));
+                Alfresco.logger.debug("END show");
             },
 
             //**************************************************************************
@@ -30,6 +31,7 @@
                 this.widgets.dataTable.subscribe(
                     "rowsAddEvent", this.onRowsAddEvent, this, true
                 );
+                Alfresco.logger.debug("END _createEmptyDataTable");
             },
 
             //**************************************************************************
@@ -51,6 +53,7 @@
                 this.records = arg.records;
                 this.currentRecordIndex = 0;
                 this.showMetadataDialog();
+                Alfresco.logger.debug("END onRowsAddEvent");
             },
 
             //**************************************************************************
@@ -73,6 +76,7 @@
 
                 this.contentTypeSelectNode.selectedIndex = 0;
                 SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
+                Alfresco.logger.debug("END showMetadataDialog");
             },
 
             showMainDialog: function () {
@@ -89,12 +93,14 @@
 
                 YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
+                Alfresco.logger.debug("END showMainDialog");
             },
 
             _resetGUI: function () {
                 Alfresco.logger.debug("_resetGUI", arguments);
                 this.showMainDialog();
                 Alfresco.FlashUpload.prototype._resetGUI.apply(this, arguments);
+                Alfresco.logger.debug("END _resetGUI");
             },
 
             //**************************************************************************
@@ -115,6 +121,7 @@
                         text: this.msg("validation.errors.correct.before.proceeding")
                     });
                 }
+                Alfresco.logger.debug("END onMetadataSubmit");
             },
 
             processMetadata: function () {
@@ -157,7 +164,7 @@
                 var form = Dom.get(formRuntime.formId);
                 var propertyData = formRuntime._buildAjaxForSubmit(form);
                 this.fileStore[data.id].propertyData = propertyData;
-                Alfresco.logger.debug("propertyData", propertyData, this);
+                Alfresco.logger.debug("END processMetadata", propertyData);
             },
 
             onMetadataCancel: function () {
@@ -171,6 +178,7 @@
                     this._onFileButtonClickHandler(flashId, recordId);
                 }
                 this.showMainDialog();
+                Alfresco.logger.debug("END onMetadataCancel");
             },
 
             //**************************************************************************
@@ -274,5 +282,4 @@
     };
     Alfresco.FlashUpload.superclass = oldConstructor.superclass;
     Alfresco.FlashUpload.prototype = oldConstructor.prototype;
-    Alfresco.logger.debug("DL_onHistoryManagerReady");
 })();

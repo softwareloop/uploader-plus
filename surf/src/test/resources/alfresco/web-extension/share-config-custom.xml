@@ -1,14 +1,5 @@
 <alfresco-config>
 
-    <config evaluator="string-compare" condition="WebFramework">
-        <web-framework>
-            <autowire>
-                <mode>development</mode>
-            </autowire>
-        </web-framework>
-    </config>
-
-
     <!-- Global config section -->
     <config replace="true">
         <flags>

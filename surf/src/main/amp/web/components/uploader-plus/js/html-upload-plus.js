@@ -24,6 +24,7 @@
                         this.fixButtons();
                     }
                 }));
+                Alfresco.logger.debug("END show");
             },
 
             fixButtons: function () {
@@ -39,6 +40,7 @@
                             this.showMetadataDialog();
                         }
                     }, this, this);
+                Alfresco.logger.debug("END fixButtons");
             },
 
 
@@ -73,6 +75,7 @@
                 });
 
                 SoftwareLoop.fireEvent(this.contentTypeSelectNode, "change");
+                Alfresco.logger.debug("END showMetadataDialog");
             },
 
             showMainDialog: function () {
@@ -82,6 +85,7 @@
 
                 YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
+                Alfresco.logger.debug("END showMainDialog");
             },
 
             //**************************************************************************
@@ -101,6 +105,7 @@
                         text: this.msg("validation.errors.correct.before.proceeding")
                     });
                 }
+                Alfresco.logger.debug("END onMetadataSubmit");
             },
 
             processMetadata: function () {
@@ -133,12 +138,13 @@
                     }
                 }
 
-                Alfresco.logger.debug("propertyData", propertyData, submitForm);
+                Alfresco.logger.debug("END processMetadata", propertyData);
             },
 
             onMetadataCancel: function () {
                 Alfresco.logger.debug("onMetadataCancel", arguments);
                 this.showMainDialog();
+                Alfresco.logger.debug("END onMetadataCancel");
             }
 
         }, true);

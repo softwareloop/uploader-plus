@@ -20,6 +20,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         Alfresco.logger.debug("onReady", arguments);
         this.setupDataTable();
         this.setupNewUploadFolderButton();
+        Alfresco.logger.debug("END onReady");
     },
 
     prettyPath: function (path) {
@@ -29,6 +30,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             Alfresco.logger.debug("Adjusting root path");
             result = "/";
         }
+        Alfresco.logger.debug("END prettyPath", result);
         return result;
     },
 
@@ -51,6 +53,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 text: Alfresco.util.encodeHTML(path)
             }
         );
+        Alfresco.logger.debug("END pathFormatter");
     },
 
     allowedTypesFormatter: function (elCell, oRecord, oColumn, oData) {
@@ -64,6 +67,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             text += Alfresco.util.encodeHTML(oData[i]);
         }
         elCell.innerHTML = text;
+        Alfresco.logger.debug("END allowedTypesFormatter");
     },
 
     actionFormatter: function (elCell, oRecord, oColumn, oData) {
@@ -73,6 +77,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             "<a class='edit-upload-folder'>" + this.msg("button.edit") + "</a>" +
             " | <a class='delete-upload-folder'>" + this.msg("button.delete") + "</a>" +
             "</div>";
+        Alfresco.logger.debug("END actionFormatter");
     },
 
     setupDataTable: function () {
@@ -142,6 +147,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             SoftwareLoop.hitch(this, this.deleteUploadFolderHandler),
             "a.delete-upload-folder"
         );
+        Alfresco.logger.debug("END setupDataTable");
     },
 
     setupNewUploadFolderButton: function () {
@@ -156,6 +162,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             null,
             this
         );
+        Alfresco.logger.debug("END setupNewUploadFolderButton");
     },
 
     promptForFolder: function () {
@@ -189,6 +196,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             }
         };
         newUploadFolder.showDialog();
+        Alfresco.logger.debug("END promptForFolder");
     },
 
     createUploadFolder: function (nodeRef) {
@@ -225,6 +233,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             failureMessage: this.msg("operation.failed")
         });
+        Alfresco.logger.debug("END createUploadFolder");
     },
 
     findUploadFolderPosition: function (newObj) {
@@ -238,6 +247,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 return i;
             }
         }
+        Alfresco.logger.debug("END findUploadFolderPosition", i);
         return i;
     },
 
@@ -246,6 +256,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         var tr = el.parentNode.parentNode.parentNode;
         var record = this.widgets.dataTable.getRecord(tr);
         this.editUploadFolderRecord(record);
+        Alfresco.logger.debug("END editUploadFolderHandler");
     },
 
     editUploadFolderRecord: function (record) {
@@ -314,6 +325,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 scope: this
             }
         }).show();
+        Alfresco.logger.debug("END editUploadFolderRecord");
     },
 
     deleteUploadFolderHandler: function (e, el, container) {
@@ -349,6 +361,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             },
             failureMessage: this.msg("operation.failed")
         });
+        Alfresco.logger.debug("END deleteUploadFolderHandler");
     },
 
     populateAllowedTypesSelect: function (selectNode) {
@@ -383,5 +396,6 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 scope: this
             }
         });
+        Alfresco.logger.debug("END populateAllowedTypesSelect");
     }
 });

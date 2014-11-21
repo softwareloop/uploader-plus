@@ -61,11 +61,13 @@ SoftwareLoop.UploaderPlusMixin = {
                 scope: this
             }
         });
+        Alfresco.logger.debug("END loadTypes");
     },
 
     populateSelect: function () {
         Alfresco.logger.debug("populateSelect", arguments);
         if (!this.types) {
+            Alfresco.logger.debug("Types == null");
             return;
         }
         var contentTypeSelectId = this.id + "-content-type-select";
@@ -85,6 +87,7 @@ SoftwareLoop.UploaderPlusMixin = {
             this,
             true
         );
+        Alfresco.logger.debug("END populateSelect");
     },
 
     //**************************************************************************
@@ -122,6 +125,7 @@ SoftwareLoop.UploaderPlusMixin = {
                 scope: this
             }
         });
+        Alfresco.logger.debug("END onContentTypeChange");
     },
 
     onMetadataFormReceived: function (response) {
@@ -150,6 +154,7 @@ SoftwareLoop.UploaderPlusMixin = {
             oldOnReady.apply(this.formUi, arguments);
             this.formUiFixButtons();
         });
+        Alfresco.logger.debug("END onMetadataFormReceived");
     },
 
     formUiFixButtons: function () {
@@ -177,6 +182,7 @@ SoftwareLoop.UploaderPlusMixin = {
             this,
             this
         );
+        Alfresco.logger.debug("END formUiFixButtons");
     }
 
 
