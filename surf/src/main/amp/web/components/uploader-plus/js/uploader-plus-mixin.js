@@ -154,6 +154,9 @@ SoftwareLoop.UploaderPlusMixin = {
             oldOnReady.apply(this.formUi, arguments);
             this.formUiFixButtons();
         });
+
+        this.widgets.panel.center();
+
         Alfresco.logger.debug("END onMetadataFormReceived");
     },
 

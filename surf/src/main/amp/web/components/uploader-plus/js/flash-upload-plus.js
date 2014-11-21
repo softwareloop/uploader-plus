@@ -93,6 +93,7 @@
 
                 YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
+                this.widgets.panel.center();
                 Alfresco.logger.debug("END showMainDialog");
             },
 
