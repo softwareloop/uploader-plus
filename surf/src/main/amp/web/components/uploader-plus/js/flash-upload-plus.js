@@ -44,7 +44,7 @@
                     Alfresco.logger.debug("Single update");
                     return;
                 }
-                if (this.showConfig.mode === !this.types) {
+                if (!this.types) {
                     Alfresco.logger.debug("Types is null");
                     return;
                 }
@@ -107,66 +107,6 @@
             //**************************************************************************
             // Form button handling
             //**************************************************************************
-
-            onMetadataSubmit: function () {
-                Alfresco.logger.debug("onMetadataSubmit", arguments);
-                this.formUi.formsRuntime._setAllFieldsAsVisited();
-                if (this.formUi.formsRuntime.validate()) {
-                    Alfresco.logger.debug("Form validated");
-                    this.processMetadata();
-                    this.currentRecordIndex++;
-                    this.showMetadataDialog();
-                } else {
-                    Alfresco.logger.debug("Form with errors");
-                    Alfresco.util.PopupManager.displayMessage({
-                        text: this.msg("validation.errors.correct.before.proceeding")
-                    });
-                }
-                Alfresco.logger.debug("END onMetadataSubmit");
-            },
-
-            processMetadata: function () {
-                Alfresco.logger.debug("processMetadata", arguments);
-                var contentType = this.contentTypeSelectNode.value;
-                var record = this.records[this.currentRecordIndex];
-                var data = record.getData();
-
-                var firstTdEl = this.widgets.dataTable.getFirstTdEl(record);
-                var contentTypeEl = Dom.getElementsByClassName(
-                    "fileupload-contentType-input", "input", firstTdEl);
-                if (contentTypeEl && contentTypeEl.length === 1) {
-                    Alfresco.logger.debug("fileupload-contentType-input found");
-                    contentTypeEl[0].value = contentType;
-                } else {
-                    Alfresco.logger.debug("fileupload-contentType-input not found");
-                }
-
-                var secondTdEl = this.widgets.dataTable.getNextTdEl(firstTdEl);
-                var progressInfoEl = Dom.getElementsByClassName(
-                    "fileupload-progressInfo-span", "span", secondTdEl);
-                if (progressInfoEl && progressInfoEl.length === 1) {
-                    Alfresco.logger.debug("fileupload-progressInfo-span found");
-                    YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
-                } else {
-                    Alfresco.logger.debug("fileupload-progressInfo-span not found");
-                }
-                var typeInfoEl = Dom.getElementsByClassName(
-                    "fileupload-typeInfo-span", "span", secondTdEl);
-                if (typeInfoEl && typeInfoEl.length === 1) {
-                    Alfresco.logger.debug("fileupload-typeInfo-span found");
-                    YAHOO.util.Dom.removeClass(typeInfoEl[0], "hidden");
-                    typeInfoEl[0].innerHTML =
-                        Alfresco.util.encodeHTML(this.msg("content.type") + ": " + contentType);
-                } else {
-                    Alfresco.logger.debug("fileupload-typeInfo-span not found");
-                }
-
-                var formRuntime = this.formUi.formsRuntime;
-                var form = Dom.get(formRuntime.formId);
-                var propertyData = formRuntime._buildAjaxForSubmit(form);
-                this.fileStore[data.id].propertyData = propertyData;
-                Alfresco.logger.debug("END processMetadata", propertyData);
-            },
 
             onMetadataCancel: function () {
                 Alfresco.logger.debug("onMetadataCancel", arguments);

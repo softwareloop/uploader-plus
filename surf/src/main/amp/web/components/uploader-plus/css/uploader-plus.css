@@ -15,6 +15,7 @@ span.fileupload-typeInfo-span.uploader-plus {
     left: 40px;
 }
 
+.flash-upload span.fileupload-filesize-span.uploader-plus,
 .dnd-upload span.fileupload-filesize-span.uploader-plus {
     right: 8px;
     top: 22px;
