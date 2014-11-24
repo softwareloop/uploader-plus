@@ -155,9 +155,26 @@ SoftwareLoop.UploaderPlusMixin = {
             this.formUiFixButtons();
         });
 
-        this.widgets.panel.center();
+        this.centerPanel();
 
         Alfresco.logger.debug("END onMetadataFormReceived");
+    },
+
+    getPanel: function () {
+        Alfresco.logger.debug("getPanel", arguments);
+        if (this.widgets.panel) {
+            Alfresco.logger.debug("4.2.x-style panel");
+            return this.widgets.panel;
+        } else {
+            Alfresco.logger.debug("5.0.x-style panel");
+            return this.panel;
+        }
+    },
+
+    centerPanel: function () {
+        Alfresco.logger.debug("centerPanel", arguments);
+        this.getPanel().center();
+        Alfresco.logger.debug("END centerPanel");
     },
 
     formUiFixButtons: function () {
