@@ -11,3 +11,5 @@
 *~
 *.bak
 *.orig
+*.project
+/.settings/
