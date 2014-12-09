@@ -26,7 +26,8 @@
         <div class="bd" id="${el}-main-dialog">
             <div class="browse-wrapper">
                 <div class="center">
-                    <div id="${el}-flashuploader-div"></div>
+                    <div class="hidden browse"
+                         id="${el}-flashuploader-div"></div>
                     <div class="label">${msg("label.browse")}</div>
                 </div>
             </div>
@@ -89,6 +90,7 @@
                          class="fileupload-docImage-img"
                          alt="file"/>
                     <span class="fileupload-progressInfo-span"></span>
+                    <span class="fileupload-filesize-span"></span>
                     <span class="fileupload-typeInfo-span uploader-plus hidden"></span>
                 </div>
                 <div id="${el}-right-div" class="fileupload-right-div">

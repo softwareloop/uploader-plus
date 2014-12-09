@@ -10,4 +10,13 @@ Documentation:
 * [Introduction](http://softwareloop.com/uploader-plus-an-alfresco-uploader-that-prompts-for-metadata/)
 * [Installation](http://softwareloop.com/uploader-plus-installation/)
 * [Configuration](http://softwareloop.com/uploader-plus-configuration/)
+* [Working with custom content types](http://softwareloop.com/uploader-plus-working-with-custom-content-types/)
+* [Compatibility tests](http://softwareloop.com/uploader-plus-compatibility-tests/)
 
+Authors:
+
+* [Paolo Predonzani](https://github.com/softwareloop)
+
+Contributors:
+
+* [Douglas C. R. Paes](https://github.com/douglascrp)

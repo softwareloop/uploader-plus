@@ -6,6 +6,7 @@ var SoftwareLoop = SoftwareLoop || {
     },
 
     printStackTrace: function (e) {
+        Alfresco.logger.debug("printStackTrace", arguments);
         var stack;
         if (e.stack) {
             stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
@@ -17,18 +18,23 @@ var SoftwareLoop = SoftwareLoop || {
     },
 
     fireEvent: function (node, eventType, canBubble, cancelable) {
+        Alfresco.logger.debug("fireEvent", arguments);
         if (typeof(canBubble) === 'undefined') {
+            Alfresco.logger.debug("Setting canBubble to default");
             canBubble = true;
         }
         if (typeof(cancelable) === 'undefined') {
+            Alfresco.logger.debug("Setting cancelable to default");
             cancelable = true;
         }
         var evt;
         if (document.createEvent) {
+            Alfresco.logger.debug("document.createEvent available");
             evt = document.createEvent("HTMLEvents");
             evt.initEvent(eventType, canBubble, cancelable);
             return node.dispatchEvent(evt);
         } else {
+            Alfresco.logger.debug("document.createEvent not available");
             evt = document.createEventObject();
             return node.fireEvent('on' + eventType, evt);
         }
