@@ -76,7 +76,7 @@ SoftwareLoop.UploaderPlusMixin = {
         for (var i = 0; i < this.types.length; i++) {
             Alfresco.logger.debug("Type index", i);
             var current = this.types[i];
-            var option = new Option(current, current, i === 0);
+            var option = new Option(this.msg("type." + current.replace(":", "_")), current, i === 0);
             this.contentTypeSelectNode.add(option);
         }
         YAHOO.util.Event.removeListener(this.contentTypeSelectNode, "change");
