@@ -64,7 +64,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
             if (i > 0) {
                 text += ", ";
             }
-            text += Alfresco.util.encodeHTML(oData[i]);
+            text += Alfresco.util.encodeHTML(this.msg("type." + oData[i].replace(":", "_")));
         }
         elCell.innerHTML = text;
         Alfresco.logger.debug("END allowedTypesFormatter");
@@ -382,7 +382,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                         Alfresco.logger.debug("Type index", i);
                         var type = types[i];
                         var selected = selectedValuesArray.indexOf(type) > -1;
-                        var option = new Option(type, type);
+                        var option = new Option(this.msg("type." + type.replace(":", "_")), type);
                         selectNode.add(option);
                         option.selected = selected;
                     }
