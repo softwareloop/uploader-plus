@@ -1,0 +1,4 @@
+<config>
+	<exclude-cmcontent-subtypes>bpm:*,cm:dictionaryModel,cm:savedquery,cm:thumbnail,cmiscustom:*,dl:*,download:*,fm:*,ia:*,imap:*,imwf:*,inwf:*,lnk:*,pubwf:*,surf:*,trx:*,wca:*,wcm:*,wcmwf:*,wf:*
+	</exclude-cmcontent-subtypes>
+</config>

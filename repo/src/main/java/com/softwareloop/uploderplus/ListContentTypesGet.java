@@ -9,6 +9,8 @@ import org.springframework.extensions.webscripts.DeclarativeWebScript;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.WebScriptRequest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -48,6 +50,13 @@ public class ListContentTypesGet extends DeclarativeWebScript {
     protected Map<String, Object> executeImpl(WebScriptRequest req, Status status, Cache cache) {
         logger.debug("ListContentTypesGet.execute()");
 
+        String configPath = getDescription().getId() + ".config.xml";
+        try {
+			InputStream input = this.getContainer().getSearchPath().getDocument(configPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
         Map<String, Object> model = new HashMap<>();
 
         Collection<QName> subtypes =
