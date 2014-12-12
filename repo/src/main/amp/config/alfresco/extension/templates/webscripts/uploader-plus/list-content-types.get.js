@@ -3,12 +3,12 @@
 
 // Load all exclude types and type patterns
 var webscriptConfig = new XML(config.script);
-var excludes = webscriptConfig["exclude-cmcontent-subtypes"].split(",");
+var excludes = webscriptConfig["exclude-cmcontent-subtypes"]["exclude-cmcontent-subtype"];
 
 // A function to evaluate if a certain type is excluded
 function isExcluded(type) {
-    for (var i = 0; i < excludes.length; i++) {
-        var exclude = excludes[i];
+    for (var index in excludes) {
+        var exclude = String(excludes[index]);
         if (exclude.lastIndexOf("*") === exclude.length - 1) {
             var prefix = exclude.slice(0, exclude.length - 1);
             if (type.indexOf(prefix) == 0) {
