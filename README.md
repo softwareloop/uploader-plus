@@ -16,7 +16,5 @@ Documentation:
 Authors:
 
 * [Paolo Predonzani](https://github.com/softwareloop)
-
-Contributors:
-
 * [Douglas C. R. Paes](https://github.com/douglascrp)
+
