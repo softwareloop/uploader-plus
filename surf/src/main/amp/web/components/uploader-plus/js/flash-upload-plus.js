@@ -203,8 +203,10 @@
                                     Alfresco.logger.debug("Current:", current);
                                     if (fileInfo.propertyData.hasOwnProperty(current) &&
                                         (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
-                                        Alfresco.logger.debug("Adding attribute", current);
-                                        attributes[current] = fileInfo.propertyData[current];
+                                        if (current != "prop_mimetype" || (current == "prop_mimetype" && fileInfo.propertyData[current] && fileInfo.propertyData[current].length > 0)) {
+                                            Alfresco.logger.debug("Adding attribute", current);
+                                            attributes[current] = fileInfo.propertyData[current];
+                                        }
                                     }
                                 }
                             }

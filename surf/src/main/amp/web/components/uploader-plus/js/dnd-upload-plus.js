@@ -178,8 +178,10 @@
                             Alfresco.logger.debug("Current:", current);
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
                                 (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
-                                Alfresco.logger.debug("Appending", current);
-                                formData.append(current, fileInfo.propertyData[current]);
+                                if (current != "prop_mimetype" || (current == "prop_mimetype" && fileInfo.propertyData[current] && fileInfo.propertyData[current].length > 0)) {
+                                    Alfresco.logger.debug("Appending", current);
+                                    formData.append(current, fileInfo.propertyData[current]);
+                                }
                             }
                         }
                     }
@@ -250,8 +252,10 @@
                         for (var current in fileInfo.propertyData) {
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
                                 (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
-                                customFormData += rn + "Content-Disposition: form-data; name=\"" + current + "\"";
-                                customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.propertyData[current])) + rn + "--" + multipartBoundary + "--";
+                                if (current != "prop_mimetype" || (current == "prop_mimetype" && fileInfo.propertyData[current] && fileInfo.propertyData[current].length > 0)) {
+                                    customFormData += rn + "Content-Disposition: form-data; name=\"" + current + "\"";
+                                    customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.propertyData[current])) + rn + "--" + multipartBoundary + "--";
+                                }
                             }
                         }
                     }
