@@ -130,12 +130,14 @@
                     Alfresco.logger.debug("Current:", current);
                     if (propertyData.hasOwnProperty(current) &&
                         (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
-                        Alfresco.logger.debug("Adding property", current);
-                        var input = document.createElement("input");
-                        input.setAttribute("type", "hidden");
-                        input.setAttribute("name", current);
-                        input.setAttribute("value", propertyData[current]);
-                        submitForm.appendChild(input);
+                        if (current != "prop_mimetype" || (current == "prop_mimetype" && propertyData[current] && propertyData[current].length > 0)) {
+                            Alfresco.logger.debug("Adding property", current);
+                            var input = document.createElement("input");
+                            input.setAttribute("type", "hidden");
+                            input.setAttribute("name", current);
+                            input.setAttribute("value", propertyData[current]);
+                            submitForm.appendChild(input);
+                        }
                     }
                 }
 
