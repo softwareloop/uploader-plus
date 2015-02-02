@@ -18,3 +18,6 @@ Authors:
 * [Paolo Predonzani](https://github.com/softwareloop)
 * [Douglas C. R. Paes](https://github.com/douglascrp)
 
+Contributors:
+
+* [Stéphane Prouvez](https://github.com/sprouvez)
