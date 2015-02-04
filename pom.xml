@@ -24,18 +24,33 @@
         <developer>
             <name>Paolo Predonzani</name>
             <email>paolo.predonzani@gmail.com</email>
+            <url>https://github.com/softwareloop</url>
+        </developer>
+        <developer>
+            <name>Douglas C. R. Paes</name>
+            <url>https://github.com/douglascrp</url>
         </developer>
     </developers>
+    <contributors>
+        <contributor>
+            <name>Stéphane Prouvez</name>
+            <url>https://github.com/sprouvez</url>
+        </contributor>
+    </contributors>
 
     <parent>
         <groupId>org.alfresco.maven</groupId>
         <artifactId>alfresco-sdk-parent</artifactId>
-        <version>1.2.0</version>
+        <version>2.0.0</version>
     </parent>
 
     <modules>
-        <module>repo</module>
-        <module>surf</module>
+        <module>repo-amp</module>
+        <module>repo-war</module>
+        <module>surf-amp</module>
+        <module>surf-war</module>
+        <module>solr</module>
+        <module>runner</module>
         <!-- coming soon
         <module>aikau</module>
         -->
@@ -43,7 +58,7 @@
 
     <properties>
         <alfresco.groupId>org.alfresco</alfresco.groupId>
-        <alfresco.version>4.2.f</alfresco.version>
+        <alfresco.version>5.0.c</alfresco.version>
         <app.log.root.level>WARN</app.log.root.level>
         <alfresco.client.war.groupId>org.alfresco</alfresco.client.war.groupId>
         <alfresco.client.war.version>${alfresco.version}
@@ -68,7 +83,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven.resources.version}</version>
+                <version>2.7</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <nonFilteredFileExtensions>
@@ -89,17 +104,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>snapshots-repo</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

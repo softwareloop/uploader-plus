@@ -5,7 +5,7 @@ function cleanUpPath(path) {
     if (path.charAt(path.length - 1) != "/") {
         path = path + "/";
     }
-    if (path.charAt(0) == "/") {
+    if (path.charAt(0) == "/" && path.length > 1) {
         path = path.substr(1);
     }
     return path;
@@ -15,6 +15,13 @@ var destination = args.destination;
 var siteId = args.siteid;
 var containerId = args.containerid;
 var path = cleanUpPath(args.path);
+if (logger.isLoggingEnabled()) {
+	logger.log("destination: " + destination);
+	logger.log("siteId: " + siteId);
+	logger.log("containerId: " + containerId);
+	logger.log("args.path: " + args.path);
+	logger.log("path: " + path);
+}
 
 var destNode = null;
 

@@ -1,9 +1,12 @@
 /*/target
-/repo/alf_data_dev
+/*/overlays
+/repo-amp/alf_data_dev/
 /alf_data_dev
-/repo/alfresco.log*
-/surf/share.log*
+/repo-amp/alfresco.log*
+/surf-amp/share.log*
 /.idea
+/solr/solr_home
+solr.log
 *.DS_Store
 *.iml
 *.ipr
