@@ -1,9 +1,9 @@
 /*/target
 /*/overlays
-/repo-amp/alf_data_dev/
+/repo/alf_data_dev/
 /alf_data_dev
-/repo-amp/alfresco.log*
-/surf-amp/share.log*
+/repo/alfresco.log*
+/surf/share.log*
 /.idea
 /solr/solr_home
 solr.log
