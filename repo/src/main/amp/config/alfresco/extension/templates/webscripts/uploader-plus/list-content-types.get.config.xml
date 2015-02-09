@@ -21,5 +21,6 @@
         <exclude-cmcontent-subtype>wcm:*</exclude-cmcontent-subtype>
         <exclude-cmcontent-subtype>wcmwf:*</exclude-cmcontent-subtype>
         <exclude-cmcontent-subtype>wf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>srft:*</exclude-cmcontent-subtype>
     </exclude-cmcontent-subtypes>
 </config>
