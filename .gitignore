@@ -1,3 +1,4 @@
+/target
 /*/target
 /*/overlays
 /repo/alf_data_dev/
@@ -5,8 +6,6 @@
 /repo/alfresco.log*
 /surf/share.log*
 /.idea
-/solr/solr_home
-solr.log
 *.DS_Store
 *.iml
 *.ipr
