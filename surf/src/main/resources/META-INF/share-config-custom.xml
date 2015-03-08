@@ -27,7 +27,7 @@
                 <appearance>
                     <field id="up:allowedTypes">
                         <control
-                                template="/uploader-plus/controls/selecttypes.ftl">
+                                template="/com/softwareloop/uploader-plus/controls/selecttypes.ftl">
                             <control-param name="styleClass">
                                 supported-types-select
                             </control-param>
