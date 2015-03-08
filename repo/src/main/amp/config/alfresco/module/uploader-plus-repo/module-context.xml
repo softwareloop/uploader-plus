@@ -8,12 +8,12 @@
           depends-on="dictionaryBootstrap">
         <property name="models">
             <list>
-                <value>alfresco/extension/model/uploader-plus-model.xml</value>
+                <value>alfresco/module/uploader-plus-repo/model/uploader-plus-model.xml</value>
             </list>
         </property>
         <property name="labels">
             <list>
-                <value>alfresco/extension/messages/uploader-plus</value>
+                <value>alfresco/module/uploader-plus-repo/messages/uploader-plus</value>
             </list>
         </property>
     </bean>
