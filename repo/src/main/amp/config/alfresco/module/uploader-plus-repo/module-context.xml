@@ -23,4 +23,14 @@
           parent="webscript">
         <constructor-arg index="0" ref="DictionaryService"/>
     </bean>
+    
+    <bean id="uploader-plus-web-client-config" class="org.springframework.extensions.config.ConfigBootstrap" init-method="register">
+        <!-- if web client is not available, bootstrap this to the mimetypeConfigService where we know it won't do harm -->
+        <property name="configService" value="#{containsObject('webClientConfigService')?getObject('webClientConfigService'):getObject('mimetypeConfigService')}" />
+        <property name="configs">
+            <list>
+                <value>classpath:alfresco/module/uploader-plus-repo/web-client-config-custom.xml</value>
+            </list>
+        </property>
+    </bean>
 </beans>
