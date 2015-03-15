@@ -1,0 +1,1 @@
+<#include "/org/alfresco/repository/upload/upload.post.json.ftl" />

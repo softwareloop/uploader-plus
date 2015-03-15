@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Flash upload</shortname>
+  <description>File upload component that uses flash to select and upload multiple files</description>
+  <url>/components/uploader-plus/flash-upload</url>
+</webscript>
