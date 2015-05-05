@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Html File upload</shortname>
+  <description>File upload component that uses the browser standard file picker</description>
+  <url>/components/uploader-plus/html-upload</url>
+</webscript>
