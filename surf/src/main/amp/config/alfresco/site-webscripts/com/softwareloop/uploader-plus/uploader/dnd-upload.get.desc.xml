@@ -1,0 +1,5 @@
+<webscript>
+  <shortname>Drag and drop upload</shortname>
+  <description>Drag and drop upload component that shows the progress of uploading multiple files</description>
+  <url>/components/uploader-plus/dnd-upload</url>
+</webscript>

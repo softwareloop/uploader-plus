@@ -1,49 +1,67 @@
 (function () {
     Alfresco.logger.debug("dnd-upload-plus.js");
 
-    var oldConstructor = Alfresco.DNDUpload;
-
-    Alfresco.DNDUpload = function (htmlId) {
-        Alfresco.logger.debug("DNDUpload constructor");
-        var that = new oldConstructor(htmlId);
-        YAHOO.lang.augmentObject(that, SoftwareLoop.UploaderPlusMixin);
-        YAHOO.lang.augmentObject(that, {
-            //**************************************************************************
-            // Initialisation at show
-            //**************************************************************************
-
-            show: function (config) {
+    SoftwareLoop.DNDUpload = function (id)
+    {
+        // use "null" to avoid Alfresco.component.Base + Alfresco.util.ComponentManager to override Alfresco.DNDUpload
+        SoftwareLoop.DNDUpload.superclass.constructor.call(this, "null");
+        
+        // re-register with correct id and name
+        Alfresco.util.ComponentManager.unregister(this);
+        this.id = (typeof id == "undefined" || id === null) ? Alfresco.util.generateDomId() : id;
+        this.name = "SoftwareLoop.DNDUpload";
+        Alfresco.util.ComponentManager.register(this);
+        
+        return this;
+    };
+    
+    YAHOO.lang.extend(SoftwareLoop.DNDUpload, Alfresco.DNDUpload, YAHOO.lang.merge(SoftwareLoop.UploaderPlusMixin, {
+            
+            spawnUploadsBooked : false,
+            
+            savedDialogTitle : null,
+            
+            records : null,
+            
+            currentRecordIndex : -1,
+            
+            show : function(config)
+            {
                 Alfresco.logger.debug("show", arguments);
-                delete this.types;
-                Alfresco.DNDUpload.prototype.show.call(this, config);
+                
+                SoftwareLoop.DNDUpload.superclass.show.call(this, config);
 
-                this.loadTypes(SoftwareLoop.hitch(this, function () {
+                this.loadTypes(function () {
                     Alfresco.logger.debug("loadTypes callback");
                     this.populateSelect();
                     if (this.spawnUploadsBooked) {
                         Alfresco.logger.debug("this.spawnUploadsBooked is true");
-                        delete this.spawnUploadsBooked;
+                        this.spawnUploadsBooked = false;
                         this._spawnUploads();
                     }
-                }));
+                }, this);
                 Alfresco.logger.debug("END show");
             },
-
+            
             _spawnUploads: function () {
                 Alfresco.logger.debug("_spawnUploads", arguments);
-                if (typeof(this.types) === "undefined") {
+                
+                if (!this.typesLoaded) {
                     Alfresco.logger.debug("Types not loaded yet. Postponing");
                     this.spawnUploadsBooked = true;
                     return;
                 }
+                
                 if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
                     Alfresco.logger.debug("Single update");
-                    return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
+                    return SoftwareLoop.DNDUpload.superclass._spawnUploads.call(this);
                 }
-                if (!this.types) {
+                
+                if (this.types == null) {
                     Alfresco.logger.debug("Types is null");
-                    return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
+                    return SoftwareLoop.DNDUpload.superclass._spawnUploads.call(this);
                 }
+                
                 this.savedDialogTitle =
                     YAHOO.util.Dom.get(this.id + "-title-span").innerText;
                 this.records = this.dataTable.getRecordSet().getRecords();
@@ -52,17 +70,13 @@
                 this.showMetadataDialog();
                 Alfresco.logger.debug("END _spawnUploads");
             },
-
-            //**************************************************************************
-            // Metadata dialog management
-            //**************************************************************************
-
+            
             showMetadataDialog: function () {
                 Alfresco.logger.debug("showMetadataDialog", arguments);
                 if (this.currentRecordIndex == this.records.length) {
                     Alfresco.logger.debug("At the end of the records array");
                     this.showMainDialog();
-                    return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
+                    return SoftwareLoop.DNDUpload.superclass._spawnUploads.apply(this);
                 }
                 var currentRecord = this.records[this.currentRecordIndex];
                 var data = currentRecord.getData();
@@ -70,7 +84,7 @@
                 var fileInfo = this.fileStore[fileId];
                 if (fileInfo.state !== this.STATE_ADDED) {
                     Alfresco.logger.debug("State != STATE_ADDED");
-                    return Alfresco.DNDUpload.prototype._spawnUploads.apply(this);
+                    return SoftwareLoop.DNDUpload.superclass._spawnUploads.apply(this);
                 }
 
                 YAHOO.util.Dom.get(this.id + "-title-span").innerText =
@@ -86,15 +100,15 @@
 
             showMainDialog: function () {
                 Alfresco.logger.debug("showMainDialog", arguments);
-                if (this.savedDialogTitle) {
+                if (this.savedDialogTitle != null) {
                     Alfresco.logger.debug("Restore saved dialog title");
                     YAHOO.util.Dom.get(this.id + "-title-span").innerText =
                         this.savedDialogTitle;
-                    delete this.savedDialogTitle;
+                    this.savedDialogTitle = null;
                 }
 
-                delete this.records;
-                delete this.currentRecordIndex;
+                this.records = null;
+                this.currentRecordIndex = -1;
 
                 YAHOO.util.Dom.removeClass(this.id + "-main-dialog", "fake-hidden");
                 YAHOO.util.Dom.addClass(this.id + "-metadata-dialog", "hidden");
@@ -105,7 +119,7 @@
             _resetGUI: function () {
                 Alfresco.logger.debug("_resetGUI", arguments);
                 this.showMainDialog();
-                Alfresco.DNDUpload.prototype._resetGUI.apply(this, arguments);
+                SoftwareLoop.DNDUpload.superclass._resetGUI.apply(this, arguments);
                 Alfresco.logger.debug("END _resetGUI");
             },
 
@@ -120,8 +134,8 @@
                 this.onCancelOkButtonClick(event);
                 Alfresco.logger.debug("END onMetadataCancel");
             },
-
-            //**************************************************************************
+            
+          //**************************************************************************
             // Upload override
             //**************************************************************************
 
@@ -132,7 +146,7 @@
 
                 var url;
                 if (this.showConfig.uploadURL === null) {
-                    url = Alfresco.constants.PROXY_URI + "api/upload";
+                    url = Alfresco.constants.PROXY_URI + "uploader-plus/upload";
                 }
                 else {
                     url = Alfresco.constants.PROXY_URI + this.showConfig.uploadURL;
@@ -177,7 +191,10 @@
                         for (var current in fileInfo.propertyData) {
                             Alfresco.logger.debug("Current:", current);
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
-                                (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
+                                    (current != "prop_mimetype" ||
+                                            (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
+                                    )) {
+                                
                                 Alfresco.logger.debug("Appending", current);
                                 formData.append(current, fileInfo.propertyData[current]);
                             }
@@ -249,7 +266,10 @@
                     if (fileInfo.propertyData) {
                         for (var current in fileInfo.propertyData) {
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
-                                (current.indexOf("prop_") === 0 || current.indexOf("assoc_") === 0)) {
+                                    (current != "prop_mimetype" ||
+                                            (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
+                                    )) {
+                                
                                 customFormData += rn + "Content-Disposition: form-data; name=\"" + current + "\"";
                                 customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.propertyData[current])) + rn + "--" + multipartBoundary + "--";
                             }
@@ -263,10 +283,5 @@
                     fileInfo.request.sendAsBinary(customFormData);
                 }
             }
-
-        }, true);
-        return that;
-    };
-    Alfresco.DNDUpload.superclass = oldConstructor.superclass;
-    Alfresco.DNDUpload.prototype = oldConstructor.prototype;
+    }));
 })();

@@ -1,0 +1,26 @@
+<config>
+    <exclude-cmcontent-subtypes>
+        <exclude-cmcontent-subtype>bpm:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>cm:dictionaryModel
+        </exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>cm:savedquery</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>cm:thumbnail</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>cmiscustom:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>dl:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>download:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>fm:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>ia:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>imap:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>imwf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>inwf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>lnk:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>pubwf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>surf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>trx:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>wca:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>wcm:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>wcmwf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>wf:*</exclude-cmcontent-subtype>
+        <exclude-cmcontent-subtype>srft:*</exclude-cmcontent-subtype>
+    </exclude-cmcontent-subtypes>
+</config>

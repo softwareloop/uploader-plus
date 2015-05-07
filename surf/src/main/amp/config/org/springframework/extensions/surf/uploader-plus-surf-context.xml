@@ -3,7 +3,7 @@
     <bean id="uploader-plus.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
         <property name="resourceBundles">
             <list>
-                <value>alfresco.web-extension.messages.uploader-plus</value>
+                <value>alfresco.messages.uploader-plus</value>
             </list>
         </property>
     </bean>

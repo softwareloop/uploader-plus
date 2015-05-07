@@ -1,5 +1,7 @@
+/target
 /*/target
-/repo/alf_data_dev
+/*/overlays
+/repo/alf_data_dev/
 /alf_data_dev
 /repo/alfresco.log*
 /surf/share.log*
@@ -11,5 +13,6 @@
 *~
 *.bak
 *.orig
+*.log
 *.project
 /.settings/
