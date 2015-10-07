@@ -168,9 +168,9 @@
 
                     // BEGIN: uploader-plus customisations
                     Alfresco.logger.debug("fileInfo", fileInfo);
-                    if (this.contentTypeSelectNode && this.contentTypeSelectNode.value) {
-                        Alfresco.logger.debug("Appending content type", this.contentTypeSelectNode.value);
-                        formData.append("contentType", this.contentTypeSelectNode.value);
+                    if (fileInfo.propertyData.contentType) {
+                        Alfresco.logger.debug("Appending content type", fileInfo.propertyData.contentType);
+                        formData.append("contentType", fileInfo.propertyData.contentType);
                     }
                     if (fileInfo.propertyData) {
                         Alfresco.logger.debug("Processing propertyData");
