@@ -168,11 +168,21 @@
 
                     // BEGIN: uploader-plus customisations
                     Alfresco.logger.debug("fileInfo", fileInfo);
-                    if (fileInfo.propertyData.contentType) {
-                        Alfresco.logger.debug("Appending content type", fileInfo.propertyData.contentType);
-                        formData.append("contentType", fileInfo.propertyData.contentType);
-                    }
-                    if (fileInfo.propertyData) {
+
+                    if (!fileInfo.propertyData) {
+
+                        if (this.contentTypeSelectNode && this.contentTypeSelectNode.value) {
+                            Alfresco.logger.debug("Appending content type", this.contentTypeSelectNode.value);
+                            formData.append("contentType", this.contentTypeSelectNode.value);
+                        }
+
+                    } else {
+
+                        if (fileInfo.propertyData.contentType) {
+                            Alfresco.logger.debug("Appending content type", fileInfo.propertyData.contentType);
+                            formData.append("contentType", fileInfo.propertyData.contentType);
+                        }
+
                         Alfresco.logger.debug("Processing propertyData");
                         for (var current in fileInfo.propertyData) {
                             Alfresco.logger.debug("Current:", current);
