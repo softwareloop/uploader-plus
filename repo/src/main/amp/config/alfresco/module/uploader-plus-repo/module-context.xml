@@ -18,7 +18,7 @@
         </property>
     </bean>
 
-    <bean id="webscript.uploader-plus.list-content-types.get"
+    <bean id="webscript.com.softwareloop.uploader-plus.list-content-types.get"
           class="com.softwareloop.uploderplus.ListContentTypesGet"
           parent="webscript">
         <constructor-arg index="0" ref="DictionaryService"/>
