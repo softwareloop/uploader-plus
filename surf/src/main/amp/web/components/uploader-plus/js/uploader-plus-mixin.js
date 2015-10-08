@@ -271,6 +271,7 @@
             var formRuntime = this.formUi.formsRuntime;
             var form = Dom.get(formRuntime.formId);
             var propertyData = formRuntime._buildAjaxForSubmit(form);
+            propertyData.contentType = contentType;
             this.fileStore[data.id].propertyData = propertyData;
             Alfresco.logger.debug("END processMetadata", propertyData);
         },
