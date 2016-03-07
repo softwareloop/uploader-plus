@@ -1,4 +1,4 @@
-<import resource="classpath:alfresco/templates/webscripts/org/alfresco/repository/upload/upload.post.js" />
+<import resource="classpath:/alfresco/templates/webscripts/org/alfresco/repository/upload/upload.post.js" />
 // The above import allows us to reuse Alfresco original upload web script.
 // When end user overrides via extension directory, this won't pick up the override.
 // This is a drawback of Alfresco JS importing.
