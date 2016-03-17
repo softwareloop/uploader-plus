@@ -2,8 +2,7 @@
     <@inlineScript group="upload">
         Alfresco.getFileUploadInstance().setOptions({
             flashUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.FlashUpload) ? "SoftwareLoop.FlashUpload" : "Alfresco.FlashUpload",
-            htmlUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.HtmlUpload) ? "SoftwareLoop.HtmlUpload" : "Alfresco.HtmlUpload",
-            dndUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.DNDUpload) ? "SoftwareLoop.DNDUpload" : "Alfresco.DNDUpload"
+            htmlUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.HtmlUpload) ? "SoftwareLoop.HtmlUpload" : "Alfresco.HtmlUpload"
         });
         
         Alfresco.getDNDUploadProgressInstance = function()
