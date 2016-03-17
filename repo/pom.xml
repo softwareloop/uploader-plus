@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.softwareloop</groupId>
     <artifactId>uploader-plus-repo</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.4</version>
     <name>uploader-plus-repo</name>
     <packaging>amp</packaging>
     <description>uploader-plus AMP for Alfresco repository 5.1.x</description>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>com.softwareloop</groupId>
         <artifactId>uploader-plus</artifactId>
-        <version>1.4-SNAPSHOT</version>
+        <version>1.4</version>
     </parent>
 
     <!-- 
