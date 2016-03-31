@@ -31,7 +31,9 @@ if (destination !== null) {
     var site = siteService.getSite(siteId);
     destNode = site.getContainer(containerId);
 
-    destNode = destNode.childByNamePath(path);
+    if (path != "/") {
+        destNode = destNode.childByNamePath(path);
+    }
 }
 
 
