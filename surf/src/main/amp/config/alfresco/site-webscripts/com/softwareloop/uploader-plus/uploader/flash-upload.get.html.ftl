@@ -14,6 +14,11 @@
 
 <@markup id="widgets">
     <@createWidgets group="upload"/>
+    <@inlineScript group="upload">
+    Alfresco.getFileUploadInstance().setOptions({
+    flashUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.FlashUpload) ? "SoftwareLoop.FlashUpload" : "Alfresco.FlashUpload"
+    });
+    </@>
 </@>
 
 <@markup id="html">
