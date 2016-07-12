@@ -16,6 +16,12 @@
     <@createWidgets group="upload"/>
     <@inlineScript group="upload">
     htmlUpload.setMaximumFileSizeLimit(${fileUploadSizeLimit});
+    if(Alfresco.getFileUploadInstance)
+    {
+        Alfresco.getFileUploadInstance().setOptions({
+        htmlUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.HtmlUpload) ? "SoftwareLoop.HtmlUpload" : "Alfresco.HtmlUpload"
+        });
+    }
     </@>
 </@>
 

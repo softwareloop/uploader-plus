@@ -137,14 +137,14 @@
                 var formRuntime = this.formUi.formsRuntime;
                 var form = Dom.get(formRuntime.formId);
                 var propertyData = formRuntime._buildAjaxForSubmit(form);
-                
+
                 var submitForm =
                     YAHOO.util.Dom.get(this.widgets.form.formId);
                 for (var current in propertyData) {
                     Alfresco.logger.debug("Current:", current);
-                    if (fileInfo.propertyData.hasOwnProperty(current) &&
+                    if (propertyData.hasOwnProperty(current) &&
                             (current != "prop_mimetype" ||
-                                    (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
+                                    (current == "prop_mimetype" && YAHOO.lang.isString(propertyData[current]) && propertyData[current].length > 0)
                             )) {
                         Alfresco.logger.debug("Adding property", current);
                         var input = document.createElement("input");
