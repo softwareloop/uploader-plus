@@ -16,3 +16,4 @@
 *.log
 *.project
 /.settings/
+surf/.idea
