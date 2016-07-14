@@ -1,4 +1,4 @@
-<@markup id="custom-widgets" target="widgets" action="after">
+<@markup id="custom-widgets" target="widgets" action="after" scope="global">>
     <@inlineScript group="upload">
         Alfresco.getFileUploadInstance().setOptions({
             flashUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.FlashUpload) ? "SoftwareLoop.FlashUpload" : "Alfresco.FlashUpload",
