@@ -17,9 +17,12 @@
     <@inlineScript group="upload">
     dndUpload.setInMemoryLimit("${inMemoryLimit}");
     dndUpload.setMaximumFileSizeLimit(${fileUploadSizeLimit});
-	Alfresco.getFileUploadInstance().setOptions({
-       dndUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.DNDUpload) ? "SoftwareLoop.DNDUpload" : "Alfresco.DNDUpload"
-    });
+    if(Alfresco.getFileUploadInstance)
+    {
+        Alfresco.getFileUploadInstance().setOptions({
+           dndUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.DNDUpload) ? "SoftwareLoop.DNDUpload" : "Alfresco.DNDUpload"
+        });
+    }
     </@>
 </@>
 
