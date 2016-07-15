@@ -3,6 +3,7 @@
         <module>
             <id>uploader-plus-surf-activation</id>
             <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
             
             <customizations>
                 <customization>
