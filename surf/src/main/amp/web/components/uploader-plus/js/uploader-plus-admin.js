@@ -101,6 +101,12 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 formatter: SoftwareLoop.hitch(this, this.allowedTypesFormatter)
             },
             {
+                key: "allowedProxyTypes",
+                label: this.msg("title.allowed.proxyTypes"),
+                sortable: false,
+                formatter: SoftwareLoop.hitch(this, this.allowedTypesFormatter)
+            },
+            {
                 key: "actions",
                 label: this.msg("title.actions"),
                 sortable: false,
@@ -116,7 +122,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                 connXhrMode: "queueRequests",
                 responseSchema: {
                     resultsList: "results",
-                    fields: ["path", "nodeRef", "allowedTypes"]
+                    fields: ["path", "nodeRef", "allowedTypes", "allowedProxyTypes"]
                 }
             });
 
@@ -299,10 +305,11 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                         titleNode.innerHTML =
                             Alfresco.util.encodeHTML(this.prettyPath(data.path));
                     }
-                    var selectNode = YAHOO.util.Dom.getElementsByClassName(
+                    var supportedTypes = YAHOO.util.Dom.getElementsByClassName(
                         "supported-types-select", "select")[0];
-
-                    this.populateAllowedTypesSelect(selectNode);
+                    var supportedProxyTypes = YAHOO.util.Dom.getElementsByClassName(
+                        "supported-proxy-types-select", "select")[0];
+                    this.populateAllowedTypesSelect(supportedTypes, supportedProxyTypes);
 
                     return true;
                 },
@@ -313,6 +320,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     Alfresco.logger.debug("onSuccess callback", arguments);
                     var dataObj = response.config.dataObj;
                     data.allowedTypes = dataObj.prop_up_allowedTypes.split(",");
+                    data.allowedProxyTypes = dataObj.prop_up_allowedProxyTypes.split(",");
                     this.widgets.dataTable.updateRow(record, data);
                     Alfresco.util.PopupManager.displayMessage({
                         text: this.msg("operation.completed.successfully")
@@ -369,12 +377,18 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
         Alfresco.logger.debug("END deleteUploadFolderHandler");
     },
 
-    populateAllowedTypesSelect: function (selectNode) {
+    populateAllowedTypesSelect: function (allowedTypes, allowedProxyTypes) {
         Alfresco.logger.debug("populateAllowedTypesSelect", arguments);
-        var selectedValues = selectNode.getAttribute("data-selectedValues");
-        var selectedValuesArray = [];
-        if (selectedValues) {
-            selectedValuesArray = selectedValues.split(",");
+        var selectedAllowedTypeValues = allowedTypes.getAttribute("data-selectedValues");
+        var selectedAllowedTypeValuesArray = [];
+        if (allowedTypes) {
+            selectedAllowedTypeValuesArray = selectedAllowedTypeValues.split(",");
+        }
+        
+        var selectedAllowedProxyTypeValues = allowedProxyTypes.getAttribute("data-selectedValues");
+        var selectedAllowedProxyTypeValuesArray = [];
+        if (allowedProxyTypes) {
+            selectedAllowedProxyTypeValuesArray = selectedAllowedProxyTypeValues.split(",");
         }
         Alfresco.util.Ajax.jsonGet({
             url: this.listContentTypesUrl,
@@ -386,7 +400,7 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
                     for (var i = 0; i < types.length; i++) {
                         Alfresco.logger.debug("Type index", i);
                         var type = types[i];
-                        var selected = selectedValuesArray.indexOf(type) > -1;
+                        var selected = selectedAllowedTypeValuesArray.indexOf(type) > -1;
                         
                         var typeName = this.msg("type." + type.replace(":", "_"));
             			if (typeName.lastIndexOf("type.", 0) === 0) {
@@ -394,7 +408,23 @@ YAHOO.extend(SoftwareLoop.UploaderPlusAdmin, Alfresco.component.Base, {
 			            }
 			            
                         var option = new Option(typeName, type);
-                        selectNode.add(option);
+                        allowedTypes.add(option);
+                        option.selected = selected;
+                    }
+
+                    var types = response.json.types;
+                    for (var i = 0; i < types.length; i++) {
+                        Alfresco.logger.debug("Type index", i);
+                        var type = types[i];
+                        var selected = selectedAllowedProxyTypeValuesArray.indexOf(type) > -1;
+                        
+                        var typeName = this.msg("type." + type.replace(":", "_"));
+                        if (typeName.lastIndexOf("type.", 0) === 0) {
+                            typeName = type;
+                        }
+                        
+                        var option = new Option(typeName, type);
+                        allowedProxyTypes.add(option);
                         option.selected = selected;
                     }
                 },

@@ -16,11 +16,13 @@
             <form>
                 <field-visibility>
                     <show id="up:allowedTypes"/>
+                    <show id="up:allowedProxyTypes"/>
                 </field-visibility>
             </form>
             <form id="upload-folder">
                 <field-visibility>
                     <show id="up:allowedTypes"/>
+                    <show id="up:allowedProxyTypes"/>
                 </field-visibility>
                 <edit-form
                         template="../documentlibrary/forms/doclib-simple-metadata.ftl"/>
@@ -30,6 +32,14 @@
                                 template="/com/softwareloop/uploader-plus/controls/selecttypes.ftl">
                             <control-param name="styleClass">
                                 supported-types-select
+                            </control-param>
+                        </control>
+                    </field>
+                    <field id="up:allowedProxyTypes">
+                        <control
+                                template="/com/softwareloop/uploader-plus/controls/selecttypes.ftl">
+                            <control-param name="styleClass">
+                                supported-proxy-types-select
                             </control-param>
                         </control>
                     </field>

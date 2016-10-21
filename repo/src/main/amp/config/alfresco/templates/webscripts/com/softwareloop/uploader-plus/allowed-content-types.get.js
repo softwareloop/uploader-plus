@@ -43,6 +43,8 @@ while (destNode !== null && !destNode.hasAspect("up:UploadFolder")) {
 
 if (destNode === null) {
     model.types = null;
+    model.proxyTypes = null;
 } else {
     model.types = destNode.properties["up:allowedTypes"];
+    model.proxyTypes = destNode.properties["up:allowedProxyTypes"];
 }
