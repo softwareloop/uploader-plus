@@ -1,8 +1,8 @@
 <@markup id="custom-widgets" target="widgets" action="after" scope="global">
     <@inlineScript group="upload">
         Alfresco.getFileUploadInstance().setOptions({
-            flashUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.FlashUpload) ? "SoftwareLoop.FlashUpload" : "Alfresco.FlashUpload",
-            htmlUploader : YAHOO.lang.isObject(SoftwareLoop) && YAHOO.lang.isFunction(SoftwareLoop.HtmlUpload) ? "SoftwareLoop.HtmlUpload" : "Alfresco.HtmlUpload"
+            flashUploader : typeof SoftwareLoop!="undefined" && YAHOO.lang.isFunction(SoftwareLoop.FlashUpload) ? "SoftwareLoop.FlashUpload" : "Alfresco.FlashUpload",
+            htmlUploader : typeof SoftwareLoop!="undefined" && YAHOO.lang.isFunction(SoftwareLoop.HtmlUpload) ? "SoftwareLoop.HtmlUpload" : "Alfresco.HtmlUpload"
         });
         
         Alfresco.getDNDUploadProgressInstance = function()
