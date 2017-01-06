@@ -155,7 +155,6 @@
             if (cmNameNode) {
                 Alfresco.logger.debug("metadata-form_prop_cm_name found");
                 cmNameNode.value = data.name;
-                cmNameNode.readOnly = true;
             }
     
             this.formUi = Alfresco.util.ComponentManager.find({
@@ -209,16 +208,13 @@
         onMetadataSubmit: function () {
             Alfresco.logger.debug("onMetadataSubmit", arguments);
             this.formUi.formsRuntime._setAllFieldsAsVisited();
-            if (this.formUi.formsRuntime.validate()) {
+            if (this.formUi.formsRuntime._runValidations(null, null, Alfresco.forms.Form.NOTIFICATION_LEVEL_CONTAINER)) {
                 Alfresco.logger.debug("Form validated");
                 this.processMetadata();
                 this.currentRecordIndex++;
                 this.showMetadataDialog();
             } else {
                 Alfresco.logger.debug("Form with errors");
-                Alfresco.util.PopupManager.displayMessage({
-                    text: this.msg("validation.errors.correct.before.proceeding")
-                });
             }
             Alfresco.logger.debug("END onMetadataSubmit");
         },
@@ -229,6 +225,13 @@
             var record = this.records[this.currentRecordIndex];
             var data = record.getData();
     
+            var cmNameId = this.id + "-metadata-form_prop_cm_name", cmNameNode = YAHOO.util.Dom.get(cmNameId);
+            if (cmNameNode) {
+               var fileInfo = this.fileStore[data.id];
+               data.name = cmNameNode.value;
+               fileInfo.uploadData.filename = cmNameNode.value;
+            }
+            
             var dataTable = this.getDataTable();
             var firstTdEl = dataTable.getFirstTdEl(record);
             var contentTypeEl = Dom.getElementsByClassName(
@@ -246,6 +249,8 @@
             if (progressInfoEl && progressInfoEl.length === 1) {
                 Alfresco.logger.debug("fileupload-progressInfo-span found");
                 YAHOO.util.Dom.addClass(progressInfoEl[0], "uploader-plus");
+                $(progressInfoEl[0]).html(data.name);
+                $(progressInfoEl[0]).parent().prop('title', data.name);
             } else {
                 Alfresco.logger.debug("fileupload-progressInfo-span not found");
             }
