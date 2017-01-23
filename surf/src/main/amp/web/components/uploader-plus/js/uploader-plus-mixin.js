@@ -168,6 +168,10 @@
                 oldOnReady.apply(this.formUi, arguments);
                 this.formUiFixButtons();
             });
+            var formFieldsId = this.id + "-metadata-form-form-fields";
+            YAHOO.util.Dom.setStyle(formFieldsId, 'height', '550px');
+            YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
+
     
             this.centerPanel();
     
