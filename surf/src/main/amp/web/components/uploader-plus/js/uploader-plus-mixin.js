@@ -15,6 +15,15 @@
         types : null,
         
         typesLoaded : false,
+
+        /**
+         *  Indicates wether we will or not use the first metadata form for the whole batch of documents
+         *
+         *  @property shouldUseSameMetadataSet
+         *  @type boolean
+         *  @default false
+         *  */
+        shouldUseSameMetadataSet : false,
     
         //**************************************************************************
         // Types list management
@@ -168,6 +177,12 @@
                 oldOnReady.apply(this.formUi, arguments);
                 this.formUiFixButtons();
             });
+
+            var useSameMetadataSetCBId = this.id + "-same-metadata-set-cb";
+            this.useSameMetadataSetCBNode = YAHOO.util.Dom.get(useSameMetadataSetCBId);
+            YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
+            this.showUseSameMetadataSet();
+
             var formFieldsId = this.id + "-metadata-form-form-fields";
             YAHOO.util.Dom.setStyle(formFieldsId, 'height', '550px');
             YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
@@ -176,6 +191,49 @@
             this.centerPanel();
     
             Alfresco.logger.debug("END onMetadataFormReceived");
+        },
+
+        /**
+         * Hides the checkbox for using the same metadata form for the whole batch
+         */
+        hideUseSameMetadataSet: function(){
+            this.useSameMetadataSetCBNode.checked = false;
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            var useSameMetadataSetId = this.id + "-same-metadata-set";
+            YAHOO.util.Dom.setStyle(useSameMetadataSetId, 'display', 'none');
+            YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
+        },
+
+        /**
+         * Shows the checkbox for using the same metadata form for the whole batch
+         */
+        showUseSameMetadataSet: function(){
+            this.useSameMetadataSetCBNode.checked = false;
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            SoftwareLoop.fireEvent(this.useSameMetadataSetCBNode, "change");
+            var useSameMetadataSetId = this.id + "-same-metadata-set";
+            YAHOO.util.Dom.setStyle(useSameMetadataSetId, 'display', 'inline');
+            YAHOO.util.Event.addListener(
+                this.useSameMetadataSetCBNode,
+                "change",
+                this.onUseSameMetadataSetCBChange,
+                this,
+                true
+            );
+        },
+
+        /**
+         * Handles the changes on the checkBox for enabling/disabling the use of the first metadata form for the whole
+         * batch
+         */
+        onUseSameMetadataSetCBChange: function(){
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            var submitButton = this.formUi.buttons.submit;
+            if (this.shouldUseSameMetadataSet){
+                submitButton.set("label", this.msg("label.ok"));
+            }else if (this.currentRecordIndex !== this.records.length - 1) {
+                submitButton.set("label", this.msg("uploader.plus.next"))
+            }
         },
     
         formUiFixButtons: function () {
@@ -188,6 +246,7 @@
                 this,
                 this
             );
+
             if (this.currentRecordIndex === this.records.length - 1) {
                 Alfresco.logger.debug("Last document");
                 submitButton.set("label", this.msg("label.ok"))
@@ -215,8 +274,20 @@
             this.formUi.formsRuntime._setAllFieldsAsVisited();
             if (this.formUi.formsRuntime.validate()) {
                 Alfresco.logger.debug("Form validated");
-                this.processMetadata();
-                this.currentRecordIndex++;
+                do {
+                    this.processMetadata();
+                    var currentRecord = this.records[this.currentRecordIndex];
+                    var data = currentRecord.getData();
+                    var fileId = data.id;
+                    var fileInfo = this.fileStore[fileId];
+                    // Override prop_cm_name in case we are using the same metadata set for multiple documents
+                    // This property is already set to readonly in @onMetadataFormReceived
+                    fileInfo.propertyData.prop_cm_name = this.fileStore[fileId].fileName;
+                    if (fileInfo.state !== this.STATE_ADDED) {
+                        Alfresco.logger.debug("State != STATE_ADDED");
+                        return this._spawnUploads();
+                    }
+                }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
                 this.showMetadataDialog();
             } else {
                 Alfresco.logger.debug("Form with errors");
@@ -224,6 +295,7 @@
                     text: this.msg("validation.errors.correct.before.proceeding")
                 });
             }
+            this.hideUseSameMetadataSet();
             Alfresco.logger.debug("END onMetadataSubmit");
         },
     
