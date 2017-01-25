@@ -181,7 +181,9 @@
             var useSameMetadataSetCBId = this.id + "-same-metadata-set-cb";
             this.useSameMetadataSetCBNode = YAHOO.util.Dom.get(useSameMetadataSetCBId);
             YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
-            this.showUseSameMetadataSet();
+            if (this.currentRecordIndex === 0) {
+                this.showUseSameMetadataSet();
+            }
 
             var formFieldsId = this.id + "-metadata-form-form-fields";
             YAHOO.util.Dom.setStyle(formFieldsId, 'height', '550px');
@@ -289,13 +291,13 @@
                     }
                 }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
                 this.showMetadataDialog();
+                this.hideUseSameMetadataSet();
             } else {
                 Alfresco.logger.debug("Form with errors");
                 Alfresco.util.PopupManager.displayMessage({
                     text: this.msg("validation.errors.correct.before.proceeding")
                 });
             }
-            this.hideUseSameMetadataSet();
             Alfresco.logger.debug("END onMetadataSubmit");
         },
     
