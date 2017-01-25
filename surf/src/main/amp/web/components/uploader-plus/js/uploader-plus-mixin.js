@@ -181,7 +181,9 @@
             var useSameMetadataSetCBId = this.id + "-same-metadata-set-cb";
             this.useSameMetadataSetCBNode = YAHOO.util.Dom.get(useSameMetadataSetCBId);
             YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
-            if (this.currentRecordIndex === 0) {
+            this.hideUseSameMetadataSet();
+            // Only show the useSameMatadataSet option if we are on the first record, on we have more than one record
+            if (this.currentRecordIndex === 0 && this.records.length > 1) {
                 this.showUseSameMetadataSet();
             }
 
@@ -231,10 +233,20 @@
         onUseSameMetadataSetCBChange: function(){
             this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
             var submitButton = this.formUi.buttons.submit;
+            var cmNameId = this.id + "-metadata-form_prop_cm_name";
+            var cmNameNode = YAHOO.util.Dom.get(cmNameId);
             if (this.shouldUseSameMetadataSet){
                 submitButton.set("label", this.msg("label.ok"));
+                // If we are setting the same metadata set to all documents, we really should not display a cm:name
+                // property field
+                if (cmNameNode) {
+                    YAHOO.util.Dom.setStyle(cmNameNode.parentNode, 'display', 'none');
+                }
             }else if (this.currentRecordIndex !== this.records.length - 1) {
                 submitButton.set("label", this.msg("uploader.plus.next"))
+                if (cmNameNode) {
+                    YAHOO.util.Dom.setStyle(cmNameNode.parentNode, 'display', 'inline-block');
+                }
             }
         },
     
@@ -282,16 +294,15 @@
                     var data = currentRecord.getData();
                     var fileId = data.id;
                     var fileInfo = this.fileStore[fileId];
-                    // Override prop_cm_name in case we are using the same metadata set for multiple documents
-                    // This property is already set to readonly in @onMetadataFormReceived
-                    fileInfo.propertyData.prop_cm_name = this.fileStore[fileId].fileName;
-                    if (fileInfo.state !== this.STATE_ADDED) {
-                        Alfresco.logger.debug("State != STATE_ADDED");
-                        return this._spawnUploads();
+                    // If we are setting the same metadata set to all documents, and we have a cm:name property field
+                    // we really should update it
+                    if (this.shouldUseSameMetadataSet && fileInfo.propertyData.prop_cm_name){
+                        // Override prop_cm_name in case we are using the same metadata set for multiple documents
+                        // This property is already set to readonly in @onMetadataFormReceived
+                        fileInfo.propertyData.prop_cm_name = this.fileStore[fileId].fileName;
                     }
                 }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
                 this.showMetadataDialog();
-                this.hideUseSameMetadataSet();
             } else {
                 Alfresco.logger.debug("Form with errors");
                 Alfresco.util.PopupManager.displayMessage({
