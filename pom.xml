@@ -40,8 +40,24 @@
 
     <contributors>
         <contributor>
+            <name>Axel Faust</name>
+            <url>https://github.com/AFaust</url>
+        </contributor>
+        <contributor>
             <name>Stéphane Prouvez</name>
             <url>https://github.com/sprouvez</url>
+        </contributor>
+        <contributor>
+            <name>Oksana Kurysheva</name>
+            <url>https://github.com/aviriel</url>
+        </contributor>
+        <contributor>
+            <name>Magnus Pedersen</name>
+            <url>https://github.com/magp3</url>
+        </contributor>
+        <contributor>
+            <name>Alexander Mahabir</name>
+            <url>https://github.com/alex4u2nv</url>
         </contributor>
     </contributors>
 
