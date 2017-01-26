@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>uploader-plus-aikau</artifactId>
     <name>uploader-plus-aikau</name>
     <packaging>amp</packaging>
-    <description>uploader-plus AMP using the Aikau framework for Share 5.0.x
-    </description>
+    <description>uploader-plus AMP using the Aikau framework for Share 5.0.x</description>
     <url>http://softwareloop.com/</url>
 
     <parent>
         <groupId>com.softwareloop</groupId>
         <artifactId>uploader-plus</artifactId>
-        <version>1.4</version>
+        <version>1.5-SNAPSHOT</version>
     </parent>
 
     <properties>
