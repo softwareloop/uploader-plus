@@ -155,7 +155,7 @@
             if (cmNameNode) {
                 Alfresco.logger.debug("metadata-form_prop_cm_name found");
                 cmNameNode.value = data.name;
-                cmNameNode.readOnly = true;
+                cmNameNode.readOnly = false;
             }
     
             this.formUi = Alfresco.util.ComponentManager.find({
