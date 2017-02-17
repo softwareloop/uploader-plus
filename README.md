@@ -23,4 +23,5 @@ Contributors:
 * [Axel Faust](https://github.com/AFaust)
 * [Stéphane Prouvez](https://github.com/sprouvez)
 * [Oksana Kurysheva](https://github.com/aviriel)
-* [magp3](https://github.com/magp3)
+* [Magnus Pedersen](https://github.com/magp3)
+* [Alexander Mahabir](https://github.com/alex4u2nv)

@@ -15,6 +15,15 @@
         types : null,
         
         typesLoaded : false,
+
+        /**
+         *  Indicates wether we will or not use the first metadata form for the whole batch of documents
+         *
+         *  @property shouldUseSameMetadataSet
+         *  @type boolean
+         *  @default false
+         *  */
+        shouldUseSameMetadataSet : false,
     
         //**************************************************************************
         // Types list management
@@ -155,6 +164,7 @@
             if (cmNameNode) {
                 Alfresco.logger.debug("metadata-form_prop_cm_name found");
                 cmNameNode.value = data.name;
+                cmNameNode.readOnly = false;
             }
     
             this.formUi = Alfresco.util.ComponentManager.find({
@@ -167,10 +177,77 @@
                 oldOnReady.apply(this.formUi, arguments);
                 this.formUiFixButtons();
             });
+
+            var useSameMetadataSetCBId = this.id + "-same-metadata-set-cb";
+            this.useSameMetadataSetCBNode = YAHOO.util.Dom.get(useSameMetadataSetCBId);
+            YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
+            this.hideUseSameMetadataSet();
+            // Only show the useSameMatadataSet option if we are on the first record, on we have more than one record
+            if (this.currentRecordIndex === 0 && this.records.length > 1) {
+                this.showUseSameMetadataSet();
+            }
+
+            var formFieldsId = this.id + "-metadata-form-form-fields";
+            YAHOO.util.Dom.setStyle(formFieldsId, 'height', '550px');
+            YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
+
     
             this.centerPanel();
     
             Alfresco.logger.debug("END onMetadataFormReceived");
+        },
+
+        /**
+         * Hides the checkbox for using the same metadata form for the whole batch
+         */
+        hideUseSameMetadataSet: function(){
+            this.useSameMetadataSetCBNode.checked = false;
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            var useSameMetadataSetId = this.id + "-same-metadata-set";
+            YAHOO.util.Dom.setStyle(useSameMetadataSetId, 'display', 'none');
+            YAHOO.util.Event.removeListener(this.useSameMetadataSetCBNode, "change");
+        },
+
+        /**
+         * Shows the checkbox for using the same metadata form for the whole batch
+         */
+        showUseSameMetadataSet: function(){
+            this.useSameMetadataSetCBNode.checked = false;
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            SoftwareLoop.fireEvent(this.useSameMetadataSetCBNode, "change");
+            var useSameMetadataSetId = this.id + "-same-metadata-set";
+            YAHOO.util.Dom.setStyle(useSameMetadataSetId, 'display', 'inline');
+            YAHOO.util.Event.addListener(
+                this.useSameMetadataSetCBNode,
+                "change",
+                this.onUseSameMetadataSetCBChange,
+                this,
+                true
+            );
+        },
+
+        /**
+         * Handles the changes on the checkBox for enabling/disabling the use of the first metadata form for the whole
+         * batch
+         */
+        onUseSameMetadataSetCBChange: function(){
+            this.shouldUseSameMetadataSet = this.useSameMetadataSetCBNode.checked;
+            var submitButton = this.formUi.buttons.submit;
+            var cmNameId = this.id + "-metadata-form_prop_cm_name";
+            var cmNameNode = YAHOO.util.Dom.get(cmNameId);
+            if (this.shouldUseSameMetadataSet){
+                submitButton.set("label", this.msg("label.ok"));
+                // If we are setting the same metadata set to all documents, we really should not display a cm:name
+                // property field
+                if (cmNameNode) {
+                    YAHOO.util.Dom.setStyle(cmNameNode.parentNode, 'display', 'none');
+                }
+            }else if (this.currentRecordIndex !== this.records.length - 1) {
+                submitButton.set("label", this.msg("uploader.plus.next"))
+                if (cmNameNode) {
+                    YAHOO.util.Dom.setStyle(cmNameNode.parentNode, 'display', 'inline-block');
+                }
+            }
         },
     
         formUiFixButtons: function () {
@@ -183,6 +260,7 @@
                 this,
                 this
             );
+
             if (this.currentRecordIndex === this.records.length - 1) {
                 Alfresco.logger.debug("Last document");
                 submitButton.set("label", this.msg("label.ok"))
@@ -210,8 +288,20 @@
             this.formUi.formsRuntime._setAllFieldsAsVisited();
             if (this.formUi.formsRuntime._runValidations(null, null, Alfresco.forms.Form.NOTIFICATION_LEVEL_CONTAINER)) {
                 Alfresco.logger.debug("Form validated");
-                this.processMetadata();
-                this.currentRecordIndex++;
+                do {
+                    this.processMetadata();
+                    var currentRecord = this.records[this.currentRecordIndex];
+                    var data = currentRecord.getData();
+                    var fileId = data.id;
+                    var fileInfo = this.fileStore[fileId];
+                    // If we are setting the same metadata set to all documents, and we have a cm:name property field
+                    // we really should update it
+                    if (this.shouldUseSameMetadataSet && fileInfo.propertyData.prop_cm_name){
+                        // Override prop_cm_name in case we are using the same metadata set for multiple documents
+                        // This property is already set to readonly in @onMetadataFormReceived
+                        fileInfo.propertyData.prop_cm_name = this.fileStore[fileId].fileName;
+                    }
+                }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
                 this.showMetadataDialog();
             } else {
                 Alfresco.logger.debug("Form with errors");

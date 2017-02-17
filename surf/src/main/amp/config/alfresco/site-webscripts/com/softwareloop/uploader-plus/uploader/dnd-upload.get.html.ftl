@@ -114,6 +114,13 @@
                 <label>${msg("content.type")}:
                     <select id="${el}-content-type-select"></select>
                 </label>
+                <span id="${el}-same-metadata-set">
+                    |
+                    <label>
+                        <input type="checkbox" id="${el}-same-metadata-set-cb">
+                        <span>${msg("uploader.plus.applyToAll")}</span>
+                    </label>
+                </span>
             </div>
             <div id="${el}-metadata-form"></div>
         </div>
