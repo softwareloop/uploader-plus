@@ -124,11 +124,16 @@
             var url = YAHOO.lang.substitute(
                     "{serviceContext}components/form" +
                     "?itemKind=type&itemId={itemId}&mode=create&submitType=json" +
-                    "&formId={formId}&showCancelButton=true&htmlid={htmlid}",
+                    "&formId={formId}&showCancelButton=true&htmlid={htmlid}" +
+                    "&destination={destination}&siteId={siteId}&containerId={containerId}&uploadDirectory={uploadDirectory}",
                 {
                     serviceContext: Alfresco.constants.URL_SERVICECONTEXT,
                     itemId: contentType,
                     formId: "upload-folder",
+                    destination: encodeURIComponent(this.showConfig.destination || ""),
+                    siteId: encodeURIComponent(this.showConfig.siteId || ""),
+                    containerId: encodeURIComponent(this.showConfig.containerId || ""),
+                    uploadDirectory: encodeURIComponent(this.showConfig.uploadDirectory || ""),
                     htmlid: formHtmlId
                 }
             );
