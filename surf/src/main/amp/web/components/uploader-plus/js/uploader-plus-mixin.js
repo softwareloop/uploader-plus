@@ -7,10 +7,10 @@
             "uploader-plus/allowed-content-types?destination={destination}",
     
         allowedContentTypesSiteTemplate: Alfresco.constants.PROXY_URI +
-            "/uploader-plus/allowed-content-types?siteid={siteId}&containerid={containerId}&path={uploadDirectory}",
+            "uploader-plus/allowed-content-types?siteid={siteId}&containerid={containerId}&path={uploadDirectory}",
     
         allowedContentTypesBlankUrl: Alfresco.constants.PROXY_URI +
-            "/uploader-plus/allowed-content-types",
+            "uploader-plus/allowed-content-types",
             
         types : null,
         
