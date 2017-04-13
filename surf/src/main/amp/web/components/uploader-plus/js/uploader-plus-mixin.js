@@ -188,7 +188,7 @@
             }
 
             var formFieldsId = this.id + "-metadata-form-form-fields";
-            YAHOO.util.Dom.setStyle(formFieldsId, 'max-height', '550px');
+            YAHOO.util.Dom.setStyle(formFieldsId, 'max-height', '2000px');
             YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
 
     
