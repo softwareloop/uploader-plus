@@ -28,7 +28,7 @@
             show : function(config)
             {
                 Alfresco.logger.debug("show", arguments);
-                
+                this.typesLoaded=false;
                 SoftwareLoop.DNDUpload.superclass.show.call(this, config);
 
                 this.loadTypes(function () {
