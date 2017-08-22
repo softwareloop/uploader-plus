@@ -299,7 +299,7 @@
                     if (this.shouldUseSameMetadataSet && fileInfo.propertyData.prop_cm_name){
                         // Override prop_cm_name in case we are using the same metadata set for multiple documents
                         // This property is already set to readonly in @onMetadataFormReceived
-                        fileInfo.propertyData.prop_cm_name = this.fileStore[fileId].fileName;
+                        delete fileInfo.propertyData.prop_cm_name;
                     }
                 }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
                 this.showMetadataDialog();
@@ -316,7 +316,7 @@
             var data = record.getData();
     
             var cmNameId = this.id + "-metadata-form_prop_cm_name", cmNameNode = YAHOO.util.Dom.get(cmNameId);
-            if (cmNameNode) {
+            if (cmNameNode && !this.shouldUseSameMetadataSet) {
                var fileInfo = this.fileStore[data.id];
                data.name = cmNameNode.value;
                fileInfo.uploadData.filename = cmNameNode.value;
