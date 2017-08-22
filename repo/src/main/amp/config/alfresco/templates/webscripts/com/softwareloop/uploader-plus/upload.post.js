@@ -38,6 +38,7 @@ function uploaderPlusMain()
                 case "majorversion":
                 case "overwrite":
                 case "thumbnails":
+                case "updatenameandmimetype":
                     // ignore all special upload fields
                     break;
                 case "alf_redirect":
