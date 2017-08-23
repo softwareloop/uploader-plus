@@ -171,6 +171,7 @@
                     formData.append("username", fileInfo.uploadData.username);
                     formData.append("overwrite", fileInfo.uploadData.overwrite);
                     formData.append("thumbnails", fileInfo.uploadData.thumbnails);
+                    formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype);
 
 
                     if (fileInfo.uploadData.updateNodeRef) {
