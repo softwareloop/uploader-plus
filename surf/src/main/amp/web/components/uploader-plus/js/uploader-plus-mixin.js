@@ -368,6 +368,12 @@
             var propertyData = formRuntime._buildAjaxForSubmit(form);
             propertyData.contentType = contentType;
             this.fileStore[data.id].propertyData = propertyData;
+            // Metadata form processed, clean up old form HTML for next upload
+            var formHtmlId = this.id + "-metadata-form";
+            var formNode = YAHOO.util.Dom.get(formHtmlId);
+            while (formNode.hasChildNodes()) {
+                formNode.removeChild(formNode.lastChild);
+            }
             Alfresco.logger.debug("END processMetadata", propertyData);
         },
     
