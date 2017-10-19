@@ -191,11 +191,6 @@
             if (this.currentRecordIndex === 0 && this.records.length > 1) {
                 this.showUseSameMetadataSet();
             }
-
-            var formFieldsId = this.id + "-metadata-form-form-fields";
-            YAHOO.util.Dom.setStyle(formFieldsId, 'max-height', '550px');
-            YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
-
     
             this.centerPanel();
     
