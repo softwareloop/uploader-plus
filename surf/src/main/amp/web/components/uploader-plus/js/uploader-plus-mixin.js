@@ -191,11 +191,6 @@
             if (this.currentRecordIndex === 0 && this.records.length > 1) {
                 this.showUseSameMetadataSet();
             }
-
-            var formFieldsId = this.id + "-metadata-form-form-fields";
-            YAHOO.util.Dom.setStyle(formFieldsId, 'max-height', '550px');
-            YAHOO.util.Dom.setStyle(formFieldsId, 'overflow-x', 'auto');
-
     
             this.centerPanel();
     
@@ -373,6 +368,12 @@
             var propertyData = formRuntime._buildAjaxForSubmit(form);
             propertyData.contentType = contentType;
             this.fileStore[data.id].propertyData = propertyData;
+            // Metadata form processed, clean up old form HTML for next upload
+            var formHtmlId = this.id + "-metadata-form";
+            var formNode = YAHOO.util.Dom.get(formHtmlId);
+            while (formNode.hasChildNodes()) {
+                formNode.removeChild(formNode.lastChild);
+            }
             Alfresco.logger.debug("END processMetadata", propertyData);
         },
     
