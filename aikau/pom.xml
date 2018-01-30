@@ -6,7 +6,7 @@
     <name>uploader-plus-aikau</name>
     <packaging>amp</packaging>
     <description>uploader-plus AMP using the Aikau framework for Share 5.0.x</description>
-    <url>http://softwareloop.com/</url>
+    <url>https://github.com/softwareloop/uploader-plus</url>
 
     <parent>
         <groupId>com.softwareloop</groupId>

@@ -5,7 +5,7 @@
     <name>uploader-plus-repo</name>
     <packaging>amp</packaging>
     <description>uploader-plus AMP for Alfresco repository 5.1.x</description>
-    <url>http://softwareloop.com/</url>
+    <url>https://github.com/softwareloop/uploader-plus</url>
 
     <parent>
         <groupId>com.softwareloop</groupId>

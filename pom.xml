@@ -8,7 +8,7 @@
 
     <name>uploader-plus</name>
     <description>An Alfresco uploader that prompts for metadata</description>
-    <url>http://softwareloop.com/</url>
+    <url>https://github.com/softwareloop/uploader-plus</url>
 
     <licenses>
         <license>
