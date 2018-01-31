@@ -74,9 +74,6 @@
     <modules>
         <module>repo</module>
         <module>surf</module>
-        <!-- coming soon
-        <module>aikau</module>
-        -->
     </modules>
 
     <properties>

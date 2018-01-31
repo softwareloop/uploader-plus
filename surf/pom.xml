@@ -4,7 +4,7 @@
     <artifactId>uploader-plus-surf</artifactId>
     <name>uploader-plus-surf</name>
     <packaging>amp</packaging>
-    <description>uploader-plus AMP using the Surf framework for Share 5.1.x</description>
+    <description>uploader-plus AMP for Alfresco Share</description>
 	<url>https://github.com/softwareloop/uploader-plus</url>
 	
     <parent>
