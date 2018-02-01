@@ -88,11 +88,6 @@
         <module>surf</module>
     </modules>
 
-    <properties>
-        <sonatypeOssDistMgmtSnapshotsUrl>https://oss.sonatype.org/content/repositories/snapshots/</sonatypeOssDistMgmtSnapshotsUrl>
-        <arguments />
-    </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -105,15 +100,21 @@
         </dependencies>
     </dependencyManagement>
 
+    <!-- To make a release:
+         Make sure .m2/settings.xml is set up correctly according to:
+         http://central.sonatype.org/pages/apache-maven.html
+         mvn release:prepare -DdryRun=true
+         Check everything and, if needed: mvn release:clean
+         mvn release:prepare
+         mvn release:perform
+    -->
     <distributionManagement>
         <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>${sonatypeOssDistMgmtSnapshotsUrl}</url>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
+            <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
@@ -173,7 +174,7 @@
                     <configuration>
                         <mavenExecutorId>forked-path</mavenExecutorId>
                         <useReleaseProfile>false</useReleaseProfile>
-                        <arguments>${arguments} -Psonatype-oss-release</arguments>
+                        <arguments>-Psonatype-oss-release</arguments>
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                         <tagNameFormat>v@{project.version}</tagNameFormat>
                     </configuration>
