@@ -27,3 +27,6 @@ Contributors:
 * [Magnus Pedersen](https://github.com/magp3)
 * [Alexander Mahabir](https://github.com/alex4u2nv)
 * [Younes Regaieg](https://github.com/yregaieg)
+* [Roxana Angheluta](https://github.com/anghelutar)
+* [tomasrgar](https://github.com/tomasrgar)
+* [Tom Vandepoele](https://github.com/tom-vandepoele)
