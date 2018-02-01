@@ -36,6 +36,10 @@
             <name>Douglas C. R. Paes</name>
             <url>https://github.com/douglascrp</url>
         </developer>
+        <developer>
+            <name>Younes Regaieg</name>
+            <url>https://github.com/yregaieg</url>
+        </developer>
     </developers>
 
     <contributors>
@@ -58,10 +62,6 @@
         <contributor>
             <name>Alexander Mahabir</name>
             <url>https://github.com/alex4u2nv</url>
-        </contributor>
-        <contributor>
-            <name>Younes Regaieg</name>
-            <url>https://github.com/yregaieg</url>
         </contributor>
         <contributor>
             <name>Roxana Angheluta</name>

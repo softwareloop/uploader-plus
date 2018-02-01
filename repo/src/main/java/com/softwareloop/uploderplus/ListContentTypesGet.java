@@ -12,7 +12,7 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 import java.util.*;
 
 /**
- * @author Paolo Predonzani (http://softwareloop.com/)
+ * @author Paolo Predonzani (https://github.com/softwareloop)
  */
 public class ListContentTypesGet extends DeclarativeWebScript {
     //--------------------------------------------------------------------------

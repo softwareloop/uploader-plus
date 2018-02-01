@@ -14,10 +14,11 @@ Documentation:
 * [Compatibility tests](https://github.com/softwareloop/uploader-plus/wiki/Compatibility-tests)
 * [Working with Maven](https://github.com/softwareloop/uploader-plus/wiki/Working-with-Maven)
 
-Authors:
+Maintainers:
 
 * [Paolo Predonzani](https://github.com/softwareloop)
 * [Douglas C. R. Paes](https://github.com/douglascrp)
+* [Younes Regaieg](https://github.com/yregaieg)
 
 Contributors:
 
@@ -26,7 +27,6 @@ Contributors:
 * [Oksana Kurysheva](https://github.com/aviriel)
 * [Magnus Pedersen](https://github.com/magp3)
 * [Alexander Mahabir](https://github.com/alex4u2nv)
-* [Younes Regaieg](https://github.com/yregaieg)
 * [Roxana Angheluta](https://github.com/anghelutar)
 * [tomasrgar](https://github.com/tomasrgar)
 * [Tom Vandepoele](https://github.com/tom-vandepoele)
