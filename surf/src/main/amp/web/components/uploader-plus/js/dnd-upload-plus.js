@@ -51,11 +51,9 @@
                     this.spawnUploadsBooked = true;
                     return;
                 }
-                // Metadata form might already have some leftovers, clean up old form HTML for next upload
-                var formHtmlId = this.id + "-metadata-form";
-                var formNode = YAHOO.util.Dom.get(formHtmlId);
-                while (formNode.hasChildNodes()) {
-                    formNode.removeChild(formNode.lastChild);
+                
+                if (!shouldUseSameMetadataSet) {
+                	this.cleanupOldFormForNextUpload();
                 }
                 
                 if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
