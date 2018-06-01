@@ -30,15 +30,11 @@
                 this.showMainDialog();
                 
                 SoftwareLoop.HtmlUpload.superclass.show.call(this, config);
-
-                // Metadata form might already have some leftovers, clean up old form HTML for next upload
-                var formHtmlId = this.id + "-metadata-form";
-                var formNode = YAHOO.util.Dom.get(formHtmlId);
-                if (formNode) { // Only attempt to delete old form HTML if it does already exist
-                    while (formNode.hasChildNodes()) {
-                        formNode.removeChild(formNode.lastChild);
-                    }
+                
+                if (!shouldUseSameMetadataSet) {
+                	this.cleanupOldFormForNextUpload();
                 }
+
                 this.loadTypes(function () {
                     Alfresco.logger.debug("loadTypes callback");
                     this.populateSelect();
