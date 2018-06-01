@@ -31,7 +31,7 @@
             
             SoftwareLoop.FlashUpload.superclass.show.call(this, config);
 
-            if (!shouldUseSameMetadataSet) {
+            if (!this.shouldUseSameMetadataSet) {
             	this.cleanupOldFormForNextUpload();
             }
 

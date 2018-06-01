@@ -52,7 +52,7 @@
                     return;
                 }
                 
-                if (!shouldUseSameMetadataSet) {
+                if (!this.shouldUseSameMetadataSet) {
                 	this.cleanupOldFormForNextUpload();
                 }
                 
