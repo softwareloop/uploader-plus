@@ -302,6 +302,8 @@
                         delete fileInfo.propertyData.prop_cm_name;
                     }
                 }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
+                
+                this.cleanupOldFormForNextUpload();
                 this.showMetadataDialog();
             } else {
                 Alfresco.logger.debug("Form with errors");
@@ -369,10 +371,6 @@
             propertyData.contentType = contentType;
             this.fileStore[data.id].propertyData = propertyData;
             
-            if (!this.shouldUseSameMetadataSet) {
-            	this.cleanupOldFormForNextUpload();
-            }
-
             Alfresco.logger.debug("END processMetadata", propertyData);
         },
     
