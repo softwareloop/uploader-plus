@@ -30,7 +30,11 @@
             Alfresco.logger.debug("show", arguments);
             
             SoftwareLoop.FlashUpload.superclass.show.call(this, config);
-            
+
+            if (!this.shouldUseSameMetadataSet) {
+            	this.cleanupOldFormForNextUpload();
+            }
+
             this.loadTypes(this.populateSelect, this);
             Alfresco.logger.debug("END show");
         },

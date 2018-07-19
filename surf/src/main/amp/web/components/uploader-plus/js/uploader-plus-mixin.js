@@ -302,6 +302,8 @@
                         delete fileInfo.propertyData.prop_cm_name;
                     }
                 }while((++this.currentRecordIndex<this.records.length) && this.shouldUseSameMetadataSet);
+                
+                this.cleanupOldFormForNextUpload();
                 this.showMetadataDialog();
             } else {
                 Alfresco.logger.debug("Form with errors");
@@ -368,6 +370,7 @@
             var propertyData = formRuntime._buildAjaxForSubmit(form);
             propertyData.contentType = contentType;
             this.fileStore[data.id].propertyData = propertyData;
+            
             Alfresco.logger.debug("END processMetadata", propertyData);
         },
     
@@ -401,7 +404,17 @@
             Alfresco.logger.debug("centerPanel", arguments);
             this.getPanel().center();
             Alfresco.logger.debug("END centerPanel");
+        },
+
+        /**
+         * Metadata form might already have some leftovers, clean up old form HTML for next upload
+         */
+        cleanupOldFormForNextUpload: function() {
+            var formHtmlId = this.id + "-metadata-form";
+            var formNode = YAHOO.util.Dom.get(formHtmlId);
+            while (formNode.hasChildNodes()) {
+                formNode.removeChild(formNode.lastChild);
+            }
         }
-    
     };
 })();

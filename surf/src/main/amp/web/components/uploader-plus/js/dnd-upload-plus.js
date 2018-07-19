@@ -52,6 +52,10 @@
                     return;
                 }
                 
+                if (!this.shouldUseSameMetadataSet) {
+                	this.cleanupOldFormForNextUpload();
+                }
+                
                 if (this.showConfig.mode === this.MODE_SINGLE_UPDATE) {
                     Alfresco.logger.debug("Single update");
                     return SoftwareLoop.DNDUpload.superclass._spawnUploads.call(this);

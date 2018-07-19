@@ -31,6 +31,10 @@
                 
                 SoftwareLoop.HtmlUpload.superclass.show.call(this, config);
                 
+                if (!this.shouldUseSameMetadataSet) {
+                	this.cleanupOldFormForNextUpload();
+                }
+
                 this.loadTypes(function () {
                     Alfresco.logger.debug("loadTypes callback");
                     this.populateSelect();
