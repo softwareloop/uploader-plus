@@ -4,7 +4,8 @@
 "node": {
 "nodeRef": "${node.nodeRef}",
 "path": "${node.displayPath}\/${node.properties.name}",
-"allowedTypes": []
+"allowedTypes": [],
+"allowedProxyTypes": []
 }
 }
 </#escape>

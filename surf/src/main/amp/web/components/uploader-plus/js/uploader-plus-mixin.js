@@ -13,6 +13,7 @@
             "uploader-plus/allowed-content-types",
             
         types : null,
+        proxyTypes : null,
         
         typesLoaded : false,
 
@@ -62,6 +63,7 @@
                     fn: function (response) {
                         Alfresco.logger.debug("loadTypes successCallback", arguments);
                         this.types = response.json.types;
+                        this.proxyTypes = response.json.proxyTypes;
                         this.typesLoaded = true;
                         
                         if (callback) {
@@ -368,7 +370,14 @@
             var formRuntime = this.formUi.formsRuntime;
             var form = Dom.get(formRuntime.formId);
             var propertyData = formRuntime._buildAjaxForSubmit(form);
-            propertyData.contentType = contentType;
+
+            //Replace content type with cm:content for proxy types, to allow aspects to be added
+            if (this.proxyTypes && this.proxyTypes.indexOf(contentType)!==-1) {
+                propertyData.contentType = "cm:content";
+            } else {
+                propertyData.contentType = contentType;
+            }
+            
             this.fileStore[data.id].propertyData = propertyData;
             
             Alfresco.logger.debug("END processMetadata", propertyData);

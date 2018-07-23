@@ -13,6 +13,7 @@ if (node.hasAspect("up:UploadFolder")) {
     } else {
     var props = new Array(2);
     props["up:allowedTypes"] = null;
+    props["up:allowedProxyTypes"] = null;
     node.addAspect("up:UploadFolder", props);
     node.save();
 

@@ -11,6 +11,13 @@
             "${allowedType}"<#if allowedType_has_next>,</#if>
             </#list>
         </#if>
+    ],
+    "allowedProxyTypes": [
+        <#if node.properties["up:allowedProxyTypes"]??>
+            <#list node.properties["up:allowedProxyTypes"] as allowedProxyType>
+            "${allowedProxyType}"<#if allowedProxyType_has_next>,</#if>
+            </#list>
+        </#if>
     ]
     }<#if node_has_next>,</#if>
     </#list>

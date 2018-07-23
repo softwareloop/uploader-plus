@@ -30,6 +30,17 @@
                         <tokenised>false</tokenised>
                     </index>
                 </property>
+                <property name="up:allowedProxyTypes">
+                    <title>Allowed proxy types</title>
+                    <type>d:text</type>
+                    <mandatory>false</mandatory>
+                    <multiple>true</multiple>
+                    <index enabled="true">
+                        <atomic>true</atomic>
+                        <stored>false</stored>
+                        <tokenised>false</tokenised>
+                    </index>
+                </property>
             </properties>
         </aspect>
     </aspects>
