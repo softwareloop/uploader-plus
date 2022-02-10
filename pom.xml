@@ -243,6 +243,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <!-- Required for spring-social-twitter:1.0.0-RC1 -->
+        <repository>
+            <id>spring-milestone</id>
+            <url>https://repo.spring.io/milestone/</url>
+        </repository>
     </repositories>
 
 </project>
