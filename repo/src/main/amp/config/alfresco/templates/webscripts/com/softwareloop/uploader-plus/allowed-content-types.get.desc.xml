@@ -5,5 +5,5 @@
     <url>/uploader-plus/allowed-content-types?siteid={siteid}&amp;containerid={containerid}&amp;path={path}</url>
     <url>/uploader-plus/allowed-content-types?destination={destination}</url>
     <format default="json">extension</format>
-    <authentication>user</authentication>
+    <authentication runas="admin">user</authentication>
 </webscript>
