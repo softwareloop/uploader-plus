@@ -31,6 +31,7 @@ function uploaderPlusMain()
                 case "containerid":
                 case "destination":
                 case "uploaddirectory":
+                case "createdirectory":
                 case "updatenoderef":
                 case "description":
                 case "contenttype":
