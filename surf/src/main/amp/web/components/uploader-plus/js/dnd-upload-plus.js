@@ -149,17 +149,21 @@
                 fileInfo.state = this.STATE_UPLOADING;
 
                 var url;
-                if (this.showConfig.uploadURL === null) {
+                if (this.showConfig.uploadURL === null)
+                {
                     url = Alfresco.constants.PROXY_URI + "uploader-plus/upload";
                 }
-                else {
+                else
+                {
                     url = Alfresco.constants.PROXY_URI + this.showConfig.uploadURL;
                 }
-                if (Alfresco.util.CSRFPolicy.isFilterEnabled()) {
+                if (Alfresco.util.CSRFPolicy.isFilterEnabled())
+                {
                     url += "?" + Alfresco.util.CSRFPolicy.getParameter() + "=" + encodeURIComponent(Alfresco.util.CSRFPolicy.getToken());
                 }
 
-                if (this.uploadMethod === this.FORMDATA_UPLOAD) {
+                if (this.uploadMethod === this.FORMDATA_UPLOAD)
+                {
                     // For Browsers that support it (currently FireFox 4), the FormData object is the best
                     // object to use for file upload as it supports asynchronous multipart upload without
                     // the need to read the entire object into memory.
@@ -168,20 +172,26 @@
                     formData.append("filedata", fileInfo.uploadData.filedata);
                     formData.append("filename", fileInfo.uploadData.filename);
                     formData.append("destination", fileInfo.uploadData.destination);
-                    formData.append("siteId", fileInfo.uploadData.siteId);
-                    formData.append("containerId", fileInfo.uploadData.containerId);
                     formData.append("uploaddirectory", fileInfo.uploadData.uploaddirectory);
+                    formData.append("createdirectory", fileInfo.uploadData.createdirectory ? "true" : "false");
                     formData.append("majorVersion", fileInfo.uploadData.majorVersion ? "true" : "false");
                     formData.append("username", fileInfo.uploadData.username);
                     formData.append("overwrite", fileInfo.uploadData.overwrite);
                     formData.append("thumbnails", fileInfo.uploadData.thumbnails);
-                    formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype);
+                    formData.append("updatenameandmimetype", fileInfo.uploadData.updateNameAndMimetype)
 
-
-                    if (fileInfo.uploadData.updateNodeRef) {
+                    if (fileInfo.uploadData.updateNodeRef)
+                    {
                         formData.append("updateNodeRef", fileInfo.uploadData.updateNodeRef);
                     }
-                    if (fileInfo.uploadData.description) {
+                    else
+                    {
+                        formData.append("siteId", fileInfo.uploadData.siteId);
+                        formData.append("containerId", fileInfo.uploadData.containerId);
+                    }
+
+                    if (fileInfo.uploadData.description)
+                    {
                         formData.append("description", fileInfo.uploadData.description);
                     }
 
@@ -206,10 +216,10 @@
                         for (var current in fileInfo.propertyData) {
                             Alfresco.logger.debug("Current:", current);
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
-                                    (current != "prop_mimetype" ||
-                                            (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
-                                    )) {
-                                
+                                (current != "prop_mimetype" ||
+                                    (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
+                                )) {
+
                                 Alfresco.logger.debug("Appending", current);
                                 formData.append(current, fileInfo.propertyData[current]);
                             }
@@ -218,10 +228,27 @@
                     Alfresco.logger.debug("formData:", formData);
                     // END: uploader-plus customisations
 
-                    fileInfo.request.open("POST", url, true);
+                    fileInfo.request.open("POST",  url, true);
                     fileInfo.request.send(formData);
+                    fileInfo.request.onreadystatechange = function() {
+                        if (this.status === 401)
+                        {
+                            var redirect = this.getResponseHeader["Location"];
+                            if (redirect)
+                            {
+                                window.location.href = window.location.protocol + "//" + window.location.host + redirect;
+                                return;
+                            }
+                            else
+                            {
+                                window.location.reload(true);
+                                return;
+                            }
+                        }
+                    };
                 }
-                else if (this.uploadMethod === this.INMEMORY_UPLOAD) {
+                else if (this.uploadMethod === this.INMEMORY_UPLOAD)
+                {
                     Alfresco.logger.debug("Using custom multipart upload");
 
                     // PLEASE NOTE: Be *VERY* careful modifying the following code, this carefully constructs a multipart formatted request...
@@ -238,10 +265,12 @@
                     customFormData += rn + "Content-Disposition: form-data; name=\"filename\"";
                     customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.filename)) + rn + "--" + multipartBoundary;
                     customFormData += rn + "Content-Disposition: form-data; name=\"destination\"";
-                    if (fileInfo.uploadData.destination !== null) {
+                    if (fileInfo.uploadData.destination !== null)
+                    {
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.destination)) + rn + "--" + multipartBoundary;
                     }
-                    else {
+                    else
+                    {
                         customFormData += rn + rn + rn + "--" + multipartBoundary;
                     }
                     customFormData += rn + "Content-Disposition: form-data; name=\"siteId\"";
@@ -252,23 +281,28 @@
                     customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.uploaddirectory)) + rn + "--" + multipartBoundary + "--";
                     customFormData += rn + "Content-Disposition: form-data; name=\"majorVersion\"";
                     customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.majorVersion)) + rn + "--" + multipartBoundary + "--";
-                    if (fileInfo.uploadData.updateNodeRef) {
+                    if (fileInfo.uploadData.updateNodeRef)
+                    {
                         customFormData += rn + "Content-Disposition: form-data; name=\"updateNodeRef\"";
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.updateNodeRef)) + rn + "--" + multipartBoundary + "--";
                     }
-                    if (fileInfo.uploadData.description) {
+                    if (fileInfo.uploadData.description)
+                    {
                         customFormData += rn + "Content-Disposition: form-data; name=\"description\"";
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.description)) + rn + "--" + multipartBoundary + "--";
                     }
-                    if (fileInfo.uploadData.username) {
+                    if (fileInfo.uploadData.username)
+                    {
                         customFormData += rn + "Content-Disposition: form-data; name=\"username\"";
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.username)) + rn + "--" + multipartBoundary + "--";
                     }
-                    if (fileInfo.uploadData.overwrite) {
+                    if (fileInfo.uploadData.overwrite)
+                    {
                         customFormData += rn + "Content-Disposition: form-data; name=\"overwrite\"";
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.overwrite)) + rn + "--" + multipartBoundary + "--";
                     }
-                    if (fileInfo.uploadData.thumbnails) {
+                    if (fileInfo.uploadData.thumbnails)
+                    {
                         customFormData += rn + "Content-Disposition: form-data; name=\"thumbnails\"";
                         customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.uploadData.thumbnails)) + rn + "--" + multipartBoundary + "--";
                     }
@@ -281,10 +315,10 @@
                     if (fileInfo.propertyData) {
                         for (var current in fileInfo.propertyData) {
                             if (fileInfo.propertyData.hasOwnProperty(current) &&
-                                    (current != "prop_mimetype" ||
-                                            (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
-                                    )) {
-                                
+                                (current != "prop_mimetype" ||
+                                    (current == "prop_mimetype" && YAHOO.lang.isString(fileInfo.propertyData[current]) && fileInfo.propertyData[current].length > 0)
+                                )) {
+
                                 customFormData += rn + "Content-Disposition: form-data; name=\"" + current + "\"";
                                 customFormData += rn + rn + unescape(encodeURIComponent(fileInfo.propertyData[current])) + rn + "--" + multipartBoundary + "--";
                             }
@@ -293,10 +327,11 @@
                     // END: uploader-plus customisations
 
 
-                    fileInfo.request.open("POST", url, true);
+                    fileInfo.request.open("POST",  url, true);
                     fileInfo.request.setRequestHeader("Content-Type", "multipart/form-data; boundary=" + multipartBoundary);
                     fileInfo.request.sendAsBinary(customFormData);
                 }
             }
+
     }));
 })();
