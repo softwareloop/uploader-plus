@@ -1,4 +1,6 @@
-# uploader-plus - an Alfresco uploader that prompts for metadata.
+# Uploader Plus - an Alfresco uploader that prompts for metadata.
+
+## Updated to make it compatible with ACS 6.x and 7.x 
 
 A plugin that enhances the standard Alfresco uploader with a mechanism to prompt
 the user for content type and metadata during the upload process.
