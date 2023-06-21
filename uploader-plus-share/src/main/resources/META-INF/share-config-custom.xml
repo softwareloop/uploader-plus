@@ -1,0 +1,47 @@
+<alfresco-config>
+    <!--================================================================================================================
+        Make custom types and aspects visible in "Change Type" and "Manage Aspects" actions.
+         This will also make them visible when creating rules.
+        (will be merged with out-of-the-box configured types and aspects)
+    =============================================================================================================-->
+
+    <!-- Commented because normal users should not see this aspect
+         It should only be used through the admin interface
+        <config evaluator="string-compare" condition="DocumentLibrary">
+            <aspects>
+                <visible>
+                    <aspect name="up:UploadFolder"/>
+                </visible>
+            </aspects>
+        </config>
+    -->
+
+    <config evaluator="aspect" condition="up:UploadFolder">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="up:allowedTypes"/>
+                </field-visibility>
+            </form>
+            <form id="upload-folder">
+                <field-visibility>
+                    <show id="up:allowedTypes"/>
+                </field-visibility>
+                <edit-form
+                        template="../documentlibrary/forms/doclib-simple-metadata.ftl"/>
+                <appearance>
+                    <field id="up:allowedTypes">
+                        <control
+                                template="/com/softwareloop/uploader-plus/controls/selecttypes.ftl">
+                            <control-param name="styleClass">
+                                supported-types-select
+                            </control-param>
+                        </control>
+                    </field>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+
+</alfresco-config>
