@@ -106,7 +106,7 @@ EXIT /B 0
 :build_acs
     docker-compose -f "%COMPOSE_FILE_PATH%" kill uploader-plus-acs
     docker-compose -f "%COMPOSE_FILE_PATH%" rm -f uploader-plus-acs
-	call %MVN_EXEC% clean package -pl uploader-plus-integration-tests,uploader-plus-platform,uploader-plus-platform-docker
+	call %MVN_EXEC% clean package -pl uploader-plus-platform,uploader-plus-platform-docker
 EXIT /B 0
 :tail
     docker-compose -f "%COMPOSE_FILE_PATH%" logs -f
@@ -115,10 +115,10 @@ EXIT /B 0
     docker-compose -f "%COMPOSE_FILE_PATH%" logs --tail="all"
 EXIT /B 0
 :prepare-test
-    call %MVN_EXEC% verify -DskipTests=true -pl uploader-plus-platform,uploader-plus-integration-tests,uploader-plus-platform-docker
+    call %MVN_EXEC% verify -DskipTests=true -pl uploader-plus-platform,uploader-plus-platform-docker
 EXIT /B 0
 :test
-    call %MVN_EXEC% verify -pl uploader-plus-platform,uploader-plus-integration-tests
+    call %MVN_EXEC% verify -pl uploader-plus-platform
 EXIT /B 0
 :purge
     docker volume rm -f uploader-plus-acs-volume

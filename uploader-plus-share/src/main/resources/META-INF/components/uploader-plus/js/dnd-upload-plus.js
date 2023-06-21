@@ -28,7 +28,8 @@
             show : function(config)
             {
                 Alfresco.logger.debug("show", arguments);
-                
+                //Fix for drag and drop issue which loads the wrong types
+				this.typesLoaded = false;
                 SoftwareLoop.DNDUpload.superclass.show.call(this, config);
 
                 this.loadTypes(function () {

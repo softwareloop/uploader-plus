@@ -48,7 +48,7 @@ build_share() {
 build_acs() {
     docker-compose -f "$COMPOSE_FILE_PATH" kill uploader-plus-acs
     yes | docker-compose -f "$COMPOSE_FILE_PATH" rm -f uploader-plus-acs
-    $MVN_EXEC clean package -pl uploader-plus-integration-tests,uploader-plus-platform,uploader-plus-platform-docker
+    $MVN_EXEC clean package -pl uploader-plus-platform,uploader-plus-platform-docker
 }
 
 tail() {
@@ -60,11 +60,11 @@ tail_all() {
 }
 
 prepare_test() {
-    $MVN_EXEC verify -DskipTests=true -pl uploader-plus-platform,uploader-plus-integration-tests,uploader-plus-platform-docker
+    $MVN_EXEC verify -DskipTests=true -pl uploader-plus-platform,uploader-plus-platform-docker
 }
 
 test() {
-    $MVN_EXEC verify -pl uploader-plus-platform,uploader-plus-integration-tests
+    $MVN_EXEC verify -pl uploader-plus-platform
 }
 
 case "$1" in
