@@ -8,7 +8,9 @@ function uploaderPlusMain()
     var repoFormData, fnFieldValue, idx, max, field, fieldName, value;
     
     repoFormData = new Packages.org.alfresco.repo.forms.FormData();
-    
+    if(logger.isLoggingEnabled()) {
+		logger.log("[Uploader plus] - uploaderPlusMain started..");
+	}
     try {
         
         // Prevents Flash- and IE8-sourced "null" values being set for those parameters where they are invalid.
@@ -55,10 +57,15 @@ function uploaderPlusMain()
                     }
             }
         }
-
+		if(logger.isLoggingEnabled()) {
+			logger.log("[Uploader plus] - Saving form, repoFormData: "+repoFormData);
+		}
         formService.saveForm("node", model.document.nodeRef, repoFormData);
     }
     catch (e) {
+		if(logger.isLoggingEnabled()) {
+			logger.log("[Uploader plus] - Error occurred while uploading due to : "+e.message);
+		}
         // capture exception, annotate it accordingly and re-throw
         if (e.message && e.message.indexOf("AccessDeniedException") != -1) {
             e.code = 403;
@@ -69,7 +76,7 @@ function uploaderPlusMain()
         }
         else {
             e.code = 500;
-            e.message = "Unexpected error occurred during upload of new content.";
+            e.message = "[Uploader plus] - Unexpected error occurred during upload of new content!";
         }
         throw e;
     }
