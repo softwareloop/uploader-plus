@@ -94,7 +94,6 @@
                     </sub-components>
                 </component>
 
-
                 <component>
                     <scope>template</scope>
                     <source-id>sharedfiles</source-id>
@@ -107,6 +106,29 @@
                 </component>
 
             </components>
+        </module>
+        
+        <module>
+            <id>uploader-plus-admin-config</id>
+            <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
+            <!-- org.alfresco.web.extensibility.SlingshotGroupModuleEvaluator -->
+			<evaluator type="group.module.evaluator">
+				<params>
+					<groups>GROUP_ALFRESCO_ADMINISTRATORS</groups>
+					<relation>AND</relation>
+					<negate>false</negate>
+				</params>
+			</evaluator>
+			<configurations>
+				<config evaluator="string-compare" condition="DocumentLibrary">
+		            <aspects>
+		                <visible>
+		                    <aspect name="up:UploadFolder"/>
+		                </visible>
+		            </aspects>
+		        </config>
+			</configurations>
         </module>
     </modules>
 </extension>

@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>uploader-plus-share-docker</artifactId>
-    <name>Alfresco Share Docker Module</name>
-    <description>Share Docker Module to generate the final Docker image</description>
+    <name>Uploader Plus Alfresco Share Docker Module</name>
+    <description>Uploader Plus Share Docker Module to generate the final Docker image</description>
     <packaging>jar</packaging>
 
     <parent>
