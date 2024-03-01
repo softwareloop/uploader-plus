@@ -1,0 +1,30 @@
+<alfresco-config>
+    <config evaluator="aspect" condition="up:UploadFolder">
+        <forms>
+            <form>
+                <field-visibility>
+                    <show id="up:allowedTypes"/>
+                </field-visibility>
+            </form>
+            <form id="upload-folder">
+                <field-visibility>
+                    <show id="up:allowedTypes"/>
+                </field-visibility>
+                <edit-form
+                        template="../documentlibrary/forms/doclib-simple-metadata.ftl"/>
+                <appearance>
+                    <field id="up:allowedTypes">
+                        <control
+                                template="/com/softwareloop/uploader-plus/controls/selecttypes.ftl">
+                            <control-param name="styleClass">
+                                supported-types-select
+                            </control-param>
+                        </control>
+                    </field>
+                </appearance>
+            </form>
+        </forms>
+    </config>
+
+
+</alfresco-config>
