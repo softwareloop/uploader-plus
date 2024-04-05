@@ -1,0 +1,1 @@
+#Any static resources js, css, html etc. can be placed in here

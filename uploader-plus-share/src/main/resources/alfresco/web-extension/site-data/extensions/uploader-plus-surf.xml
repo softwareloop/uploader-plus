@@ -1,0 +1,134 @@
+<extension>
+    <modules>
+        <module>
+            <id>uploader-plus-surf-activation</id>
+            <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
+            <customizations>
+                <customization>
+                    <targetPackageRoot>org.alfresco.components.upload</targetPackageRoot>
+                    <sourcePackageRoot>com.softwareloop.customization</sourcePackageRoot>
+                </customization>
+            </customizations>
+        </module>
+
+        <module>
+            <id>uploader-plus-surf</id>
+            <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
+            <components>
+                <component>
+                    <scope>template</scope>
+                    <source-id>documentlibrary</source-id>
+                    <region-id>html-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/html-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>documentlibrary</source-id>
+                    <region-id>dnd-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/dnd-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>repository</source-id>
+                    <region-id>html-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/html-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>repository</source-id>
+                    <region-id>dnd-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/dnd-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>myfiles</source-id>
+                    <region-id>html-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/html-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>myfiles</source-id>
+                    <region-id>dnd-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/dnd-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>sharedfiles</source-id>
+                    <region-id>html-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/html-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+                <component>
+                    <scope>template</scope>
+                    <source-id>sharedfiles</source-id>
+                    <region-id>dnd-upload</region-id>
+                    <sub-components>
+                        <sub-component id="uploader-plus" index="60">
+                            <url>/components/uploader-plus/dnd-upload</url>
+                        </sub-component>
+                    </sub-components>
+                </component>
+
+            </components>
+        </module>
+        
+        <module>
+            <id>uploader-plus-admin-config</id>
+            <version>${project.version}</version>
+            <auto-deploy>true</auto-deploy>
+            <!-- org.alfresco.web.extensibility.SlingshotGroupModuleEvaluator -->
+			<evaluator type="group.module.evaluator">
+				<params>
+					<groups>GROUP_ALFRESCO_ADMINISTRATORS</groups>
+					<relation>AND</relation>
+					<negate>false</negate>
+				</params>
+			</evaluator>
+			<configurations>
+				<config evaluator="string-compare" condition="DocumentLibrary">
+		            <aspects>
+		                <visible>
+		                    <aspect name="up:UploadFolder"/>
+		                </visible>
+		            </aspects>
+		        </config>
+			</configurations>
+        </module>
+    </modules>
+</extension>
