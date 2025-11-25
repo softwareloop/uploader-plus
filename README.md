@@ -30,3 +30,4 @@ Contributors:
 * [Roxana Angheluta](https://github.com/anghelutar)
 * [tomasrgar](https://github.com/tomasrgar)
 * [Tom Vandepoele](https://github.com/tom-vandepoele)
+* [Roberto Gamiz](https://github.com/rgamiz)

@@ -1,0 +1,9 @@
+<webscript>
+    <shortname>Uploader-plus: list allowed content types for a directory</shortname>
+    <description>List allowed content types for a directory</description>
+    <family>uploader-plus</family>
+    <url>/uploader-plus/allowed-content-types?siteid={siteid}&amp;containerid={containerid}&amp;path={path}</url>
+    <url>/uploader-plus/allowed-content-types?destination={destination}</url>
+    <format default="json">extension</format>
+    <authentication>user</authentication>
+</webscript>
