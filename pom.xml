@@ -88,6 +88,10 @@
         <module>surf</module>
     </modules>
 
+    <properties>
+        <alfresco74.log4j2.version>2.19.0</alfresco74.log4j2.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -96,6 +100,12 @@
                 <version>${alfresco.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${alfresco74.log4j2.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

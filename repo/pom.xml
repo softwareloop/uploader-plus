@@ -19,6 +19,9 @@
         For more available properties see the alfresco-sdk-parent POM.
        -->
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
         <!-- The following are default values for data location and Alfresco Community version.
              Uncomment if you need to change (Note. current default version for Enterprise edition is 5.1)
           <alfresco.version>5.1.e</alfresco.version>
@@ -98,6 +101,12 @@
                   <artifactId>*</artifactId>
                </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

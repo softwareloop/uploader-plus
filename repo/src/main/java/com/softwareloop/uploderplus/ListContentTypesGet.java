@@ -3,7 +3,8 @@ package com.softwareloop.uploderplus;
 import org.alfresco.model.ContentModel;
 import org.alfresco.service.cmr.dictionary.DictionaryService;
 import org.alfresco.service.namespace.QName;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.extensions.webscripts.Cache;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
 import org.springframework.extensions.webscripts.Status;
@@ -19,7 +20,7 @@ public class ListContentTypesGet extends DeclarativeWebScript {
     // Logging
     //--------------------------------------------------------------------------
 
-    static Logger logger = Logger.getLogger(ListContentTypesGet.class);
+    private static final Logger logger = LoggerFactory.getLogger(ListContentTypesGet.class);
 
     //--------------------------------------------------------------------------
     // Constants
