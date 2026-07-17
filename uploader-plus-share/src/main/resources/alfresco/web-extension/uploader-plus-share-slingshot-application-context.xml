@@ -14,7 +14,7 @@
    -->
 
    <!-- Add module specific messages and labels -->
-   <bean id="com.softwareloop.uploderplus.uploader-plus-share.resources"
+   <bean id="com.softwareloop.uploaderplus.uploader-plus-share.resources"
          class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
       <property name="resourceBundles">
          <list>
