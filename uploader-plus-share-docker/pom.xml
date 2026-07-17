@@ -8,9 +8,9 @@
     <packaging>jar</packaging>
 
     <parent>
-        <groupId>com.softwareloop.uploderplus</groupId>
+        <groupId>com.softwareloop.uploaderplus</groupId>
         <artifactId>uploader-plus</artifactId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.9-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -18,9 +18,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.softwareloop.uploderplus</groupId>
+            <groupId>com.softwareloop.uploaderplus</groupId>
             <artifactId>uploader-plus-share</artifactId>
-            <version>1.8-SNAPSHOT</version>
+            <version>1.9-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

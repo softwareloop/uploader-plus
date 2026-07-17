@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus.log;
+package com.softwareloop.uploaderplus.log;
 
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;

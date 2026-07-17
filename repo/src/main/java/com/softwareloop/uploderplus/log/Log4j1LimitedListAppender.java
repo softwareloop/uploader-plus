@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus.log;
+package com.softwareloop.uploaderplus.log;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

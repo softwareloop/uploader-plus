@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus.log;
+package com.softwareloop.uploaderplus.log;
 
 import java.nio.file.Path;
 import java.util.Collection;

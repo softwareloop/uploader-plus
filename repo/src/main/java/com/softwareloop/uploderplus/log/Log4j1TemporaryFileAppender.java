@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus.log;
+package com.softwareloop.uploaderplus.log;
 
 import java.io.IOException;
 import java.util.ArrayList;

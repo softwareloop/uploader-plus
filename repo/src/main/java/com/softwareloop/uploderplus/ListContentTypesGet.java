@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus;
+package com.softwareloop.uploaderplus;
 
 import org.alfresco.model.ContentModel;
 import org.alfresco.service.cmr.dictionary.DictionaryService;

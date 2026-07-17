@@ -8,9 +8,9 @@
     <description>Share JAR Module (to be included in the share.war) for Uploader Plus</description>
 
     <parent>
-        <groupId>com.softwareloop.uploderplus</groupId>
+        <groupId>com.softwareloop.uploaderplus</groupId>
         <artifactId>uploader-plus</artifactId>
-        <version>1.8-SNAPSHOT</version>
+        <version>1.9-SNAPSHOT</version>
     </parent>
 
     <properties>

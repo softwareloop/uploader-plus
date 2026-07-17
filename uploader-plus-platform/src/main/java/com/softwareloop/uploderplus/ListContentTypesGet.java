@@ -1,4 +1,4 @@
-package com.softwareloop.uploderplus;
+package com.softwareloop.uploaderplus;
 
 import java.util.ArrayList;
 import java.util.Collection;
