@@ -96,12 +96,21 @@
             var contentTypeSelectId = this.id + "-content-type-select";
             this.contentTypeSelectNode = YAHOO.util.Dom.get(contentTypeSelectId);
             this.contentTypeSelectNode.innerHTML = "";
+            var longestLabel = 0;
             for (var i = 0; i < this.types.length; i++) {
                 Alfresco.logger.debug("Type index", i);
                 var current = this.types[i];
-                var option = new Option(this.msg("type." + current.replace(":", "_")), current, i === 0);
+                var label = this.msg("type." + current.replace(":", "_"));
+                var option = new Option(label, current, i === 0);
                 this.contentTypeSelectNode.add(option);
+                if (label && label.length > longestLabel) {
+                    longestLabel = label.length;
+                }
             }
+            // Explicit width: browsers do not grow <select> when options are added via JS
+            var widthCh = Math.max(35, longestLabel + 4) + "ch";
+            YAHOO.util.Dom.setStyle(this.contentTypeSelectNode, "width", widthCh);
+            YAHOO.util.Dom.setStyle(this.contentTypeSelectNode, "min-width", widthCh);
             YAHOO.util.Event.removeListener(this.contentTypeSelectNode, "change");
             YAHOO.util.Event.addListener(
                 this.contentTypeSelectNode,

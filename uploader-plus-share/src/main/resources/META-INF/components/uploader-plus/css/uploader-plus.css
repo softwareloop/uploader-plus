@@ -26,3 +26,13 @@ span.fileupload-typeInfo-span.uploader-plus {
     overflow: hidden;
     height: 0;
 }
+
+/* Match Alfresco .form-fields select width; ID selector survives missing class / stale FTL */
+select[id$="-content-type-select"],
+select.uploader-plus-content-type-select {
+    display: inline-block;
+    width: 35em !important;
+    min-width: 35em !important;
+    max-width: 100%;
+    box-sizing: border-box;
+}

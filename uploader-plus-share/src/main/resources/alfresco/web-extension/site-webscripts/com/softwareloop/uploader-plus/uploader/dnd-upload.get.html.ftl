@@ -112,7 +112,7 @@
         <div class="bd hidden" id="${el}-metadata-dialog">
             <div style="padding: 1em; border-bottom: 1px solid #ccc">
                 <label>${msg("content.type")}:
-                    <select id="${el}-content-type-select"></select>
+                    <select id="${el}-content-type-select" class="uploader-plus-content-type-select" style="width: 35em; min-width: 35em;"></select>
                 </label>
                 <span id="${el}-same-metadata-set">
                     |
